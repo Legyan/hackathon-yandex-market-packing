@@ -4,6 +4,7 @@
 body {
   max-width: 1920px;
   width: 100%;
+  position: relative;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
   -moz-text-size-adjust: 100%;
