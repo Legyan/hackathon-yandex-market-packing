@@ -8,7 +8,6 @@ import OrderCompletedPage from '../../pages/OrderCompletedPage/OrderCompletedPag
 import ProblemsPage from '../../pages/ProblemsPage/ProblemsPage';
 import AnotherProblemsPage from '../../pages/AnotherProblemsPage/AnotherProblemsPage';
 import Header from '../Header/Header';
-import Footer from '../Footer/Footer';
 
 const App: FC = () => {
   return (
@@ -37,7 +36,6 @@ const App: FC = () => {
           <AnotherProblemsPage />
         </Route>
       </Switch>
-      <Footer />
     </>
   );
 }
