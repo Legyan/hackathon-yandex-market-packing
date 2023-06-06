@@ -1,2 +1,2 @@
-from backend.src.app.core.db import Base # noqa
-from backend.src.app.models.users import User # noqa
+from app.core.db import Base # noqa
+from app.models.users import User # noqa
