@@ -2,6 +2,8 @@
 @import url('./vendor/fonts/stylesheet.css');
 
 body {
+  max-width: 1920px;
+  width: 100%;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
   -moz-text-size-adjust: 100%;

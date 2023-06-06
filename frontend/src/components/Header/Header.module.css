@@ -1,6 +1,124 @@
+.header {
+  height: 112px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.btnBurger {
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  margin-left: 40px;
+  border: none;
+  box-sizing: border-box;
+  cursor: pointer;
+  background: transparent;
+}
+
+.logos {
+  padding: 0 10px 0 40px;
+  box-sizing: border-box;
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.logo {
+  width: 43px;
+  height: 43px;
+}
+
 .title {
-  font-family: "Yandex Sans Display";
+  font-family: "Yandex Sans Display", sans-serif;
   font-weight: 700;
   font-size: 38px;
   line-height: 47.5px;
+}
+
+.wrapperStat {
+  margin-right: 40px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.statistics {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px 8px 24px;
+  gap: 30px;
+  border: 4px solid #FED42B;
+  border-radius: 24px;
+}
+
+.nickname {
+  font-family: "Yandex Sans Display", sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 26px;
+  letter-spacing: -1%;
+  color: #212121;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btnKpi {
+  width: 80px;
+  height: 50px;
+  padding: 12px 24px;
+  border: none;
+  background: #FFA12A;
+  border-radius: 100px;
+  font-family: 'Yandex Sans Display';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 26px;
+  color: #FFFFFF;
+  /* identical to box height, or 130% */
+  letter-spacing: -0.01em;
+  font-feature-settings: 'pnum' on, 'lnum' on;
+  cursor: pointer;
+}
+
+.btnStat {
+  display: flex;
+  align-items: center;
+  padding: 12px 24px;
+  border: none;
+  gap: 10px;
+  background: #2AAD2E;
+  border-radius: 100px;
+  cursor: pointer;
+}
+
+.statUser {
+  font-family: 'Yandex Sans Display';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 26px;
+  color: #FFFFFF;
+  /* identical to box height, or 130% */
+  letter-spacing: -0.01em;
+  font-feature-settings: 'pnum' on, 'lnum' on;
+}
+
+.btnActionMenu {
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  background: transparent;
 }
