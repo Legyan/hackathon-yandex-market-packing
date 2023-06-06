@@ -4,7 +4,7 @@ import style from './Header.module.css';
 const Header: FC = () => {
   return (
     <>
-      <h1>Я шапка. Я пришла</h1>
+      <h1 className={style.title}>Я шапка. Я пришла</h1>
     </>
   )
 }

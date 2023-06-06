@@ -1,4 +1,5 @@
-@import url("./vendor/normalize.css");
+@import url('./vendor/normalize.css');
+@import url('./vendor/fonts/stylesheet.css');
 
 body {
   -webkit-text-size-adjust: 100%;
