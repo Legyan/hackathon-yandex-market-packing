@@ -1,14 +1,14 @@
 import asyncio
+import os
 from logging.config import fileConfig
 
 from dotenv import load_dotenv
-from sqlalchemy import engine_from_config
-from sqlalchemy import pool
+from sqlalchemy import engine_from_config, pool
 from sqlalchemy.ext.asyncio import AsyncEngine
 
 from alembic import context
-
 from app.core.base import Base
+from app.core.config import settings
 
 load_dotenv('.env')
 
@@ -17,7 +17,7 @@ load_dotenv('.env')
 config = context.config
 
 # Установим для переменной sqlalchemy.url значение из нашего .env файла.
-config.set_main_option('sqlalchemy.url', 'postgresql+asyncpg://postgres:postgres@localhost/pack')
+config.set_main_option('sqlalchemy.url', os.environ['DATABASE_URL'])
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
