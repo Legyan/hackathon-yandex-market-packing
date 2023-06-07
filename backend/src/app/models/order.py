@@ -20,3 +20,9 @@ class Order(Base):
     orderkey = Column(String(50), unique=True, nullable=False)
     status = Column(Enum(OrderStatusEnum), nullable=False)
     products = relationship('OrderProduct', back_populates='order')
+
+    def to_dict(self):
+        return {
+            'orderkey': self.orderkey,
+            'status': self.status.value,
+        }
