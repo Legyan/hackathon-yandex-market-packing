@@ -1,11 +1,18 @@
-@import url("./vendor/normalize.css");
+@import url('./vendor/normalize.css');
+@import url('./vendor/design_tokens.css');
+@import url('./vendor/fonts/Yandex_Sans/stylesheet.css');
+@import url('./vendor/fonts/Gilroy/stylesheet.css');
 
 body {
+  max-width: 1920px;
+  width: 100%;
+  position: relative;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
   -moz-text-size-adjust: 100%;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  background: #FFF;
+  background: var(--Blue-grey-1);
+  color: var(--Yandex-black);
 }
