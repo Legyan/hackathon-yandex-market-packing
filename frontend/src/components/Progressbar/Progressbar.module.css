@@ -1,8 +1,36 @@
 .wrapper {
-  margin-top: 168px;
+  max-width: 951px;
+  width: 100%;
+  margin-top: 170px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.mw {
+  margin: 0;
+}
+
+.wrapperStep {
   display: flex;
   justify-content: space-between;
-  gap: 283px;
+}
+
+.mws {
+  margin-top: 62px;
+}
+
+.title {
+  margin: 0;
+  font-family: 'Yandex Sans Display';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 50px;
+  /* identical to box height, or 104% */
+  letter-spacing: -0.02em;
+  font-feature-settings: 'pnum' on, 'lnum' on;
+  text-align: center;
 }
 
 .steps {
