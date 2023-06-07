@@ -5,3 +5,7 @@ export interface IAuthorizationForm {
   linkBack: string;
   linkForward: string;
 }
+
+export interface IProgressbar {
+  title?: string;
+}

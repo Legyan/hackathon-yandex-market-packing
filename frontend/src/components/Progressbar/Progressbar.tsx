@@ -1,11 +1,15 @@
 import { FC } from 'react';
 import style from './Progressbar.module.css'
+import { steps } from '../../utils/constants';
+import { IProgressbar } from '../../utils/type/main';
 
-const Progressbar: FC = () => {
-  const steps = ['Получение заказа', 'Упаковка товара', 'Заказ собран'];
-
+const Progressbar: FC<IProgressbar> = ({ title }) => {
   return (
-    <article className={style.wrapper}>
+    <article className={title ? `${style.wrapper} ${style.mw}` : `${style.wrapper}`}>
+      {title ?
+        <h2 className={style.title}>{title}</h2> : ''
+      }
+      <div className={title ? `${style.wrapperStep} ${style.mws}` : `${style.wrapperStep}`}>
       {steps?.map((step, i) => {
         return (
           <div className={style.steps} key={i}>
@@ -18,6 +22,8 @@ const Progressbar: FC = () => {
           </div>
         )
       })}
+      </div>
+
     </article>
   )
 }
