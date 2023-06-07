@@ -1,10 +1,18 @@
 import { FC } from 'react';
 import style from './ProblemsPage.module.css';
+import FooterBack from '../../components/FooterBack/FooterBack';
 
 const ProblemsPage: FC = () => {
   return (
     <>
-      <h2>Нет товара</h2>
+    <section className={style.problemsPage}>
+      <div className={style.problemsPageContainer}>
+      <button className={style.btn}>Нет товара</button>
+      <button className={style.btn}>Товар бракованный</button>
+      <button className={style.btn}>Другая проблема</button>
+      </div>
+    </section>
+    <FooterBack />
     </>
   )
 }
