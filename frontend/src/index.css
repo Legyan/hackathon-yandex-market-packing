@@ -1,4 +1,5 @@
 @import url('./vendor/normalize.css');
+@import url('./vendor/design_tokens.css');
 @import url('./vendor/fonts/Yandex_Sans/stylesheet.css');
 @import url('./vendor/fonts/Gilroy/stylesheet.css');
 
@@ -12,5 +13,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  background: #F8F8F8;
+  background: var(--Blue-grey-1);
+  color: var(--Yandex-black);
 }

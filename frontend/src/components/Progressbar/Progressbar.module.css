@@ -27,9 +27,6 @@
   font-weight: 700;
   font-size: 48px;
   line-height: 50px;
-  /* identical to box height, or 104% */
-  letter-spacing: -0.02em;
-  font-feature-settings: 'pnum' on, 'lnum' on;
   text-align: center;
 }
 
@@ -45,7 +42,7 @@
   content: '';
   width: 700px;
   height: 4px;
-  background-color: #FED42B;
+  background-color: var(--Yandex-amber-12);
   position: absolute;
   top: 32px;
   z-index: -1;
@@ -55,7 +52,7 @@
   content: '';
   width: 145px;
   height: 4px;
-  background-color: #FED42B;
+  background-color: var(--Yandex-amber-12);
   position: absolute;
   top: 32px;
   z-index: -1;
@@ -65,7 +62,7 @@
   content: '';
   width: 109px;
   height: 4px;
-  background-color: #FED42B;
+  background-color: var(--Yandex-amber-12);
   position: absolute;
   top: 32px;
   z-index: -1;
@@ -78,7 +75,6 @@
   font-weight: 400;
   font-size: 18px;
   line-height: 26px;
-  color: #000;
 }
 
 .circleWhite {
@@ -87,7 +83,7 @@
   align-items: center;
   width: 28px;
   height: 28px;
-  background: #FFF;
+  background: var(--Yandex-white-grey-1);
   border-radius: 50%;
 }
 
@@ -97,7 +93,7 @@
   align-items: center;
   width: 20px;
   height: 20px;
-  background: #FED42B;
+  background-color: var(--Yandex-amber-12);
   border-radius: 50%;
 }
 
@@ -107,5 +103,5 @@
   font-weight: 600;
   font-size: 10px;
   line-height: 12px;
-  color: #FFF;
+  color: var(--Yandex-white-grey-1);
 }

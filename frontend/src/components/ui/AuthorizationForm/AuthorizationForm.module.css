@@ -12,9 +12,6 @@
   font-weight: 700;
   font-size: 28px;
   line-height: 26px;
-  /* identical to box height, or 93% */
-  letter-spacing: -0.01em;
-  font-feature-settings: 'pnum' on, 'lnum' on;
 }
 
 .input {
@@ -22,8 +19,8 @@
   height: 84px;
   margin-top: 34px;
   padding: 10px 31px 10px 24px;
-  background: #FFFFFF;
-  border: 4px solid #FED42B;
+  background: var(--Yandex-white-grey-1);
+  border: 4px solid var(--Yandex-amber-12);
   border-radius: 24px;
   box-sizing: border-box;
   font-family: 'Yandex Sans Display', sans-serif;
@@ -31,9 +28,6 @@
   font-weight: 700;
   font-size: 32px;
   line-height: 26px;
-  /* or 81% */
-  letter-spacing: -0.01em;
-  font-feature-settings: 'pnum' on, 'lnum' on;
 }
 
 .input:focus {
@@ -53,7 +47,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #F8F8F8;
+  background: var(--Blue-grey-1);
   border-radius: 24px;
   border: none;
   font-family: 'Yandex Sans Display', sans-serif;
@@ -61,17 +55,14 @@
   font-weight: 700;
   font-size: 28px;
   line-height: 26px;
-  /* identical to box height, or 93% */
-  letter-spacing: -0.01em;
-  font-feature-settings: 'pnum' on, 'lnum' on;
   text-decoration: none;
-  color: #000;
+  color: var(--Yandex-black);
   cursor: pointer;
   transition: background .2s linear;
 }
 
 .btnBack:hover {
-  background: #DEDEDE;
+  background: var(--Yandex-grey-4);
 }
 
 .btnForward {
@@ -81,7 +72,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #FED42B;
+  background: var(--Yandex-amber-12);
   border-radius: 24px;
   border: none;
   font-family: 'Yandex Sans Display', sans-serif;
@@ -89,15 +80,12 @@
   font-weight: 700;
   font-size: 28px;
   line-height: 26px;
-  /* identical to box height, or 93% */
-  letter-spacing: -0.01em;
-  font-feature-settings: 'pnum' on, 'lnum' on;
   text-decoration: none;
-  color: #000;
+  color: var(--Yandex-black);
   cursor: pointer;
   transition: background .2s linear;
 }
 
 .btnForward:hover {
-  background: #F5C400;
+  background: var(--Yandex-amber-13);
 }

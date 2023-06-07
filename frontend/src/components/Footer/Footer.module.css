@@ -25,7 +25,4 @@
   font-weight: 400;
   font-size: 28px;
   line-height: 31px;
-  /* identical to box height, or 111% */
-  letter-spacing: -0.015em;
-  font-feature-settings: 'pnum' on, 'lnum' on;
 }

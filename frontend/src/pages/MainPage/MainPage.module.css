@@ -17,7 +17,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #F3F0E9;
+  background: var(--Yandex-grey-3);
   border-radius: 24px;
   text-decoration: none;
   font-family: 'Yandex Sans Display', sans-serif;
@@ -25,14 +25,13 @@
   font-weight: 700;
   font-size: 48px;
   line-height: 60px;
-  font-feature-settings: 'pnum' on, 'lnum' on;
   text-align: center;
-  color: #212121;
+  color: var(--Font-nickname);
   transition: background .2s linear;
 }
 
 .btnProblem:hover {
-  background: #E9E8E8;
+  background: var(--Button-grey);
 }
 
 .btnLogout {
@@ -42,7 +41,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #DEDEDE;
+  background: var(--Yandex-grey-4);
   border-radius: 24px;
   text-decoration: none;
   font-family: 'Yandex Sans Display', sans-serif;
@@ -50,14 +49,13 @@
   font-weight: 700;
   font-size: 48px;
   line-height: 60px;
-  font-feature-settings: 'pnum' on, 'lnum' on;
   text-align: center;
-  color: #212121;
+  color: var(--Font-nickname);
   transition: background .2s linear;
 }
 
 .btnLogout:hover {
-  background: #D0CDCD;
+  background: var(--Button-grey-2);
 }
 
 .statWrapper {
@@ -87,9 +85,7 @@
   font-weight: 700;
   font-size: 32px;
   line-height: 35px;
-  /* or 109% */
   text-align: center;
-  letter-spacing: -0.01em;
 }
 
 .img {
@@ -105,21 +101,17 @@
   font-weight: 700;
   font-size: 18px;
   line-height: 16px;
-  /* identical to box height, or 89% */
-  letter-spacing: -0.01em;
 }
 
 .counter {
   margin-top: 16px;
-  font-family: 'Yandex Sans Display';
+  font-family: 'Yandex Sans Display', sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 48px;
   line-height: 48px;
-  /* identical to box height, or 100% */
   text-align: center;
-  letter-spacing: -0.03em;
-  color: #2AAD2E;
+  color: var(--Yandex-green-7);
 }
 
 .btnOrder {
@@ -129,7 +121,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #FED42B;
+  background: var(--Yandex-amber-12);
   border-radius: 24px;
   text-decoration: none;
   font-family: 'Yandex Sans Display', sans-serif;
@@ -137,12 +129,11 @@
   font-weight: 700;
   font-size: 48px;
   line-height: 60px;
-  font-feature-settings: 'pnum' on, 'lnum' on;
   text-align: center;
-  color: #212121;
+  color: var(--Font-nickname);
   transition: background .2s linear;
 }
 
 .btnOrder:hover {
-  background: #F5C400;
+  background: var(--Yandex-amber-13);
 }

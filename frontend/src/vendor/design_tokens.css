@@ -1,0 +1,37 @@
+:root {
+  /* Amber */
+  --Yandex-amber-12: #FED42B;
+  --Yandex-amber-13: #F5C400;
+  --Yandex-amber-14: #FFA12A;
+
+  /* Black */
+  --Yandex-black: #000;
+  --Font-black: #21201F;
+  --Font-nickname: #212121;
+
+  /* Blue-grey */
+  --Blue-grey-1: #F8F8F8;
+
+  /* Deep-orange */
+  --Yandex-pink-orange-2: #FFD9DB;
+
+  /* Orange */
+  --Yandex-orange-2: #FFECCC;
+  --Yandex-red-orange-6: #F69300;
+
+  /* Green */
+  --Yandex-brown-green-10: #5D4A00;
+
+  /* Light-green */
+  --Yandex-green-7: #2AAD2E;
+  --Yandex-green-10: #33691D;
+
+  /* Grey */
+  --Yandex-white-grey-1: #FFF;
+  --Yandex-grey-3: #F3F0E9;
+  --Yandex-grey-4: #DEDEDE;
+  --Yandex-grey-10: #26292B;
+  --Yandex-grey-11: #F3F0E9;
+  --Button-grey: #E9E8E8;
+  --Button-grey-2: #D0CDCD;
+}
