@@ -1,5 +1,7 @@
 export interface IAuthorizationForm {
   label: string;
   btnBack: string;
-  btnForward: string
+  btnForward: string;
+  linkBack: string;
+  linkForward: string;
 }

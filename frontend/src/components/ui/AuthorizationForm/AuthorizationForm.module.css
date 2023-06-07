@@ -50,6 +50,9 @@
   width: 356px;
   height: 98px;
   padding: 0px 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background: #F8F8F8;
   border-radius: 24px;
   border: none;
@@ -61,6 +64,7 @@
   /* identical to box height, or 93% */
   letter-spacing: -0.01em;
   font-feature-settings: 'pnum' on, 'lnum' on;
+  text-decoration: none;
   color: #000;
   cursor: pointer;
   transition: background .2s linear;
@@ -74,6 +78,9 @@
   width: 356px;
   height: 98px;
   padding: 0px 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background: #FED42B;
   border-radius: 24px;
   border: none;
@@ -85,6 +92,7 @@
   /* identical to box height, or 93% */
   letter-spacing: -0.01em;
   font-feature-settings: 'pnum' on, 'lnum' on;
+  text-decoration: none;
   color: #000;
   cursor: pointer;
   transition: background .2s linear;

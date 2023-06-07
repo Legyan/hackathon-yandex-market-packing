@@ -13,6 +13,8 @@ const PrinterSelectionPage: FC = () => {
           label={'Отсканируйте штрихкод принтера или введите вручную'}
           btnBack={'Назад'}
           btnForward={'Далее'}
+          linkBack={'/table'}
+          linkForward={'/'}
         />
       </section>
       <Footer />
