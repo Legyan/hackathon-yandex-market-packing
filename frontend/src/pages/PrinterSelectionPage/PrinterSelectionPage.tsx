@@ -8,8 +8,8 @@ const PrinterSelectionPage: FC = () => {
     <>
       <section className={style.wrapper}>
         <Progressbar />
-        <h2 className={style.title}>Отсканируйте штрихкод принтера или введите вручную</h2>
         <form className={style.form}>
+          <label className={style.label}>Отсканируйте штрихкод принтера или введите вручную</label>
           <input
             className={style.input}
             type='text'

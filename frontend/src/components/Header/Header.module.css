@@ -80,7 +80,7 @@
   border: none;
   background: #FFA12A;
   border-radius: 100px;
-  font-family: 'Yandex Sans Display';
+  font-family: 'Yandex Sans Display', sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 20px;
@@ -104,7 +104,7 @@
 }
 
 .statUser {
-  font-family: 'Yandex Sans Display';
+  font-family: 'Yandex Sans Display', sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 20px;

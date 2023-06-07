@@ -5,9 +5,16 @@
   align-items: center;
 }
 
-.title {
-  margin: 100px 0 0;
-  font-family: 'Yandex Sans Display';
+.form {
+  margin: 100px auto 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.label {
+  font-family: 'Yandex Sans Display', sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 28px;
@@ -26,7 +33,7 @@
   border: 4px solid #FED42B;
   border-radius: 24px;
   box-sizing: border-box;
-  font-family: 'Yandex Sans Display';
+  font-family: 'Yandex Sans Display', sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 32px;
@@ -53,7 +60,7 @@
   background: #F8F8F8;
   border-radius: 24px;
   border: none;
-  font-family: 'Yandex Sans Display';
+  font-family: 'Yandex Sans Display', sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 28px;
@@ -62,6 +69,12 @@
   letter-spacing: -0.01em;
   font-feature-settings: 'pnum' on, 'lnum' on;
   color: #000;
+  cursor: pointer;
+  transition: background .2s linear;
+}
+
+.btnBack:hover {
+  background: #DEDEDE;
 }
 
 .btnForward {
@@ -71,7 +84,7 @@
   background: #FED42B;
   border-radius: 24px;
   border: none;
-  font-family: 'Yandex Sans Display';
+  font-family: 'Yandex Sans Display', sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 28px;
@@ -80,4 +93,10 @@
   letter-spacing: -0.01em;
   font-feature-settings: 'pnum' on, 'lnum' on;
   color: #000;
+  cursor: pointer;
+  transition: background .2s linear;
+}
+
+.btnForward:hover {
+  background: #F5C400;
 }
