@@ -1,5 +1,3 @@
-import traceback
-
 from fastapi import Depends, HTTPException
 from httpx import AsyncClient
 from sqlalchemy import select
@@ -52,6 +50,7 @@ async def get_package_recommendation(
         client = AsyncClient()
         response = await client.post(DS_URL, data=order_to_ds.json())
         response.raise_for_status()
+        print(response.json())
         return response.json()
     except Exception as e:
         print(str(e))
