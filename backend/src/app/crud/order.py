@@ -48,7 +48,9 @@ class CRUDOrder(CRUDBase):
         session.add(new_order)
         await session.commit()
         await session.refresh(new_order)
-        await get_package_recommendation(new_order, session=session)
+        package_recommendations = await get_package_recommendation(
+            new_order.orderkey, session=session
+        )
         return new_order
 
 

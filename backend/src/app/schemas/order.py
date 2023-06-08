@@ -21,6 +21,7 @@ class ItemToDS(ItemBase):
     class Config:
         extra = Extra.forbid
 
+
 class OrderCreate(BaseModel):
     orderkey: str
     items: list[ItemBase]

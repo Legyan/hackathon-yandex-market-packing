@@ -1,3 +1,5 @@
+import traceback
+
 from fastapi import Depends, HTTPException
 from httpx import AsyncClient
 from sqlalchemy import select
@@ -12,31 +14,19 @@ from app.models.product import Product
 DS_URL = 'http://127.0.0.1:8001/pack'
 
 
-async def get_http_client() -> AsyncClient:
-    async with AsyncClient() as client:
-        yield client
-
-{"orderId": "3e646181f6f708edd3326c1626c12d23",
- "items": [
-    {"sku": "151d69e7b9dcf161e74f9475b4b1c56f", "count": 1, "size1": "5.1", "size2": "2.2", "size3": "5.3",
-     "weight": "7.34", "type": ["671"]}
-   ]
-}
-
-
-
 async def get_package_recommendation(
-        order: Order,
-        client: AsyncClient = Depends(get_http_client),
+        orderkey: str,
         session: AsyncSessionLocal = Depends(get_async_session),
 ):
+    """Запрос в контейнер DS для получения рекомендаций по упаковке."""
     items_to_ds = []
     order = await session.execute(
         select(Order)
         .options(joinedload(Order.products))
-        .where(Order.orderkey == order.orderkey)
+        .where(Order.orderkey == orderkey)
     )
     order = order.scalars().first()
+
     products = order.products
     for item in products:
         product = await session.execute(
@@ -51,14 +41,21 @@ async def get_package_recommendation(
             size2=str(product.width),
             size3=str(product.height),
             weight=str(product.weight),
-            type=[product.cargotype]
+            type=[]
         )
+        if product.cargotype:
+            item_to_ds.type = [product.cargotype]
         items_to_ds.append(item_to_ds)
     order_to_ds = OrderToDS(orderkey=order.orderkey, items=items_to_ds)
 
     try:
-        response = await client.post(DS_URL, json=order_to_ds)
+        client = AsyncClient()
+        response = await client.post(DS_URL, data=order_to_ds.json())
         response.raise_for_status()
         return response.json()
     except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+        print(str(e))
+        raise HTTPException(
+            status_code=400,
+            detail='DS container error:\n' + str(e)
+        )
