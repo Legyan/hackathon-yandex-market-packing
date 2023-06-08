@@ -21,3 +21,4 @@ class Product(Base):
     count = Column(Integer, nullable=False, default=0)
     cargotypes = relationship('ProductCargotype', back_populates='product')
     orders = relationship('OrderProduct', back_populates='product')
+    barcodes = relationship('BarcodeSKU', back_populates='product')
