@@ -29,20 +29,24 @@ async def get_package_recommendation(
     for item in products:
         product = await session.execute(
             select(Product)
+            .options(joinedload(Product.cargotypes))
             .where(Product.sku == item.sku)
         )
         product = product.scalars().first()
         item_to_ds = ItemToDS(
             sku=item.sku,
             count=item.count,
-            size1=str(product.lenght),
+            size1=str(product.length),
             size2=str(product.width),
             size3=str(product.height),
             weight=str(product.weight),
             type=[]
         )
-        if product.cargotype:
-            item_to_ds.type = [product.cargotype]
+        cargotypes = product.cargotypes
+        cargotypes_tags = []
+        for cargotype in cargotypes:
+            cargotypes_tags.append(cargotype.cargotypes_tag)
+        item_to_ds.type = cargotypes_tags
         items_to_ds.append(item_to_ds)
     order_to_ds = OrderToDS(orderkey=order.orderkey, items=items_to_ds)
 
@@ -50,10 +54,8 @@ async def get_package_recommendation(
         client = AsyncClient()
         response = await client.post(DS_URL, data=order_to_ds.json())
         response.raise_for_status()
-        print(response.json())
         return response.json()
     except Exception as e:
-        print(str(e))
         raise HTTPException(
             status_code=400,
             detail='DS container error:\n' + str(e)
