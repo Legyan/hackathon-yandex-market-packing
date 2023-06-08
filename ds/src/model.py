@@ -16,6 +16,9 @@ def predict(d):
         answer['status'] = 'fallback'
         return answer
     
+        answer['status'] = 'fallback'
+        return answer
+    
     elif cnt == 1:
         with open('sku_pack_dict.json') as f:
             sku_pack_dict = json.load(f)
@@ -45,12 +48,19 @@ def predict(d):
                 if (np.min([float(d['items'][0]['size1']), float(d['items'][0]['size2']), float(d['items'][0]['size2'])]) < np.min(carton_edited.loc[carton_edited['CARTONTYPE'] == pack,['LENGTH', 'WIDTH', 'HEIGHT']].values)
                     and np.max([float(d['items'][0]['size1']), float(d['items'][0]['size2']), float(d['items'][0]['size2'])]) < np.max(carton_edited.loc[carton_edited['CARTONTYPE'] == pack,['LENGTH', 'WIDTH', 'HEIGHT']].values)
                     and np.median([float(d['items'][0]['size1']), float(d['items'][0]['size2']), float(d['items'][0]['size2'])]) < np.median(carton_edited.loc[carton_edited['CARTONTYPE'] == pack,['LENGTH', 'WIDTH', 'HEIGHT']].values)
+                if (np.min([float(d['items'][0]['size1']), float(d['items'][0]['size2']), float(d['items'][0]['size2'])]) < np.min(carton_edited.loc[carton_edited['CARTONTYPE'] == pack,['LENGTH', 'WIDTH', 'HEIGHT']].values)
+                    and np.max([float(d['items'][0]['size1']), float(d['items'][0]['size2']), float(d['items'][0]['size2'])]) < np.max(carton_edited.loc[carton_edited['CARTONTYPE'] == pack,['LENGTH', 'WIDTH', 'HEIGHT']].values)
+                    and np.median([float(d['items'][0]['size1']), float(d['items'][0]['size2']), float(d['items'][0]['size2'])]) < np.median(carton_edited.loc[carton_edited['CARTONTYPE'] == pack,['LENGTH', 'WIDTH', 'HEIGHT']].values)
                     ):
                     valid_pack.append(pack)
             if len(pack) == 0:
                 answer['status'] = 'fallback'
                 return answer
+            if len(pack) == 0:
+                answer['status'] = 'fallback'
+                return answer
                 
+            pack_to_return = (carton_edited.loc[carton_edited['CARTONTYPE'].isin(all_packs), ['CARTONTYPE', 'price']]
             pack_to_return = (carton_edited.loc[carton_edited['CARTONTYPE'].isin(all_packs), ['CARTONTYPE', 'price']]
                                             .sort_values('price')['CARTONTYPE']
                                             .tolist()[0])
@@ -77,6 +87,15 @@ def predict(d):
             result.extend([0] * (25-len(result)))
         with open('model.pcl', 'rb') as fid:
             model = pickle.load(fid)
+        
+        probs = model.predict_proba(np.array(result).reshape(1, -1))[0]
+        ind = np.argsort(probs)[::-1][:3]
+        l = []
+        for p in model.classes_[ind]:
+            l.append({'cartontype': p, 'goods': [x['sku'] for x in d['items']]})
+        answer['package'] = l
+        answer['status'] = 'ok'
+        return answer
         
         probs = model.predict_proba(np.array(result).reshape(1, -1))[0]
         ind = np.argsort(probs)[::-1][:3]
