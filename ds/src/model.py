@@ -5,6 +5,8 @@ import json
 def predict(d):
     answer = dict()
     answer['orderkey'] = d['orderkey']
+    answer = dict()
+    answer['orderkey'] = d['orderkey']
     cnt = 0
     all_packs = ['YMA', 'YMC', 'YME', 'YMF', 'YMG', 'YML', 'YMU', 'YMV',
                  'YMW', 'MYF', 'YMX', 'MYA', 'MYB', 'MYC', 'MYD', 'MYE']
@@ -27,7 +29,25 @@ def predict(d):
             answer['status'] = 'ok'
             return answer
         
+        if '340' in d['items'][0]['type']:
+            answer['package'] = [{'cartontype': 'NONPACK', 'goods': [d['items'][0]['sku']]}]
+            answer['status'] = 'ok'
+            return answer
+    
+        elif '360' in d['items'][0]['type']:
+            answer['package'] = [{'cartontype': 'STRETCH', 'goods': [d['items'][0]['sku']]}]
+            answer['status'] = 'ok'
+            return answer
+        
         elif d['items'][0]['sku'] in sku_pack_dict:
+            answer['package'] = [{'cartontype': sku_pack_dict[d['items'][0]['sku']], 'goods': [d['items'][0]['sku']]}]
+            answer['status'] = 'ok'
+            return answer
+        
+        elif not (d['items'][0]['size1'] and d['items'][0]['size2'] and d['items'][0]['size3']):
+            answer['status'] = 'fallback'
+            return answer
+
             answer['package'] = [{'cartontype': sku_pack_dict[d['items'][0]['sku']], 'goods': [d['items'][0]['sku']]}]
             answer['status'] = 'ok'
             return answer
@@ -51,6 +71,16 @@ def predict(d):
             pack_to_return = (carton_edited.loc[carton_edited['CARTONTYPE'].isin(all_packs), ['CARTONTYPE', 'price']]
                                             .sort_values('price')['CARTONTYPE']
                                             .tolist()[0])
+            answer['package'] = [{'cartontype': pack_to_return, 'goods': [d['items'][0]['sku']]}]
+            answer['status'] = 'ok'
+            return answer
+
+    else:
+        for item in d['items']:
+            if item['size1'] is None or item['size2'] is None or item['size3'] is None or item['weight'] is None:
+                answer['status'] = 'fallback'
+                return answer
+
             answer['package'] = [{'cartontype': pack_to_return, 'goods': [d['items'][0]['sku']]}]
             answer['status'] = 'ok'
             return answer
