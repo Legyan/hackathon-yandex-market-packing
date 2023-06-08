@@ -1,7 +1,9 @@
+from typing import Optional
+
 from pydantic import BaseModel, Extra
 
 
-class Item(BaseModel):
+class ItemBase(BaseModel):
     sku: str
     count: int
 
@@ -9,9 +11,19 @@ class Item(BaseModel):
         extra = Extra.forbid
 
 
+class ItemToDS(ItemBase):
+    size1: Optional[str] = None
+    size2: Optional[str] = None
+    size3: Optional[str] = None
+    weight: Optional[str] = None
+    type: list[Optional[str]]
+
+    class Config:
+        extra = Extra.forbid
+
 class OrderCreate(BaseModel):
     orderkey: str
-    items: list[Item]
+    items: list[ItemBase]
 
     class Config:
         extra = Extra.forbid
@@ -23,3 +35,8 @@ class OrderDB(BaseModel):
 
     class Config:
         extra = Extra.forbid
+
+
+class OrderToDS(BaseModel):
+    orderkey: str
+    items: list[ItemToDS]
