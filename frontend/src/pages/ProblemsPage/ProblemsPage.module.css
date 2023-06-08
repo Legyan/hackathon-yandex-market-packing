@@ -8,7 +8,7 @@
 .problemsPageContainer {
   display: flex;
   flex-direction: column;
-  margin: 19.5% 0;
+  padding: 12.5% 0
 }
 
 .btn {
@@ -27,6 +27,11 @@
   font-size: 40px;
   line-height: 44px;
   color: #212121;
+}
+
+.btn:hover {
+  transition: 0.3s;
+  opacity: 0.6;
 }
 
 .btn:last-of-type{
