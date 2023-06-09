@@ -27,6 +27,12 @@
   font-weight: 700;
   font-size: 28px;
   line-height: 31px;
+
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #212121;
 }
 
 .wrappText {
