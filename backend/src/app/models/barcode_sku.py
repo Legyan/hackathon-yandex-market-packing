@@ -13,6 +13,7 @@ class BarcodeStatusEnum(PyEnum):
 
 
 class BarcodeSKU(Base):
+    """Модель штрихкода конкретного товара."""
     __tablename__ = 'barcode_sku'
 
     barcode = Column(String(500), unique=True, nullable=False)
@@ -20,4 +21,8 @@ class BarcodeSKU(Base):
         String(100), ForeignKey('products.sku'), nullable=False
     )
     status = Column(Enum(BarcodeStatusEnum), nullable=False)
+    orderkey = Column(String(100), ForeignKey('orders.orderkey'))
+
+    order = relationship('Order', back_populates='barcodes')
+    package = relationship('PackageProduct', back_populates='barcode')
     product = relationship('Product', back_populates='barcodes')
