@@ -7,6 +7,7 @@ import OrderPage from '../../pages/OrderPage/OrderPage';
 import OrderCompletedPage from '../../pages/OrderCompletedPage/OrderCompletedPage';
 import ProblemsPage from '../../pages/ProblemsPage/ProblemsPage';
 import AnotherProblemsPage from '../../pages/AnotherProblemsPage/AnotherProblemsPage';
+import DefectiveGoods from '../../pages/DefectiveGoods/DefectiveGoods';
 import Header from '../Header/Header';
 
 const App: FC = () => {
@@ -34,6 +35,9 @@ const App: FC = () => {
         </Route>
         <Route path='/problems/another' exact>
           <AnotherProblemsPage />
+        </Route>
+        <Route path='/defective' exact>
+          <DefectiveGoods />
         </Route>
       </Switch>
     </>
