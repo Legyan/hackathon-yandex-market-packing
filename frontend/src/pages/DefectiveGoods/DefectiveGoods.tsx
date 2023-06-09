@@ -13,7 +13,7 @@ const DefectiveGoods: FC = () => {
     </div>
     <button className={style.btnPacked}>УПАКОВАНО</button>
     </section>
-    <FooterBack />
+    <FooterBack link='/problems' title='Назад'/>
     </>
   )
 }
