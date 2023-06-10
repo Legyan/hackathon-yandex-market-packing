@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.api.services.order import order_service
 from app.core.db import get_async_session
-from app.crud.order import order_crud
 from app.schemas.order import OrderCreate
 
 router = APIRouter()
@@ -17,7 +17,7 @@ async def add_order(
     session: AsyncSession = Depends(get_async_session),
 ):
     '''Добавляет новый заказ.'''
-    new_order = await order_crud.add_order(order, session)
+    new_order = await order_service.add_order(order, session)
     return new_order.to_dict()
 
 

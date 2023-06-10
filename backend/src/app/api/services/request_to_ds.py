@@ -3,11 +3,11 @@ from httpx import AsyncClient
 from sqlalchemy import select
 from sqlalchemy.orm import joinedload
 
-from app.models.order import Order
-from app.schemas.order import ItemToDS, OrderToDS
 from app.core.db import AsyncSessionLocal, get_async_session
+from app.models.order import Order
 from app.models.product import Product
-
+from app.schemas.order import ItemToDS, OrderToDS
+from app.schemas.pack_variation import PackingVariationsSchema
 
 DS_URL = 'http://127.0.0.1:8001/pack'
 
@@ -15,7 +15,7 @@ DS_URL = 'http://127.0.0.1:8001/pack'
 async def get_package_recommendation(
         orderkey: str,
         session: AsyncSessionLocal = Depends(get_async_session),
-):
+) -> PackingVariationsSchema:
     """Запрос в контейнер DS для получения рекомендаций по упаковке."""
     items_to_ds = []
     order = await session.execute(
@@ -54,7 +54,8 @@ async def get_package_recommendation(
         client = AsyncClient()
         response = await client.post(DS_URL, data=order_to_ds.json())
         response.raise_for_status()
-        return response.json()
+        data = response.json()
+        return PackingVariationsSchema.parse_obj(data)
     except Exception as e:
         raise HTTPException(
             status_code=400,
