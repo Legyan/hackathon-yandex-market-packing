@@ -16,7 +16,9 @@ class Package(Base):
     )
     is_packaged = Column(Boolean, nullable=False, default=False)
     products = relationship('PackageProduct', back_populates='package')
-    pack_variation = relationship('PackingVariationPackages', back_populates='package')
+    pack_variation = relationship(
+        'PackingVariation', back_populates='packages'
+    )
 
 
 class PackageProduct(Base):
