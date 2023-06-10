@@ -22,17 +22,9 @@ class ItemToDS(ItemBase):
         extra = Extra.forbid
 
 
-class OrderCreate(BaseModel):
+class OrderCreateSchema(BaseModel):
     orderkey: str
     items: list[ItemBase]
-
-    class Config:
-        extra = Extra.forbid
-
-
-class OrderDB(BaseModel):
-    orderkey: str
-    status: str
 
     class Config:
         extra = Extra.forbid
@@ -41,3 +33,21 @@ class OrderDB(BaseModel):
 class OrderToDS(BaseModel):
     orderkey: str
     items: list[ItemToDS]
+
+
+class ProductToUser(BaseModel):
+    sku: str
+    title: str
+    description: str
+    image: str
+    imei: bool
+    honest_sign: False
+    
+
+
+class OrderToUserSchema(BaseModel):
+    orderkey: str
+    goods: list[ItemBase]
+
+    class Config:
+        extra = Extra.forbid

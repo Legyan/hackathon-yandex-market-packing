@@ -2,7 +2,9 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.crud.base import CRUDBase
+from app.crud.order import order_crud
 from app.models.cartontype import Cartontype
+from app.models.order import OrderStatusEnum
 from app.models.package import Package, PackageProduct
 from app.models.pack_variation import PackingVariation
 from app.schemas.pack_variation import PackingVariationsSchema
@@ -15,6 +17,11 @@ class CRUDPackingVariation(CRUDBase):
         session: AsyncSession,
     ) -> None:
         if packing_variations.status == 'fallback':
+            order_crud.set_order_status(
+                orderkey=packing_variations.orderkey,
+                status=OrderStatusEnum.WAITING,
+                session=session
+            )
             return
         new_pack_variation = PackingVariation(
             is_recommendation=True,
@@ -49,6 +56,11 @@ class CRUDPackingVariation(CRUDBase):
                 session.add(new_package_product)
                 await session.commit()
                 await session.refresh(new_package_product)
+        order_crud.set_order_status(
+                orderkey=packing_variations.orderkey,
+                status=OrderStatusEnum.WAITING,
+                session=session
+            )
 
 
 pack_variation_crud = CRUDPackingVariation(PackingVariation)

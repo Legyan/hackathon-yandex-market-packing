@@ -7,13 +7,13 @@ from app.crud.base import CRUDBase
 from app.models.order import Order, OrderStatusEnum
 from app.models.order_product import OrderProduct
 from app.models.product import Product
-from app.schemas.order import OrderCreate
+from app.schemas.order import OrderCreateSchema
 
 
 class CRUDOrder(CRUDBase):
     async def add_order(
         self,
-        order: OrderCreate,
+        order: OrderCreateSchema,
         session: AsyncSession,
     ) -> Order:
         new_order = Order()
@@ -46,6 +46,21 @@ class CRUDOrder(CRUDBase):
         await session.commit()
         await session.refresh(new_order)
         return new_order
+
+    async def set_order_status(
+            self,
+            orderkey: str,
+            status: OrderStatusEnum,
+            session: AsyncSession
+    ) -> Order:
+        order = (await session.execute(
+            select(Order).where(Order.orderkey == orderkey)
+        )).scalars().first()
+        order.status = status
+        session.add(order)
+        await session.commit()
+        await session.refresh(order)
+        return order
 
 
 order_crud = CRUDOrder(Order)
