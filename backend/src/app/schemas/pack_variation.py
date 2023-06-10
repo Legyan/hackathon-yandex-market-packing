@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Extra
 
 
-class PackingVariationSchema(BaseModel):
+class PackageSchema(BaseModel):
     cartontype: str
     goods: list[str]
 
@@ -11,7 +11,7 @@ class PackingVariationSchema(BaseModel):
 
 class PackingVariationsSchema(BaseModel):
     orderkey: str
-    package: list[PackingVariationSchema]
+    package: list[PackageSchema]
     status: str
 
     class Config:

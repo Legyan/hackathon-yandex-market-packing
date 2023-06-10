@@ -13,7 +13,10 @@ class PackingVariationService(BaseService):
         packing_variations: PackingVariationsSchema,
         session: AsyncSession,
     ) -> None:
-        pass
+        await self.crud.write_pack_variations_to_db(
+            packing_variations=packing_variations,
+            session=session
+        )
 
 
 pack_variation_service = PackingVariationService(pack_variation_crud)

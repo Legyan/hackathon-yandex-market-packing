@@ -25,6 +25,7 @@ class OrderService(BaseService):
             packing_variations=package_recommendations,
             session=session
         )
+        await session.refresh(new_order)
         return new_order
 
 
