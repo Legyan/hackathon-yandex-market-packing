@@ -2,7 +2,6 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api.services.base import BaseService
 from app.crud.table import table_crud
-from app.models.table import Table
 
 
 class TableService(BaseService):
