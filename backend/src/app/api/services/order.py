@@ -30,8 +30,10 @@ class OrderService(BaseService):
 
     async def get_order_to_user(
         self,
+        # user_id: str,
         session: AsyncSession,
     ) -> OrderToUserSchema:
+        # await self.crud.check_user_order(user_id, session)
         return await self.crud.get_order_to_user(session)
 
 

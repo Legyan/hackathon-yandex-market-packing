@@ -8,3 +8,5 @@ from .package import Package, PackageProduct  # noqa
 from .product import Product  # noqa
 from .product_cargotype import ProductCargotype  # noqa
 from .user import User  # noqa
+from .table import Table # noqa
+from .partition import Partition # noqa

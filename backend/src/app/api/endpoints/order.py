@@ -4,6 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.api.services.order import order_service
 from app.core.db import get_async_session
 from app.schemas.order import OrderCreateSchema
+from app.core.users import get_current_user_id
 
 router = APIRouter()
 
