@@ -2,7 +2,8 @@ from sqlalchemy import and_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload
 
-from app.api.exceptions import (AlreadyHaveOrderError, NoProductError, OrderkeyAlreadyExistError,
+from app.api.exceptions import (AlreadyHaveOrderError, NoProductError,
+                                OrderkeyAlreadyExistError,
                                 OutOfStockError)
 from app.crud.base import CRUDBase
 from app.models.order import Order, OrderStatusEnum

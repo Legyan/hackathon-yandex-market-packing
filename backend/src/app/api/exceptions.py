@@ -8,6 +8,15 @@ class AlreadyHaveOrderError(HTTPException):
             detail='У пользователя есть незакрытый заказ.'
         )
 
+
+class NoBarcodeError(HTTPException):
+    def __init__(self):
+        super().__init__(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail='Штрихкода нет в базе данных.'
+        )
+
+
 class NoProductError(HTTPException):
     def __init__(self):
         super().__init__(

@@ -2,7 +2,6 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api.services.base import BaseService
 from app.crud.table import table_crud
-from app.models.table import Table
 
 
 class TableService(BaseService):
@@ -10,7 +9,7 @@ class TableService(BaseService):
 
     async def set_user_to_table(
         self,
-        user_id: str,
+        user_id: int,
         table_id: str,
         session: AsyncSession,
     ) -> None:
