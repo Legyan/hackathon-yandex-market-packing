@@ -5,7 +5,7 @@ from app.api.services.pack_variation import pack_variation_service
 from app.api.services.request_to_ds import get_package_recommendation
 from app.crud.order import order_crud
 from app.models.order import Order
-from app.schemas.order import OrderCreateSchema
+from app.schemas.order import OrderCreateSchema, OrderToUserSchema
 
 
 class OrderService(BaseService):
@@ -28,10 +28,11 @@ class OrderService(BaseService):
         await session.refresh(new_order)
         return new_order
 
-    async def get_order(
-            self
-    ):
-        pass
+    async def get_order_to_user(
+        self,
+        session: AsyncSession,
+    ) -> OrderToUserSchema:
+        return await self.crud.get_order_to_user(session)
 
 
 order_service = OrderService(order_crud)

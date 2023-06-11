@@ -18,9 +18,6 @@ class ItemToDS(ItemBase):
     weight: Optional[str] = None
     type: list[Optional[str]]
 
-    class Config:
-        extra = Extra.forbid
-
 
 class OrderCreateSchema(BaseModel):
     orderkey: str
@@ -38,16 +35,20 @@ class OrderToDS(BaseModel):
 class ProductToUser(BaseModel):
     sku: str
     title: str
-    description: str
-    image: str
+    description: Optional[str]
+    image: Optional[str]
     imei: bool
-    honest_sign: False
-    
+    honest_sign: bool
+    fragility: bool
+
+
+class PackageSchema(BaseModel):
+    cartontype: str
+    items: list[ItemBase] = []
 
 
 class OrderToUserSchema(BaseModel):
     orderkey: str
-    goods: list[ItemBase]
-
-    class Config:
-        extra = Extra.forbid
+    goods: list[ProductToUser] = []
+    recomend_packing: list[list[PackageSchema]] = [[]]
+    status: str = 'ok'

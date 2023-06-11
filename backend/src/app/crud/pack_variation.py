@@ -40,6 +40,7 @@ class CRUDPackingVariation(CRUDBase):
             #     f'Дропки {package.cartontype} нет в базе данных.'
             #     )
             #     return
+            await session.refresh(new_pack_variation)
             new_package = Package(
                 cartontype_tag=cartontype.tag,
                 packing_variation_id=new_pack_variation.id,
@@ -54,9 +55,9 @@ class CRUDPackingVariation(CRUDBase):
                     product_sku=product_sku
                 )
                 session.add(new_package_product)
-                await session.commit()
-                await session.refresh(new_package_product)
-        order_crud.set_order_status(
+            await session.commit()
+
+        await order_crud.set_order_status(
                 orderkey=packing_variations.orderkey,
                 status=OrderStatusEnum.WAITING,
                 session=session
