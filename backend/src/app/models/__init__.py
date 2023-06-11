@@ -10,3 +10,4 @@ from .product_cargotype import ProductCargotype  # noqa
 from .user import User  # noqa
 from .table import Table # noqa
 from .partition import Partition # noqa
+from .printer import Printer # noqa

@@ -4,9 +4,9 @@ from sqlalchemy.orm import relationship
 from app.core.db import Base
 
 
-class Table(Base):
-    """Модель стола для упаковки."""
-    __tablename__ = 'tables'
+class Printer(Base):
+    """Модель принтера."""
+    __tablename__ = 'printers'
 
     name = Column(String(50), unique=True, nullable=False)
     user_id = Column(
@@ -14,4 +14,4 @@ class Table(Base):
     )
     updated_at = Column(DateTime, onupdate=func.now())
 
-    user = relationship('User', back_populates='table')
+    user = relationship('User', back_populates='printer')

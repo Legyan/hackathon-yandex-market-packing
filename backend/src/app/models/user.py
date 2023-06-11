@@ -11,3 +11,5 @@ class User(Base):
     updated_at = Column(DateTime, onupdate=func.now())
 
     orders = relationship('Order')
+    table = relationship('Table', back_populates='user')
+    printer = relationship('Printer', back_populates='user')
