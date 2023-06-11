@@ -1,6 +1,4 @@
-from app.core.db import Base                                # noqa
-from app.models import (                                    # noqa
-    BarcodeSKU, Cargotype, Cartontype, Order, OrderProduct,
-    Product, PackingVariation, PackingVariationPackages,
-    Package, PackageProduct, User, ProductCargotype
-)
+from app.core.db import Base  # noqa
+from app.models import (BarcodeSKU, Cargotype, Cartontype, Order,  # noqa
+                        OrderProduct, Package, PackageProduct,
+                        PackingVariation, Product, ProductCargotype, User)
