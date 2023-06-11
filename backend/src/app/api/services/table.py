@@ -9,7 +9,7 @@ class TableService(BaseService):
 
     async def set_user_to_table(
         self,
-        user_id: str,
+        user_id: int,
         table_id: str,
         session: AsyncSession,
     ) -> None:
