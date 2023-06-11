@@ -137,17 +137,16 @@ class CRUDOrder(CRUDBase):
         user_id: str,
         session: AsyncSession
     ) -> OrderToUserSchema:
-        order = await session.execute(
+        order = (await session.execute(
             select(Order)
             .where(
                 and_(
                     Order.status == OrderStatusEnum.COLLECT,
                     Order.packer_user_id == user_id)
             )
-        ).scalars().first()
-        if not order:
+        )).scalars().first()
+        if order:
             raise AlreadyHaveOrderError()
-
 
     async def set_order_status(
             self,
@@ -159,6 +158,21 @@ class CRUDOrder(CRUDBase):
             select(Order).where(Order.orderkey == orderkey)
         )).scalars().first()
         order.status = status
+        session.add(order)
+        await session.commit()
+        await session.refresh(order)
+        return order
+
+    async def set_order_packer(
+            self,
+            orderkey: str,
+            user_id: int,
+            session: AsyncSession
+    ) -> Order:
+        order = (await session.execute(
+            select(Order).where(Order.orderkey == orderkey)
+        )).scalars().first()
+        order.packer_user_id = user_id
         session.add(order)
         await session.commit()
         await session.refresh(order)

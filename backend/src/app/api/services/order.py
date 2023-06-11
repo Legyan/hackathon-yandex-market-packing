@@ -30,11 +30,15 @@ class OrderService(BaseService):
 
     async def get_order_to_user(
         self,
-        # user_id: str,
+        user_id: int,
         session: AsyncSession,
     ) -> OrderToUserSchema:
         # await self.crud.check_user_order(user_id, session)
-        return await self.crud.get_order_to_user(session)
+        order = await self.crud.get_order_to_user(session)
+        await self.crud.set_order_packer(
+            order.orderkey, user_id, session
+        )
+        return order
 
 
 order_service = OrderService(order_crud)

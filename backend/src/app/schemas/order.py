@@ -48,7 +48,7 @@ class PackageSchema(BaseModel):
 
 
 class OrderToUserSchema(BaseModel):
-    orderkey: str
+    orderkey: str = ''
     goods: list[ProductToUser] = []
     recomend_packing: list[list[PackageSchema]] = [[]]
     status: str = 'ok'
