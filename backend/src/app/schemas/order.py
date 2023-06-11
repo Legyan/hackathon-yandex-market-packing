@@ -18,21 +18,10 @@ class ItemToDS(ItemBase):
     weight: Optional[str] = None
     type: list[Optional[str]]
 
-    class Config:
-        extra = Extra.forbid
 
-
-class OrderCreate(BaseModel):
+class OrderCreateSchema(BaseModel):
     orderkey: str
     items: list[ItemBase]
-
-    class Config:
-        extra = Extra.forbid
-
-
-class OrderDB(BaseModel):
-    orderkey: str
-    status: str
 
     class Config:
         extra = Extra.forbid
@@ -41,3 +30,25 @@ class OrderDB(BaseModel):
 class OrderToDS(BaseModel):
     orderkey: str
     items: list[ItemToDS]
+
+
+class ProductToUser(BaseModel):
+    sku: str
+    title: str
+    description: Optional[str]
+    image: Optional[str]
+    imei: bool
+    honest_sign: bool
+    fragility: bool
+
+
+class PackageSchema(BaseModel):
+    cartontype: str
+    items: list[ItemBase] = []
+
+
+class OrderToUserSchema(BaseModel):
+    orderkey: str
+    goods: list[ProductToUser] = []
+    recomend_packing: list[list[PackageSchema]] = [[]]
+    status: str = 'ok'
