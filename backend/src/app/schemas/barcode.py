@@ -1,3 +1,5 @@
+from typing import Optional
+
 from pydantic import BaseModel
 
 
@@ -11,3 +13,9 @@ class BarcodeInfoSchema(BaseModel):
 
 class BarcodeInputSchema(BaseModel):
     barcode: str
+
+
+class BarcodeSKUSchema(BaseModel):
+    barcode: str
+    sku: str
+    status: Optional[str]
