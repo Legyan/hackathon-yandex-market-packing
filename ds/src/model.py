@@ -1,7 +1,9 @@
+import pickle
+import json
+
 import numpy as np
 import pandas as pd
-import json
-import pickle
+
 
 def predict(d):
     answer = dict()
@@ -14,7 +16,7 @@ def predict(d):
     if cnt > 5:
         answer['status'] = 'fallback'
         return answer
-    
+
     elif cnt == 1:
         with open('sku_pack_dict.json') as f:
             sku_pack_dict = json.load(f)
@@ -22,17 +24,17 @@ def predict(d):
             answer['package'] = [{'cartontype': 'NONPACK', 'goods': [d['items'][0]['sku']]}]
             answer['status'] = 'ok'
             return answer
-    
+
         elif '360' in d['items'][0]['type']:
             answer['package'] = [{'cartontype': 'STRETCH', 'goods': [d['items'][0]['sku']]}]
             answer['status'] = 'ok'
             return answer
-        
+
         elif d['items'][0]['sku'] in sku_pack_dict:
             answer['package'] = [{'cartontype': sku_pack_dict[d['items'][0]['sku']], 'goods': [d['items'][0]['sku']]}]
             answer['status'] = 'ok'
             return answer
-        
+
         elif not (d['items'][0]['size1'] and d['items'][0]['size2'] and d['items'][0]['size3']):
             answer['status'] = 'fallback'
             return answer
@@ -78,7 +80,7 @@ def predict(d):
             result.extend([0] * (25-len(result)))
         with open('model.pcl', 'rb') as fid:
             model = pickle.load(fid)
-        
+
         probs = model.predict_proba(np.array(result).reshape(1, -1))[0]
         ind = np.argsort(probs)[::-1][:3]
         l = []
