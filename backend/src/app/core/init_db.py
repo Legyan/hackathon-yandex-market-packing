@@ -1,7 +1,7 @@
 import contextlib
 import csv
 
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 
 from app.core.db import get_async_session
 from app.crud.barcode import barcode_crud
@@ -157,3 +157,5 @@ async def fill_db():
         await add_cartontypes()
     except IntegrityError:
         print('The database is already full')
+    except SQLAlchemyError as e:
+        print(e)
