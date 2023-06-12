@@ -12,6 +12,8 @@ services:
   ds-ym-pack:
     image: legyan/ds-ym-pack:latest
     restart: always
+    ports:
+      - "8001:8000"
     depends_on:
       - db-ym-pack
     env_file:
@@ -20,6 +22,8 @@ services:
   backend-ym-pack:
     image: legyan/backend-ym-pack:latest
     restart: always
+    ports:
+      - "8000:8000"
     volumes:
       - static_value:/app/static/
       - media_value:/app/media/
