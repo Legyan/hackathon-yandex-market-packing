@@ -43,18 +43,21 @@ def predict(d):
             carton_edited = pd.read_csv('carton_edited.csv')
             valid_pack = []
             for pack in all_packs:
-                if (np.min([float(d['items'][0]['size1']), float(d['items'][0]['size2']), float(d['items'][0]['size2'])]) < np.min(carton_edited.loc[carton_edited['CARTONTYPE'] == pack,['LENGTH', 'WIDTH', 'HEIGHT']].values)
-                    and np.max([float(d['items'][0]['size1']), float(d['items'][0]['size2']), float(d['items'][0]['size2'])]) < np.max(carton_edited.loc[carton_edited['CARTONTYPE'] == pack,['LENGTH', 'WIDTH', 'HEIGHT']].values)
-                    and np.median([float(d['items'][0]['size1']), float(d['items'][0]['size2']), float(d['items'][0]['size2'])]) < np.median(carton_edited.loc[carton_edited['CARTONTYPE'] == pack,['LENGTH', 'WIDTH', 'HEIGHT']].values)):
+                if (np.min([float(d['items'][0]['size1']), float(d['items'][0]['size2']), float(d['items'][0]['size3'])]) < np.min(carton_edited.loc[carton_edited['CARTONTYPE'] == pack,['LENGTH', 'WIDTH', 'HEIGHT']].values)
+                    and np.max([float(d['items'][0]['size1']), float(d['items'][0]['size2']), float(d['items'][0]['size3'])]) < np.max(carton_edited.loc[carton_edited['CARTONTYPE'] == pack,['LENGTH', 'WIDTH', 'HEIGHT']].values)
+                    and np.median([float(d['items'][0]['size1']), float(d['items'][0]['size2']), float(d['items'][0]['size3'])]) < np.median(carton_edited.loc[carton_edited['CARTONTYPE'] == pack,['LENGTH', 'WIDTH', 'HEIGHT']].values)):
                     valid_pack.append(pack)
-            if len(pack) == 0:
+            if len(valid_pack) == 0:
                 answer['status'] = 'fallback'
                 return answer
 
-            pack_to_return = (carton_edited.loc[carton_edited['CARTONTYPE'].isin(all_packs), ['CARTONTYPE', 'price']]
-                                            .sort_values('price')['CARTONTYPE']
-                                            .tolist()[0])
-            answer['package'] = [{'cartontype': pack_to_return, 'goods': [d['items'][0]['sku']]}]
+            alternatives = (carton_edited.loc[carton_edited['CARTONTYPE'].isin(valid_pack), ['CARTONTYPE', 'price']]
+                                         .sort_values('price')['CARTONTYPE']
+                                         .tolist()[:3])
+            l = []
+            for pack in alternatives:
+                l.append({'cartontype': pack, 'goods': [d['items'][0]['sku']]})
+            answer['package'] = l
             answer['status'] = 'ok'
             return answer
 
