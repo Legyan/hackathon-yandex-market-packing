@@ -2,11 +2,10 @@ import numpy as np
 import pandas as pd
 import json
 import pickle
-import lightgbm
 
 def predict(d):
     answer = dict()
-    answer['orderkey'] = d['orderId']
+    answer['orderkey'] = d['orderkey']
     cnt = 0
     all_packs = ['YMA', 'YMC', 'YME', 'YMF', 'YMG', 'YML', 'YMU', 'YMV',
                  'YMW', 'MYF', 'YMX', 'MYA', 'MYB', 'MYC', 'MYD', 'MYE']
@@ -19,12 +18,12 @@ def predict(d):
     elif cnt == 1:
         with open('sku_pack_dict.json') as f:
             sku_pack_dict = json.load(f)
-        if d['items'][0]['type'][0] == '340':
+        if '340' in d['items'][0]['type']:
             answer['package'] = [{'cartontype': 'NONPACK', 'goods': [d['items'][0]['sku']]}]
             answer['status'] = 'ok'
             return answer
-        
-        elif d['items'][0]['type'][0] == '360':
+    
+        elif '360' in d['items'][0]['type']:
             answer['package'] = [{'cartontype': 'STRETCH', 'goods': [d['items'][0]['sku']]}]
             answer['status'] = 'ok'
             return answer
@@ -34,27 +33,38 @@ def predict(d):
             answer['status'] = 'ok'
             return answer
         
+        elif not (d['items'][0]['size1'] and d['items'][0]['size2'] and d['items'][0]['size3']):
+            answer['status'] = 'fallback'
+            return answer
+
         else:
             carton_edited = pd.read_csv('carton_edited.csv')
             valid_pack = []
             for pack in all_packs:
-                if (np.min([float(d['items'][0]['size1']), float(d['items'][0]['size2']), float(d['items'][0]['size2'])]) < np.min(carton_edited.loc[carton_edited['CARTONTYPE'] == pack,['LENGTH', 'WIDTH', 'HEIGHT']].values)
-                    and np.max([float(d['items'][0]['size1']), float(d['items'][0]['size2']), float(d['items'][0]['size2'])]) < np.max(carton_edited.loc[carton_edited['CARTONTYPE'] == pack,['LENGTH', 'WIDTH', 'HEIGHT']].values)
-                    and np.median([float(d['items'][0]['size1']), float(d['items'][0]['size2']), float(d['items'][0]['size2'])]) < np.median(carton_edited.loc[carton_edited['CARTONTYPE'] == pack,['LENGTH', 'WIDTH', 'HEIGHT']].values)
-                    ):
+                if (np.min([float(d['items'][0]['size1']), float(d['items'][0]['size2']), float(d['items'][0]['size3'])]) < np.min(carton_edited.loc[carton_edited['CARTONTYPE'] == pack,['LENGTH', 'WIDTH', 'HEIGHT']].values)
+                    and np.max([float(d['items'][0]['size1']), float(d['items'][0]['size2']), float(d['items'][0]['size3'])]) < np.max(carton_edited.loc[carton_edited['CARTONTYPE'] == pack,['LENGTH', 'WIDTH', 'HEIGHT']].values)
+                    and np.median([float(d['items'][0]['size1']), float(d['items'][0]['size2']), float(d['items'][0]['size3'])]) < np.median(carton_edited.loc[carton_edited['CARTONTYPE'] == pack,['LENGTH', 'WIDTH', 'HEIGHT']].values)):
                     valid_pack.append(pack)
-            if len(pack) == 0:
+            if len(valid_pack) == 0:
                 answer['status'] = 'fallback'
                 return answer
-                
-            pack_to_return = (carton_edited.loc[carton_edited['CARTONTYPE'].isin(all_packs), ['CARTONTYPE', 'price']]
-                                            .sort_values('price')['CARTONTYPE']
-                                            .tolist()[0])
-            answer['package'] = [{'cartontype': pack_to_return, 'goods': [d['items'][0]['sku']]}]
+
+            alternatives = (carton_edited.loc[carton_edited['CARTONTYPE'].isin(valid_pack), ['CARTONTYPE', 'price']]
+                                         .sort_values('price')['CARTONTYPE']
+                                         .tolist()[:3])
+            l = []
+            for pack in alternatives:
+                l.append({'cartontype': pack, 'goods': [d['items'][0]['sku']]})
+            answer['package'] = l
             answer['status'] = 'ok'
             return answer
-        
-    else:    
+
+    else:
+        for item in d['items']:
+            if item['size1'] is None or item['size2'] is None or item['size3'] is None or item['weight'] is None:
+                answer['status'] = 'fallback'
+                return answer
+
         result = []
         for item in d['items']:
             count = item['count']
