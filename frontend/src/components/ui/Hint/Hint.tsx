@@ -5,10 +5,9 @@ import barcodeRed from '../../../images/icon_barcode-red.svg';
 import { IHint } from '../../../utils/type/main';
 
 const Hint: FC<IHint> = ({icon, title}) => {
-  console.log(icon);
 
   return (
-    <li className={icon === 'pen' ? `${style.hint} ${style.hintShadow}` : `${style.hint}` }>
+    <li className={icon === 'pen' ? `${style.hint} ${style.hintShadow}` : `${style.hint} ${style.hintRed}`}>
       { icon === 'pen' ? (
         <img className={style.imgHint} src={pen} alt='Иконка ручки' />
       ) : (
