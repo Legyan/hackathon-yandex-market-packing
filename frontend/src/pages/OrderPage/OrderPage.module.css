@@ -1,0 +1,18 @@
+.wrapper {
+  margin: 36px 24px 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.goods {
+  padding: 40px 32px 0;
+  background: var(--Yandex-white-grey-1);
+  border-radius: 12px;
+}
+
+.packingGoods {
+  padding: 40px;
+  background: var(--Yandex-white-grey-1);
+  border-radius: 12px;
+}

@@ -9,3 +9,8 @@ export interface IAuthorizationForm {
 export interface IProgressbar {
   title?: string;
 }
+
+export interface IHint {
+  icon: string;
+  title: string;
+}
