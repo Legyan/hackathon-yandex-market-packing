@@ -4,12 +4,11 @@ from sqlalchemy import select
 from sqlalchemy.orm import joinedload
 
 from app.core.db import AsyncSessionLocal, get_async_session
+from app.core.config import settings
 from app.models.order import Order
 from app.models.product import Product
 from app.schemas.order import ItemToDS, OrderToDS
 from app.schemas.pack_variation import PackingVariationsSchema
-
-DS_URL = 'http://127.0.0.1:8001/pack'
 
 
 async def get_package_recommendation(
@@ -52,7 +51,10 @@ async def get_package_recommendation(
 
     try:
         client = AsyncClient()
-        response = await client.post(DS_URL, data=order_to_ds.json())
+        response = await client.post(
+            'http://' + settings.ds_host + '/pack',
+            data=order_to_ds.json()
+        )
         response.raise_for_status()
         data = response.json()
         return PackingVariationsSchema.parse_obj(data)
