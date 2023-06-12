@@ -1,8 +1,9 @@
-from sqlalchemy import select
+from sqlalchemy import and_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload
 
-from app.api.exceptions import (NoProductError, OrderkeyAlreadyExistError,
+from app.api.exceptions import (AlreadyHaveOrderError, NoProductError,
+                                OrderkeyAlreadyExistError,
                                 OutOfStockError)
 from app.crud.base import CRUDBase
 from app.models.order import Order, OrderStatusEnum
@@ -132,6 +133,22 @@ class CRUDOrder(CRUDBase):
         )
         return order_to_user
 
+    async def check_user_order(
+        self,
+        user_id: str,
+        session: AsyncSession
+    ) -> OrderToUserSchema:
+        order = (await session.execute(
+            select(Order)
+            .where(
+                and_(
+                    Order.status == OrderStatusEnum.COLLECT,
+                    Order.packer_user_id == user_id)
+            )
+        )).scalars().first()
+        if order:
+            raise AlreadyHaveOrderError()
+
     async def set_order_status(
             self,
             orderkey: str,
@@ -142,6 +159,21 @@ class CRUDOrder(CRUDBase):
             select(Order).where(Order.orderkey == orderkey)
         )).scalars().first()
         order.status = status
+        session.add(order)
+        await session.commit()
+        await session.refresh(order)
+        return order
+
+    async def set_order_packer(
+            self,
+            orderkey: str,
+            user_id: int,
+            session: AsyncSession
+    ) -> Order:
+        order = (await session.execute(
+            select(Order).where(Order.orderkey == orderkey)
+        )).scalars().first()
+        order.packer_user_id = user_id
         session.add(order)
         await session.commit()
         await session.refresh(order)

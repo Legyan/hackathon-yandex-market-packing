@@ -8,8 +8,8 @@ from app.core.config import settings
 class PreBase:
 
     @declared_attr
-    def __tablename__(cls):
-        return cls.__name__.lower()
+    def __tablename__(self):
+        return self.__name__.lower()
 
     id = Column(Integer, primary_key=True)
 
