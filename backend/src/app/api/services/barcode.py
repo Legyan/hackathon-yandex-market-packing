@@ -40,14 +40,13 @@ class BarcodeService(BaseService):
             barcode.sku,
             session
         )
-        barcode_sku_to_user = BarcodeInfoSchema(
+        return BarcodeInfoSchema(
             status='ok',
             type='goods',
             info=barcode.sku,
             imei=product.need_imei,
             honest_sign=product.need_honest_sign
         )
-        return barcode_sku_to_user
 
 
 barcode_service = BarcodeService(barcode_crud)
