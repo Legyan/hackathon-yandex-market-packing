@@ -16,7 +16,7 @@ from app.schemas.barcode import BarcodeSKUSchema
 from app.schemas.cargotypes import CargotypeSchema
 from app.schemas.cartontypes import CartontypeSchema
 from app.schemas.partition import PartitionSchema
-from app.schemas.printer import PrinterSchema
+from app.schemas.printer import PrinterToDBSchema
 from app.schemas.products import ProductSchema
 from app.schemas.tables import TableSchema
 from app.schemas.user import UserSchema
@@ -82,7 +82,7 @@ async def add_printers():
         next(reader)
         async with get_async_session_context() as session:
             for row in reader:
-                printers_in = PrinterSchema(
+                printers_in = PrinterToDBSchema(
                     name=row[0]
                 )
                 await printer_crud.create(printers_in, session=session)
@@ -150,8 +150,8 @@ async def fill_db():
         await add_products()
         await add_barcode_sku()
         await add_tables()
-        await add_printers()        
         await add_partitions()
+        await add_printers()
         await add_users()
         await add_cargotypes()
         await add_cartontypes()
