@@ -19,4 +19,6 @@ async def handle_barcode(
     session: AsyncSession = Depends(get_async_session),
 ):
     """Обработка штрих-кода пользоввателем."""
-    return await barcode_service.handle_barcode(user_id, barcode.barcode, session)
+    return await barcode_service.handle_barcode(
+        user_id, barcode.barcode, session
+    )

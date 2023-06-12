@@ -33,10 +33,9 @@ class CRUDBarcode(CRUDBase):
         sku: str,
         session: AsyncSession,
     ) -> Product:
-        product = (await session.execute(
+        return (await session.execute(
                 select(Product).where(Product.sku == sku)
-            )).scalars().first()
-        return product
+                )).scalars().first()
 
 
 barcode_crud = CRUDBarcode(BarcodeSKU)

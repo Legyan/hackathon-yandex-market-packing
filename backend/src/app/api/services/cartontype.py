@@ -12,14 +12,13 @@ class CartontypeServices(BaseService):
         cartontype: Cartontype,
         session: AsyncSession,
     ) -> BarcodeInfoSchema:
-        cartontype_to_user = BarcodeInfoSchema(
+        return BarcodeInfoSchema(
            status='ok',
            type='carton',
            info=cartontype.tag,
            imei=False,
            honest_sign=False
         )
-        return cartontype_to_user
 
 
 cartontype_service = CartontypeServices(cartontype_crud)
