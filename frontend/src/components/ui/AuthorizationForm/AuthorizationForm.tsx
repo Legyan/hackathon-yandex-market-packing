@@ -2,6 +2,7 @@ import { FC } from 'react';
 import style from './AuthorizationForm.module.css';
 import { IAuthorizationForm } from '../../../utils/type/main';
 import { Link } from 'react-router-dom';
+import ButtonLink from '../ButtonLink/ButtonLink';
 
 const AuthorizationForm: FC<IAuthorizationForm> = ({label, btnBack, btnForward, linkBack, linkForward}) => {
   return (
@@ -14,8 +15,8 @@ const AuthorizationForm: FC<IAuthorizationForm> = ({label, btnBack, btnForward, 
         required
       />
       <div className={style.btns}>
-        <Link className={style.btnBack} to={linkBack}>{btnBack}</Link>
-        <Link className={style.btnForward} to={linkForward}>{btnForward}</Link>
+        <ButtonLink purpose={'authBack'} title={btnBack} link={linkBack} />
+        <ButtonLink purpose={'authForward'} title={btnForward} link={linkForward} />
       </div>
     </form>
   )

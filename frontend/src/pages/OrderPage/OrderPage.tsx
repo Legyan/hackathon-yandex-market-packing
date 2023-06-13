@@ -47,14 +47,15 @@ const OrderPage: FC = () => {
             <ButtonMenu
               icon={iconBox}
               description={'M EЗ12344'}
-              activeButton={'inactive'}
+              activeButton={'notSelection'}
               count={'2 шт.'}
             />
             <ButtonMenu
               icon={pack}
               description={'L EЗ12344'}
-              activeButton={'invisible'}
+              activeButton={'inactive'}
               count={'2 шт.'}
+              disabled
             />
           </div>
           <div className={style.links}>

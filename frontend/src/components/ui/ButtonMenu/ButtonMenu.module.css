@@ -1,7 +1,6 @@
 .wrapper {
   width: 666px;
   height: 120px;
-  background: #FFECCC;
   border: 4px solid #FED42B;
   box-shadow: 0px 3px 9px rgba(38, 41, 43, 0.08), 1px 1px 3px rgba(38, 41, 43, 0.03);
   border-radius: 24px;
@@ -9,17 +8,31 @@
   justify-content: center;
   align-items: center;
   gap: 30px;
+  transition: background .2s linear;
   cursor: pointer;
+}
+
+.active {
+  background: #FFECCC;
+}
+
+.active:hover {
+  background: #F9D9A2;
+}
+
+.notSelection {
+  background: #FFF;
+}
+
+.notSelection:hover {
+  background: #FFECCC;
 }
 
 .inactive {
   background: #FFF;
-}
-
-.invisible {
-  background: #FFF;
   border: 4px solid #DEDEDE;
   opacity: 0.5;
+  cursor: default;
 }
 
 .package {
@@ -50,6 +63,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background .2s linear;
+}
+
+.notSelection:hover .countWrapper {
+  background: #FFF;
 }
 
 .count {

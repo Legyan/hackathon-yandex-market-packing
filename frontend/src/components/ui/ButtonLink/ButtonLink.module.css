@@ -14,6 +14,15 @@
 
 /* Размеры на разных экранах */
 
+.btnProportionsAuth {
+  width: 356px;
+  height: 98px;
+  padding: 0px 32px;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 26px;
+}
+
 .btnProportionsMain {
   max-width: 296px;
   width: 100%;
@@ -30,6 +39,26 @@
   font-weight: 700;
   font-size: 32px;
   line-height: 26px;
+}
+
+/* Кнопки на экране Auth */
+
+.btnBack {
+  background: var(--Blue-grey-1);
+  color: var(--Yandex-black);
+}
+
+.btnBack:hover {
+  background: var(--Yandex-grey-4);
+}
+
+.btnForward{
+  background: var(--Yandex-amber-12);
+  color: var(--Yandex-black);
+}
+
+.btnForward:hover {
+  background: var(--Yandex-amber-13);
 }
 
 /* Кнопка УПАКОВАНО на экране Order */
