@@ -1,6 +1,6 @@
 from enum import Enum as PyEnum
 
-from sqlalchemy import Enum, Column, ForeignKey, String
+from sqlalchemy import Column, Enum, ForeignKey, String
 from sqlalchemy.orm import relationship
 
 from app.core.db import Base

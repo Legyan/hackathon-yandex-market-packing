@@ -3,8 +3,8 @@ from httpx import AsyncClient
 from sqlalchemy import select
 from sqlalchemy.orm import joinedload
 
-from app.core.db import AsyncSessionLocal, get_async_session
 from app.core.config import settings
+from app.core.db import AsyncSessionLocal, get_async_session
 from app.models.order import Order
 from app.models.product import Product
 from app.schemas.order import ItemToDS, OrderToDS

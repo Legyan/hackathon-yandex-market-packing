@@ -1,20 +1,18 @@
 import datetime
 
+import jwt
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.api.services.printer import printer_service
 from app.api.services.table import table_service
 from app.api.services.user import user_service
-from app.core.db import get_async_session
 from app.core.config import settings
-from app.schemas.auth import RegisterTableSchema, TokenSchema
-import jwt
-
+from app.core.db import get_async_session
 from app.core.users import get_current_user_id
+from app.schemas.auth import RegisterTableSchema, TokenSchema
 from app.schemas.base import BaseOutputSchema
 from app.schemas.printer import PrinterSchema
-from app.api.services.printer import printer_service
-
 
 router = APIRouter()
 

@@ -27,6 +27,11 @@ class OrderCreateSchema(BaseModel):
         extra = Extra.forbid
 
 
+class OrderCreateResponseSchema(BaseModel):
+    orderkey: str
+    status: str
+
+
 class OrderToDS(BaseModel):
     orderkey: str
     items: list[ItemToDS]
@@ -48,6 +53,7 @@ class PackageSchema(BaseModel):
 
 
 class OrderToUserSchema(BaseModel):
+    partition: str = ''
     orderkey: str = ''
     goods: list[ProductToUser] = []
     recomend_packing: list[list[PackageSchema]] = [[]]

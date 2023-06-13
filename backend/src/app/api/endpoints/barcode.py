@@ -3,8 +3,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api.services.barcode import barcode_service
 from app.core.db import get_async_session
-from app.schemas.barcode import BarcodeInputSchema
 from app.core.users import get_current_user_id
+from app.schemas.barcode import BarcodeInputSchema
 
 router = APIRouter()
 
