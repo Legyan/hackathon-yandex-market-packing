@@ -1,22 +1,26 @@
-from fastapi import FastAPI, Request
-import uvicorn
 import argparse
+from typing import List, Optional
+
+import uvicorn
+from fastapi import FastAPI
 from model import predict
 from pydantic import BaseModel
-from typing import List
+
 
 class Item(BaseModel):
     sku: str
     count: int
-    size1: str
-    size2: str
-    size3: str
-    weight: str
-    type: List[str]
+    size1: Optional[str] = None
+    size2: Optional[str] = None
+    size3: Optional[str] = None
+    weight: Optional[str] = None
+    type: List[Optional[str]]
+
 
 class Order(BaseModel):
-    orderId: str
+    orderkey: str
     items: List[Item]
+
 
 app = FastAPI(debug=True)
 
@@ -28,8 +32,11 @@ def health():
 
 @app.post("/pack")
 def get_prediction(request: Order):
-    y = predict(request.dict())
-    return y
+    try:
+        y = predict(request.dict())
+        return y
+    except Exception:
+        return {'status': 'fallback'}
 
 
 if __name__ == "__main__":
@@ -39,4 +46,3 @@ if __name__ == "__main__":
     args = vars(parser.parse_args())
 
     uvicorn.run(app, **args)
-    

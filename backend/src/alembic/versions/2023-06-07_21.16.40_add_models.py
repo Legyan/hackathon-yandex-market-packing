@@ -1,8 +1,8 @@
-"""add orders, products, order_products
+"""add models
 
-Revision ID: 0fc97f41a50a
+Revision ID: fa96458f5f63
 Revises: 
-Create Date: 2023-06-06 22:21:00.622038
+Create Date: 2023-06-07 21:16:40.389135
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '0fc97f41a50a'
+revision = 'fa96458f5f63'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -54,10 +54,10 @@ def upgrade():
     op.create_table('order_products',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('orderkey', sa.String(length=50), nullable=False),
-    sa.Column('product_sku', sa.String(length=100), nullable=False),
+    sa.Column('sku', sa.String(length=100), nullable=False),
     sa.Column('count', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['orderkey'], ['orders.orderkey'], ),
-    sa.ForeignKeyConstraint(['product_sku'], ['products.sku'], ),
+    sa.ForeignKeyConstraint(['sku'], ['products.sku'], ),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###

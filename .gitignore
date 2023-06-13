@@ -133,5 +133,8 @@ dmypy.json
 .vscode
 
 # static
-backend/foodgram/media/
-backend/foodgram/static/
+backend/src/media/
+backend/src/static/
+
+.DS_Store
+docker-pg.yml

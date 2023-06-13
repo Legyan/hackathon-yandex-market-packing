@@ -1,34 +1,62 @@
 version: '3.3'
 services:
 
-  db:
+  db-ym-pack:
     image: postgres:13.0-alpine
     restart: always
     volumes:
-      - /var/lib/postgresql/data/
+      - postgresql:/var/lib/postgresql/data/
+    env_file:
+      - ./.env
+  
+  ds-ym-pack:
+    image: legyan/ds-ym-pack:latest
+    restart: always
+    ports:
+      - "8001:8000"
+    depends_on:
+      - db-ym-pack
     env_file:
       - ./.env
 
-  backend:
-    image: legyan/packing-backend:latest
+  backend-ym-pack:
+    image: legyan/backend-ym-pack:latest
     restart: always
+    ports:
+      - "8000:8000"
     volumes:
       - static_value:/app/static/
       - media_value:/app/media/
     depends_on:
-      - db
+      - ds-ym-pack
     env_file:
       - ./.env
 
-  frontend:
-    image: legyan/packing-frontend:latest
+  frontend-ym-pack:
+    image: legyan/frontend-ym-pack:latest
     restart: always
     volumes:
       - ../frontend/:/app/result_build/
     depends_on:
-      - backend
+      - backend-ym-pack
+
+    
+  nginx-ym-pack:
+    image: nginx:1.19.3
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - ../frontend/build:/usr/share/nginx/html/
+      - static_value:/var/html/static/
+      - media_value:/var/html/media/recipes/
+    depends_on:
+      - frontend-ym-pack
 
 
 volumes:
+  postgresql:
   static_value:
   media_value:
