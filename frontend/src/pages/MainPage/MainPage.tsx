@@ -2,18 +2,26 @@ import { FC } from 'react';
 import style from './MainPage.module.css'
 import Progressbar from '../../components/Progressbar/Progressbar';
 import Footer from '../../components/Footer/Footer';
-import { Link } from 'react-router-dom';
 import box from '../../images/icon_stat_box.svg';
 import speed from '../../images/icon_speedstat.svg';
 import cup from '../../images/icon_cup.svg';
+import ButtonLink from '../../components/ui/ButtonLink/ButtonLink';
 
 const MainPage: FC = () => {
   return (
     <>
       <section className={style.wrapper}>
         <div className={style.btnsWrapper}>
-          <Link className={style.btnProblem} to='/problems'>Есть проблема</Link>
-          <Link className={style.btnLogout} to='/table'>Закрыть стол</Link>
+          <ButtonLink
+            purpose={'problem'}
+            title={'Есть проблема'}
+            link={'/problems'}
+          />
+          <ButtonLink
+            purpose={'logout'}
+            title={'Закрыть стол'}
+            link={'/table'}
+          />
         </div>
         <div className={style.statWrapper}>
           <Progressbar title={'Упаковка'} />
@@ -38,7 +46,11 @@ const MainPage: FC = () => {
             </li>
           </ul>
         </div>
-        <Link className={style.btnOrder} to='/order'>Получить заказ</Link>
+        <ButtonLink
+            purpose={'package'}
+            title={'Получить заказ'}
+            link={'/order'}
+          />
       </section>
       <Footer />
     </>

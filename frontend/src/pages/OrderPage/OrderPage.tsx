@@ -1,4 +1,4 @@
-import { FC, useRef, useState } from 'react';
+import { FC } from 'react';
 import style from './OrderPage.module.css';
 import Footer from '../../components/Footer/Footer';
 import Progressbar from '../../components/Progressbar/Progressbar';
@@ -6,8 +6,13 @@ import Package from '../../components/Package/Package';
 import Goods from '../../components/Goods/Goods';
 import bootleJuice from '../../images/photo-goods/bottle_of_juice.jpg';
 import column from '../../images/photo-goods/column.jpg';
+import iconBox from '../../images/icon_box.svg';
+import pack from '../../images/icon_package.svg';
+import ButtonMenu from '../../components/ui/ButtonMenu/ButtonMenu';
+import ButtonLink from '../../components/ui/ButtonLink/ButtonLink';
 
 const OrderPage: FC = () => {
+
   return (
     <>
       <section className={style.wrapper}>
@@ -32,7 +37,38 @@ const OrderPage: FC = () => {
           </ul>
         </div>
         <article className={style.packingGoods}>
-          <h2>Варианты упаковки</h2>
+          <h2 className={style.title}>Варианты упаковки</h2>
+          <div className={style.btns}>
+            <ButtonMenu
+              icon={iconBox}
+              description={'L EA12344'}
+              activeButton={'active'}
+            />
+            <ButtonMenu
+              icon={iconBox}
+              description={'M EЗ12344'}
+              activeButton={'inactive'}
+              count={'2 шт.'}
+            />
+            <ButtonMenu
+              icon={pack}
+              description={'L EЗ12344'}
+              activeButton={'invisible'}
+              count={'2 шт.'}
+            />
+          </div>
+          <div className={style.links}>
+            <ButtonLink
+              purpose={'anotherProblem'}
+              title={'ЕСТЬ ПРОБЛЕМА'}
+              link={'/problems/another'}
+            />
+            <ButtonLink
+              purpose={'order'}
+              title={'УПАКОВАНО'}
+              link={'/order/completed'}
+            />
+          </div>
         </article>
       </section>
       <Footer />

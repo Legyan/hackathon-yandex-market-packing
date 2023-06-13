@@ -1,4 +1,5 @@
 .wrapper {
+  height: 78vh;
   margin: 36px 24px 0;
   display: flex;
   justify-content: space-between;
@@ -15,6 +16,9 @@
   padding: 40px;
   background: var(--Yandex-white-grey-1);
   border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .goods {
@@ -23,4 +27,28 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
+
+.title {
+  margin: 0;
+  text-align: center;
+  font-family: 'Yandex Sans Display';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 50px;
+  color: #000000;
+}
+
+.btns {
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.links {
+  display: flex;
+  justify-content: space-between;
+  gap: 22px;
 }
