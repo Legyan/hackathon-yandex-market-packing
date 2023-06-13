@@ -4,7 +4,7 @@ from app.api.services.base import BaseService
 from app.api.services.pack_variation import pack_variation_service
 from app.api.services.request_to_ds import get_package_recommendation
 from app.crud.order import order_crud
-from app.models.order import Order
+from app.crud.partitions import partition_crud
 from app.schemas.order import (OrderCreateResponseSchema, OrderCreateSchema,
                                OrderToUserSchema)
 
@@ -39,9 +39,15 @@ class OrderService(BaseService):
         session: AsyncSession,
     ) -> OrderToUserSchema:
         # await self.crud.check_user_order(user_id, session)
-        order = await self.crud.get_order_to_user(session)
+        order: OrderToUserSchema = await self.crud.get_order_to_user(session)
         await self.crud.set_order_packer(
-            order.orderkey, user_id, session
+            orderkey=order.orderkey,
+            user_id=user_id,
+            session=session
+        )
+        order.partition = await partition_crud.set_partition_to_order(
+            orderkey=order.orderkey,
+            session=session
         )
         return order
 
