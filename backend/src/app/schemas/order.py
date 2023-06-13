@@ -27,6 +27,11 @@ class OrderCreateSchema(BaseModel):
         extra = Extra.forbid
 
 
+class OrderCreateResponseSchema(BaseModel):
+    orderkey: str
+    status: str
+
+
 class OrderToDS(BaseModel):
     orderkey: str
     items: list[ItemToDS]

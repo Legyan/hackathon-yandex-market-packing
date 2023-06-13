@@ -1,9 +1,9 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.api.exceptions import NoUserError
 from app.api.services.base import BaseService
 from app.crud.user import user_crud
 from app.models.user import User
-from app.api.exceptions import NoUserError
 
 
 class UserService(BaseService):

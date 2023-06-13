@@ -29,9 +29,3 @@ class Order(Base):
     products = relationship('OrderProduct', back_populates='order')
     pack_variations = relationship('PackingVariation', back_populates='order')
     barcodes = relationship('BarcodeSKU', back_populates='order')
-
-    def to_dict(self):
-        return {
-            'orderkey': self.orderkey,
-            'status': self.status.value,
-        }
