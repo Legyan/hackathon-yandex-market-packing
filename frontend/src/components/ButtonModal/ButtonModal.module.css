@@ -1,0 +1,49 @@
+.btn {
+  width: 768px;
+  height: 108px;
+  margin-bottom: 24px;
+  background: #F3F0E9;
+  border-radius: 24px;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+
+  font-family: 'Yandex Sans Display';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 44px;
+  color: #212121;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btnDisable {
+  opacity: .4;
+  width: 768px;
+  height: 108px;
+  margin-bottom: 24px;
+  background: #F3F0E9;
+  border-radius: 24px;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+
+  font-family: 'Yandex Sans Display';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 44px;
+  color: #212121;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn:hover {
+  transition: 0.3s;
+    opacity: 0.6;
+}

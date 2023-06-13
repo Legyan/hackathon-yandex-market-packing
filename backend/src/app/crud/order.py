@@ -3,8 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload
 
 from app.api.exceptions import (AlreadyHaveOrderError, NoProductError,
-                                OrderkeyAlreadyExistError,
-                                OutOfStockError)
+                                OrderkeyAlreadyExistError, OutOfStockError)
 from app.crud.base import CRUDBase
 from app.models.order import Order, OrderStatusEnum
 from app.models.order_product import OrderProduct
