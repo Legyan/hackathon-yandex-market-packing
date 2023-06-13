@@ -27,11 +27,10 @@ class OrderService(BaseService):
             session=session
         )
         await session.refresh(new_order)
-        order_response = OrderCreateResponseSchema(
+        return OrderCreateResponseSchema(
             orderkey=new_order.orderkey,
             status=new_order.status.value
         )
-        return order_response
 
     async def get_order_to_user(
         self,
