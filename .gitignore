@@ -137,3 +137,4 @@ backend/src/media/
 backend/src/static/
 
 .DS_Store
+docker-pg.yml

@@ -1,26 +1,59 @@
 # hackathon-yandex-market-packing
 
-### Запуск бэкенда + БД + DS
+Проект разработан для определения наиболее эффективного способа упаковки товара и предоставления этой инфрмации упаковщику Яндекс Маркета.
 
-1. Запустить Docker контейнер с БД.
+Разработан в рамках хакатона командой №10.
+
+[![YM-pack workflow](https://github.com/Legyan/hackathon-yandex-market-packing/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/Legyan/hackathon-yandex-market-packing/actions/workflows/main.yml)
+
+Развёрнутый проект доступен по адресу http://62.84.121.232.
+
+Swagger документация backend: http://62.84.121.232:8000/docs.
+
+Swagger документация DS: http://62.84.121.232:8001/docs.
+
+### Стек технологий 
+
+![](https://img.shields.io/badge/Python-3.9-black?style=flat&logo=python) 
+![](https://img.shields.io/badge/FastAPI-0.78.0-black?style=flat&logo=fastapi)
+![](https://img.shields.io/badge/Pydantic-1.9.1-black?style=flat)
+![](https://img.shields.io/badge/SQLAlchemy-1.4.29-black?style=flat)
+
+## Описание
+ 
+ ...
+## Запуск проекта
+
+1. Перейти в директорию /infra:
 
     ```shell
-    sudo docker compose -f infra/docker-pg.yml up -d
+    cd infra/
     ```
 
-2. Перейти в директорию ds/src.
+2. Создать в директории файл .env и заполнить его согласно примеру в .env.example:
 
     ```shell
-    cd backend/src/
-    ```
+   nano .env
+   ```
 
-3. Запустить Docker контейнер с DS.
+   ```
+    POSTGRES_DB=ym-packing
+    POSTGRES_USER=postgres
+    POSTGRES_PASSWORD=postgres
+    DB_HOST=localhost
+    DB_PORT=5432
+    DATABASE_URL=postgresql+asyncpg://postgres:postgres@localhost/postgres
+    SECRET_KEY=secret_key
+    HOST=localhost
+   ```
+
+3. Запустить все контейнеры приложения с помощью Docker-compose:
 
     ```shell
-    docker run -d -p 8001:8000 ds-pack
+    sudo docker-compose up -d --build
     ```
 
-4. Перейти в директорию backend/src.
+4. Применить миграции к базе данных:
 
     ```shell
     cd ../../backend/src/
@@ -45,11 +78,19 @@
 6. Применить миграции к базе данных.
 
    ```shell
-   alembic upgrade head
+   sudo docker exec infra_backend-ym-pack_1 alembic upgrade head
    ```
 
-7. Запустить Docker контейнер с бэкендом.
+7. Заполнить базу данных тестовыми данными:
 
     ```shell
-    sudo docker run -it -p 8000:8000 backend-packing
+    sudo docker exec infra_backend-ym-pack_1 python3 -m app.management.fill_db
     ```
+
+## Методика тестирования проекта
+
+...
+
+## Команда
+
+...
