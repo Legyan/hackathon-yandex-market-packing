@@ -1,7 +1,6 @@
 import { FC } from 'react';
 import style from './AuthorizationForm.module.css';
 import { IAuthorizationForm } from '../../../utils/type/main';
-import { Link } from 'react-router-dom';
 import ButtonLink from '../ButtonLink/ButtonLink';
 
 const AuthorizationForm: FC<IAuthorizationForm> = ({label, btnBack, btnForward, linkBack, linkForward}) => {
