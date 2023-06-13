@@ -23,39 +23,41 @@ class CRUDPackingVariation(CRUDBase):
                 session=session
             )
             return
-        new_pack_variation = PackingVariation(
-            is_recommendation=True,
-            selected=False,
-            orderkey=packing_variations.orderkey
-        )
-        session.add(new_pack_variation)
-        await session.commit()
-        await session.refresh(new_pack_variation)
-        for package in packing_variations.package:
-            cartontype = (await session.execute(
-                select(Cartontype).where(Cartontype.tag == package.cartontype)
-            )).scalars().first()
-            # if not cartontype:
-            #     logging.error(
-            #     f'Дропки {package.cartontype} нет в базе данных.'
-            #     )
-            #     return
-            await session.refresh(new_pack_variation)
-            new_package = Package(
-                cartontype_tag=cartontype.tag,
-                packing_variation_id=new_pack_variation.id,
-                is_packaged=False
+        for pack_variation in packing_variations.recommendations:
+            new_pack_variation = PackingVariation(
+                is_recommendation=True,
+                selected=False,
+                orderkey=packing_variations.orderkey
             )
-            session.add(new_package)
+            session.add(new_pack_variation)
             await session.commit()
-            await session.refresh(new_package)
-            for product_sku in package.goods:
-                new_package_product = PackageProduct(
-                    package_id=new_package.id,
-                    product_sku=product_sku
+            await session.refresh(new_pack_variation)
+            for package in pack_variation:
+                cartontype = (await session.execute(
+                    select(Cartontype)
+                    .where(Cartontype.tag == package.cartontype)
+                )).scalars().first()
+                if not cartontype:
+                    # logging.error(
+                    # f'Дропки {package.cartontype} нет в базе данных.'
+                    # )
+                    return
+                await session.refresh(new_pack_variation)
+                new_package = Package(
+                    cartontype_tag=cartontype.tag,
+                    packing_variation_id=new_pack_variation.id,
+                    is_packaged=False
                 )
-                session.add(new_package_product)
-            await session.commit()
+                session.add(new_package)
+                await session.commit()
+                await session.refresh(new_package)
+                for product_sku in package.goods:
+                    new_package_product = PackageProduct(
+                        package_id=new_package.id,
+                        product_sku=product_sku
+                    )
+                    session.add(new_package_product)
+                await session.commit()
 
         await order_crud.set_order_status(
                 orderkey=packing_variations.orderkey,
