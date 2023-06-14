@@ -77,7 +77,7 @@ class CRUDOrder(CRUDBase):
             )).scalars().first()
             fragility = False
             for cargotype in product.cargotypes:
-                if cargotype.cargotype_tag == '360':
+                if cargotype.cargotype_tag == '310':
                     fragility = True
             product_to_user = ProductToUser(
                 sku=product.sku,
@@ -97,6 +97,8 @@ class CRUDOrder(CRUDBase):
             .options(joinedload(PackingVariation.packages))
             .where(PackingVariation.orderkey == order.orderkey)
         )).scalars().unique().all()
+        if not packing_variations:
+            return order_to_user
         for packing_variation in packing_variations:
 
             packages = []
@@ -137,14 +139,10 @@ class CRUDOrder(CRUDBase):
         user_id: str,
         session: AsyncSession
     ) -> OrderToUserSchema:
-        order = (await session.execute(
-            select(Order)
-            .where(
-                and_(
-                    Order.status == OrderStatusEnum.COLLECT,
-                    Order.packer_user_id == user_id)
-            )
-        )).scalars().first()
+        order = self.get_order_by_user_id(
+            user_id=user_id,
+            session=session
+        )
         if order:
             raise AlreadyHaveOrderError()
 
@@ -177,6 +175,20 @@ class CRUDOrder(CRUDBase):
         await session.commit()
         await session.refresh(order)
         return order
+
+    async def get_order_by_user_id(
+            self,
+            user_id: str,
+            session: AsyncSession
+    ) -> Order:
+        return (await session.execute(
+            select(Order)
+            .where(
+                and_(
+                    Order.status == OrderStatusEnum.COLLECT,
+                    Order.packer_user_id == user_id)
+            )
+        )).scalars().first()
 
 
 order_crud = CRUDOrder(Order)

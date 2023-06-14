@@ -48,6 +48,10 @@ class OrderService(BaseService):
             orderkey=order.orderkey,
             session=session
         )
+        await pack_variation_service.add_active_pack_variation(
+            orderkey=order.orderkey,
+            session=session
+        )
         return order
 
 

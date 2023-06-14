@@ -1,7 +1,15 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
+from enum import Enum as PyEnum
+
+from sqlalchemy import Column, Enum, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 from app.core.db import Base
+
+
+class PackageStatusEnum(PyEnum):
+    INACTIVE = 'inactive'
+    ACTIVE = 'active'
+    PACKED = 'packed'
 
 
 class Package(Base):
@@ -14,7 +22,7 @@ class Package(Base):
     packing_variation_id = Column(
         Integer, ForeignKey('pack_variation.id'), nullable=False
     )
-    is_packaged = Column(Boolean, nullable=False, default=False)
+    status = Column(Enum(PackageStatusEnum), nullable=False)
     products = relationship('PackageProduct', back_populates='package')
     pack_variation = relationship(
         'PackingVariation', back_populates='packages'
