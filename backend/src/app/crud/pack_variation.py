@@ -1,5 +1,6 @@
 from sqlalchemy import and_, false, select
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import joinedload
 
 from app.crud.base import CRUDBase
 from app.crud.order import order_crud
@@ -86,6 +87,7 @@ class CRUDPackingVariation(CRUDBase):
     ) -> PackingVariation:
         return (await session.execute(
             select(PackingVariation)
+            .options(joinedload(PackingVariation.packages))
             .where(
                 and_(
                     PackingVariation.orderkey == orderkey,

@@ -33,6 +33,22 @@ class NoActivePackageError(HTTPException):
         )
 
 
+class NotAllBoxesClosedError(HTTPException):
+    def __init__(self):
+        super().__init__(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail='Не все коробки в заказе закрыты.'
+        )
+
+
+class NotAllOrderPackedError(HTTPException):
+    def __init__(self):
+        super().__init__(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail='Упакован не весь заказ.'
+        )
+
+
 class NoFreePatririonError(HTTPException):
     def __init__(self):
         super().__init__(
