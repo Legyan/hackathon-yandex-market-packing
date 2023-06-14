@@ -9,6 +9,22 @@ class AlreadyHaveOrderError(HTTPException):
         )
 
 
+class AlreadyHaveImeiError(HTTPException):
+    def __init__(self):
+        super().__init__(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail='IMEI для этого товара уже просканирован.'
+        )
+
+
+class AlreadyHaveHonestSignError(HTTPException):
+    def __init__(self):
+        super().__init__(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail='"Честный знак" для этого товара уже просканирован.'
+        )
+
+
 class NoActivePackageError(HTTPException):
     def __init__(self):
         super().__init__(
