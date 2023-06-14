@@ -71,5 +71,4 @@ class CRUDPackage(CRUDBase):
         session.add(package_product)
 
 
-
 package_crud = CRUDPackage(Package)

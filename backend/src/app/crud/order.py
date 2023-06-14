@@ -190,4 +190,5 @@ class CRUDOrder(CRUDBase):
             )
         )).scalars().first()
 
+
 order_crud = CRUDOrder(Order)
