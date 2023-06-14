@@ -81,5 +81,18 @@ class PackageService(BaseService):
         )
         return BaseOutputSchema()
 
+    async def remove_from_package(
+        self,
+        barcodes: list[str],
+        user_id: int,
+        session: AsyncSession
+    ) -> BaseOutputSchema:
+        for barcode in barcodes:
+            await self.crud.delete_package_product(
+                barcode=barcode,
+                session=session
+            )
+        return BaseOutputSchema()
+
 
 package_service = PackageService(package_crud)
