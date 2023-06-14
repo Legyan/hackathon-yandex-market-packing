@@ -77,7 +77,7 @@ class CRUDOrder(CRUDBase):
             )).scalars().first()
             fragility = False
             for cargotype in product.cargotypes:
-                if cargotype.cargotype_tag == '360':
+                if cargotype.cargotype_tag == '310':
                     fragility = True
             product_to_user = ProductToUser(
                 sku=product.sku,
