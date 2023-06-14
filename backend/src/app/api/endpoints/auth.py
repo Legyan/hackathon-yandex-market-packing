@@ -27,7 +27,11 @@ async def register_table(
 ) -> TokenSchema:
     """Регистрация пользоватлея за столом и выдача ему токена."""
     await user_service.chek_user_exist(data.user_id, session)
-    await table_service.set_user_to_table(data.user_id, data.table_id, session)
+    await table_service.set_user_to_table(
+        data.user_id,
+        int(data.table_id),
+        session
+    )
     token_data = {
         "user_id": data.user_id,
         "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=12)
@@ -46,8 +50,8 @@ async def register_printer(
     user_id: str = Depends(get_current_user_id),
     session: AsyncSession = Depends(get_async_session),
 ) -> BaseOutputSchema:
-    """Регистрация пользоватлея за столом и выдача ему токена."""
+    """Регистрация пользователя за столом и выдача ему токена."""
     await printer_service.set_user_to_printer(
-        user_id, printer.printer_id, session
+        user_id, int(printer.printer_id), session
     )
     return BaseOutputSchema()
