@@ -9,11 +9,43 @@ class AlreadyHaveOrderError(HTTPException):
         )
 
 
+class AlreadyHaveImeiError(HTTPException):
+    def __init__(self):
+        super().__init__(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail='IMEI для этого товара уже просканирован.'
+        )
+
+
+class AlreadyHaveHonestSignError(HTTPException):
+    def __init__(self):
+        super().__init__(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail='"Честный знак" для этого товара уже просканирован.'
+        )
+
+
 class NoActivePackageError(HTTPException):
     def __init__(self):
         super().__init__(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail='Нет открытых коробок/пакетов.'
+        )
+
+
+class NotAllBoxesClosedError(HTTPException):
+    def __init__(self):
+        super().__init__(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail='Не все коробки в заказе закрыты.'
+        )
+
+
+class NotAllOrderPackedError(HTTPException):
+    def __init__(self):
+        super().__init__(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail='Упакован не весь заказ.'
         )
 
 

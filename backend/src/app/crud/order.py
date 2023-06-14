@@ -3,12 +3,13 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload
 
 from app.api.exceptions import (AlreadyHaveOrderError, NoProductError,
+                                NotAllBoxesClosedError, NotAllOrderPackedError,
                                 OrderkeyAlreadyExistError, OutOfStockError)
 from app.crud.base import CRUDBase
 from app.models.order import Order, OrderStatusEnum
 from app.models.order_product import OrderProduct
 from app.models.pack_variation import PackingVariation
-from app.models.package import PackageProduct
+from app.models.package import PackageProduct, PackageStatusEnum
 from app.models.product import Product
 from app.schemas.order import (ItemBase, OrderCreateSchema, OrderToUserSchema,
                                PackageSchema, ProductToUser)
@@ -189,6 +190,43 @@ class CRUDOrder(CRUDBase):
                     Order.packer_user_id == user_id)
             )
         )).scalars().first()
+
+    async def check_order_readiness(
+        self,
+        order: Order,
+        pack_variation: PackingVariation,
+        session: AsyncSession
+    ) -> None:
+        orderkey = order.orderkey
+        products = (await session.execute(
+            select(OrderProduct).where(OrderProduct.orderkey == orderkey)
+        )).scalars().all()
+        products_count = 0
+        for product in products:
+            products_count += product.count
+        products_in_cart = 0
+        for package in pack_variation.packages:
+            if package.status != PackageStatusEnum.PACKED:
+                raise NotAllBoxesClosedError()
+            package_products = (
+                await session.execute(
+                    select(PackageProduct)
+                    .where(PackageProduct.package_id == package.id)
+                )
+            ).scalars().all()
+            products_in_cart += len(package_products)
+        if products_count > products_in_cart:
+            raise NotAllOrderPackedError()
+
+    async def finish_order(
+        self,
+        order: Order,
+        session: AsyncSession
+    ) -> None:
+        await session.refresh(order)
+        order.status = OrderStatusEnum.COLLECTED
+        session.add(order)
+        await session.commit()
 
 
 order_crud = CRUDOrder(Order)

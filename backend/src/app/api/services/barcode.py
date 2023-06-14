@@ -2,7 +2,7 @@ from typing import Union
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.api.exceptions import NoActivePackageError
+from app.api.exceptions import NoBarcodeError, NoActivePackageError
 from app.api.services.base import BaseService
 from app.api.services.package import package_service
 from app.crud.barcode import barcode_crud
@@ -11,6 +11,7 @@ from app.crud.package import package_crud
 from app.models.barcode_sku import BarcodeSKU
 from app.models.cartontype import Cartontype
 from app.models.package import Package
+from app.schemas.base import BaseOutputSchema
 from app.schemas.barcode import BarcodeInfoSchema
 
 
@@ -100,6 +101,44 @@ class BarcodeService(BaseService):
             imei=product.need_imei,
             honest_sign=product.need_honest_sign
         )
+
+    async def add_imei(
+        self,
+        barcode: str,
+        imei: str,
+        session: AsyncSession,
+    ) -> BaseOutputSchema:
+        barcode_sku = await self.crud.get_barcode(
+            barcode=barcode,
+            session=session
+        )
+        if not barcode_sku:
+            raise NoBarcodeError()
+        await self.crud.add_imei(
+            barcode=barcode,
+            imei=imei,
+            session=session
+        )
+        return BaseOutputSchema()
+
+    async def add_honest_sign(
+        self,
+        barcode: str,
+        honest_sign: str,
+        session: AsyncSession,
+    ) -> BaseOutputSchema:
+        barcode_sku = await self.crud.get_barcode(
+            barcode=barcode,
+            session=session
+        )
+        if not barcode_sku:
+            raise NoBarcodeError()
+        await self.crud.add_honest_sign(
+            barcode=barcode,
+            honest_sign=honest_sign,
+            session=session
+        )
+        return BaseOutputSchema()
 
 
 barcode_service = BarcodeService(barcode_crud)
