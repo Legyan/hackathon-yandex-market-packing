@@ -37,7 +37,7 @@ async def get_order(
 
 
 @router.get(
-    '/',
+    '/finish',
     response_model_exclude_none=True,
 )
 async def finish_order(

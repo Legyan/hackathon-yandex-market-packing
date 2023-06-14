@@ -64,7 +64,7 @@ class OrderService(BaseService):
         order = await self.crud.get_order_by_user_id(user_id, session)
         pack_variation = (
             await pack_variation_crud.get_active_pack_variation(
-                orderkey=order.rderkey,
+                orderkey=order.orderkey,
                 session=session
             )
         )
