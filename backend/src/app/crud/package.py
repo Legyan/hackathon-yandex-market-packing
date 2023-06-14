@@ -80,5 +80,18 @@ class CRUDPackage(CRUDBase):
         session.add(package)
         await session.commit()
 
+    async def delete_package_product(
+        self,
+        barcode: str,
+        session: AsyncSession
+    ) -> None:
+        package_product = (await session.execute(
+            select(PackageProduct)
+            .where(PackageProduct.barecode_tag == barcode)
+        )).scalars().first()
+        if package_product:
+            await session.delete(package_product)
+            await session.commit()
+
 
 package_crud = CRUDPackage(Package)
