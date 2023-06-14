@@ -33,7 +33,7 @@ class BarcodeService(BaseService):
         active_package = await package_service.get_active_package(
             orderkey=order.orderkey,
             session=session
-            )
+        )
         if isinstance(barcode_obj, Cartontype):
             cartontype_tag = barcode_obj.tag
             if active_package:
@@ -70,15 +70,27 @@ class BarcodeService(BaseService):
     ) -> BarcodeInfoSchema:
         if not active_package:
             raise NoActivePackageError()
+        packing_variation_id = active_package.packing_variation_id
         product = await self.crud.get_product_by_sku(
             barcode.sku,
             session
         )
-        await package_crud.add_package_product(
-            active_package=active_package,
-            barcode=barcode,
-            session=session
-        )
+        nonpack = False
+        for cargotype in product.cargotypes:
+            if cargotype.cargotype_tag in ['340', '360']:
+                await barcode_crud.handle_nonpack_product(
+                    cargotype_tag=cargotype.cargotype_tag,
+                    packing_variation_id=packing_variation_id,
+                    barcode=barcode,
+                    session=session
+                )
+                nonpack = True
+        if not nonpack:
+            await package_crud.add_package_product(
+                active_package=active_package,
+                barcode=barcode,
+                session=session
+            )
         await session.refresh(barcode)
         await session.refresh(product)
         return BarcodeInfoSchema(

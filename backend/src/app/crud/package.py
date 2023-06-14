@@ -53,6 +53,7 @@ class CRUDPackage(CRUDBase):
             barcode: BarcodeSKU,
             session: AsyncSession
     ) -> PackageProduct:
+        await session.refresh(barcode)
         package_product = PackageProduct(
             package_id=active_package.id,
             product_sku=barcode.sku,
@@ -69,6 +70,15 @@ class CRUDPackage(CRUDBase):
     ) -> None:
         package_product.package_id = new_package_id
         session.add(package_product)
+
+    async def close_package(
+        self,
+        package: Package,
+        session: AsyncSession
+    ) -> None:
+        package.status = PackageStatusEnum.PACKED
+        session.add(package)
+        await session.commit()
 
 
 package_crud = CRUDPackage(Package)

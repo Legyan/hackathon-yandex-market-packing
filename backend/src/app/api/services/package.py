@@ -1,10 +1,13 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.api.exceptions import NoActivePackageError
 from app.api.services.base import BaseService
+from app.crud.order import order_crud
 from app.crud.pack_variation import pack_variation_crud
 from app.crud.package import package_crud
 from app.models.order import Order
 from app.models.package import Package, PackageStatusEnum
+from app.schemas.base import BaseOutputSchema
 
 
 class PackageService(BaseService):
@@ -44,10 +47,10 @@ class PackageService(BaseService):
         await session.commit()
 
     async def add_new_package(
-            self,
-            cartontype_tag: str,
-            order: Order,
-            session: AsyncSession
+        self,
+        cartontype_tag: str,
+        order: Order,
+        session: AsyncSession
     ) -> Package:
         pack_variation = await pack_variation_crud.get_active_pack_variation(
             orderkey=order.orderkey,
@@ -59,6 +62,24 @@ class PackageService(BaseService):
             status=PackageStatusEnum.ACTIVE,
             session=session
         )
+
+    async def close_package(
+        self,
+        user_id: int,
+        session: AsyncSession
+    ) -> BaseOutputSchema:
+        order = await order_crud.get_order_by_user_id(user_id, session)
+        active_package = await package_service.get_active_package(
+            orderkey=order.orderkey,
+            session=session
+        )
+        if not active_package:
+            raise NoActivePackageError()
+        await self.crud.close_package(
+            package=active_package,
+            session=session
+        )
+        return BaseOutputSchema()
 
 
 package_service = PackageService(package_crud)

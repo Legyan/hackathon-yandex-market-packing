@@ -1,6 +1,8 @@
 from fastapi import APIRouter
 
-from app.api.endpoints import auth_router, barcode_router, order_router
+from app.api.endpoints import (
+    auth_router, barcode_router, order_router, package_router
+)
 
 main_router = APIRouter(prefix='/api/v1')
 main_router.include_router(
@@ -11,4 +13,7 @@ main_router.include_router(
 )
 main_router.include_router(
     barcode_router, tags=['Barcode']
+)
+main_router.include_router(
+    package_router, tags=['Package']
 )
