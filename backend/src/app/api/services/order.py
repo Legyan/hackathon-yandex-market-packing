@@ -41,17 +41,19 @@ class OrderService(BaseService):
     ) -> OrderToUserSchema:
         # await self.crud.check_user_order(user_id, session)
         order: OrderToUserSchema = await self.crud.get_order_to_user(session)
+        if order.data.orderkey == '':
+            return order
         await self.crud.set_order_packer(
-            orderkey=order.orderkey,
+            orderkey=order.data.orderkey,
             user_id=user_id,
             session=session
         )
-        order.partition = await partition_crud.set_partition_to_order(
-            orderkey=order.orderkey,
+        order.data.partition = await partition_crud.set_partition_to_order(
+            orderkey=order.data.orderkey,
             session=session
         )
         await pack_variation_service.add_active_pack_variation(
-            orderkey=order.orderkey,
+            orderkey=order.data.orderkey,
             session=session
         )
         return order

@@ -52,9 +52,13 @@ class PackageSchema(BaseModel):
     items: list[ItemBase] = []
 
 
-class OrderToUserSchema(BaseModel):
+class OrderDataToUser(BaseModel):
     partition: str = ''
     orderkey: str = ''
     goods: list[ProductToUser] = []
     recomend_packing: list[list[PackageSchema]] = [[]]
+
+
+class OrderToUserSchema(BaseModel):
+    data: OrderDataToUser
     status: str = 'ok'
