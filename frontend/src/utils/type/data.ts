@@ -6,6 +6,7 @@ export interface IRegisterTable {
 }
 
 export interface IResponseTable {
+  success: boolean;
   token: string;
 }
 

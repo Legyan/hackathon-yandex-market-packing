@@ -5,7 +5,7 @@ import ButtonLink from '../ButtonLink/ButtonLink';
 import ButtonForm from '../ButtonForm/ButtonForm';
 import { useHistory } from 'react-router-dom';
 import { userId } from '../../../utils/constants';
-import { registerPrinter, registerTable } from '../../../utils/api';
+import { registerPrinterApi, registerTableApi } from '../../../utils/api';
 import { getCookie, setCookie } from '../../../utils/cookie';
 
 const AuthorizationForm: FC<IAuthorizationForm> = ({label, btnBack, btnForward, linkBack, linkForward}) => {
@@ -27,7 +27,7 @@ const AuthorizationForm: FC<IAuthorizationForm> = ({label, btnBack, btnForward, 
 
     if (history.location.pathname === '/table') {
       try {
-        await registerTable({userId, inputValue})
+        await registerTableApi({userId, inputValue})
           .then((data: any) => {
             setCookie('token', data.token.split('Bearer ')[1]);
             console.log(getCookie("token"));
@@ -42,7 +42,7 @@ const AuthorizationForm: FC<IAuthorizationForm> = ({label, btnBack, btnForward, 
       }
     } else if (history.location.pathname === '/printer') {
       try {
-        await registerPrinter({inputValue})
+        await registerPrinterApi({inputValue})
           .then((data: any) => {
             console.log(data);
           })
