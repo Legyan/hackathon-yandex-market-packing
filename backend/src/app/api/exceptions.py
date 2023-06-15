@@ -17,6 +17,14 @@ class AlreadyHaveImeiError(HTTPException):
         )
 
 
+class AlreadyHavePrinterError(HTTPException):
+    def __init__(self, printer_id):
+        super().__init__(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f'Вами уже зарегистрирован принтер {printer_id}.'
+        )
+
+
 class AlreadyHaveHonestSignError(HTTPException):
     def __init__(self):
         super().__init__(
@@ -129,9 +137,17 @@ class TableIsBusyError(HTTPException):
         )
 
 
+class PrinterIsBusyError(HTTPException):
+    def __init__(self):
+        super().__init__(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail='Принтер уже занят.'
+        )
+
+
 class UserAlreadyHaveTableError(HTTPException):
     def __init__(self, table_id):
         super().__init__(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f'За вами уже зарегистрирован стол {table_id}.'
+            detail=f'Вами уже зарегистрирован стол {table_id}.'
         )
