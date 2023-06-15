@@ -1,9 +1,10 @@
 import { useDispatch as dispatchHook, useSelector as selectorHook, TypedUseSelectorHook } from "react-redux";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { RootState } from "../../services/store";
-import {TActionUser} from '../../services/reducers/userReducer';
+import {TActionsUser} from '../../services/reducers/userReducer';
+import { TActionsOrder } from "../../services/reducers/orderReducer";
 
-export type TApplicationActions = TActionUser;
+export type TApplicationActions = TActionsUser | TActionsOrder;
 
 export type AppDispatch = ThunkDispatch<RootState, never, TApplicationActions>;
 
