@@ -3,12 +3,13 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload
 
 from app.api.exceptions import (AlreadyHaveOrderError, NoProductError,
+                                NotAllBoxesClosedError, NotAllOrderPackedError,
                                 OrderkeyAlreadyExistError, OutOfStockError)
 from app.crud.base import CRUDBase
 from app.models.order import Order, OrderStatusEnum
 from app.models.order_product import OrderProduct
 from app.models.pack_variation import PackingVariation
-from app.models.package import PackageProduct
+from app.models.package import PackageProduct, PackageStatusEnum
 from app.models.product import Product
 from app.schemas.order import (ItemBase, OrderCreateSchema, OrderToUserSchema,
                                PackageSchema, ProductToUser)
@@ -77,7 +78,7 @@ class CRUDOrder(CRUDBase):
             )).scalars().first()
             fragility = False
             for cargotype in product.cargotypes:
-                if cargotype.cargotype_tag == '360':
+                if cargotype.cargotype_tag == '310':
                     fragility = True
             product_to_user = ProductToUser(
                 sku=product.sku,
@@ -97,6 +98,8 @@ class CRUDOrder(CRUDBase):
             .options(joinedload(PackingVariation.packages))
             .where(PackingVariation.orderkey == order.orderkey)
         )).scalars().unique().all()
+        if not packing_variations:
+            return order_to_user
         for packing_variation in packing_variations:
 
             packages = []
@@ -137,14 +140,10 @@ class CRUDOrder(CRUDBase):
         user_id: str,
         session: AsyncSession
     ) -> OrderToUserSchema:
-        order = (await session.execute(
-            select(Order)
-            .where(
-                and_(
-                    Order.status == OrderStatusEnum.COLLECT,
-                    Order.packer_user_id == user_id)
-            )
-        )).scalars().first()
+        order = self.get_order_by_user_id(
+            user_id=user_id,
+            session=session
+        )
         if order:
             raise AlreadyHaveOrderError()
 
@@ -177,6 +176,57 @@ class CRUDOrder(CRUDBase):
         await session.commit()
         await session.refresh(order)
         return order
+
+    async def get_order_by_user_id(
+            self,
+            user_id: str,
+            session: AsyncSession
+    ) -> Order:
+        return (await session.execute(
+            select(Order)
+            .where(
+                and_(
+                    Order.status == OrderStatusEnum.COLLECT,
+                    Order.packer_user_id == user_id)
+            )
+        )).scalars().first()
+
+    async def check_order_readiness(
+        self,
+        order: Order,
+        pack_variation: PackingVariation,
+        session: AsyncSession
+    ) -> None:
+        orderkey = order.orderkey
+        products = (await session.execute(
+            select(OrderProduct).where(OrderProduct.orderkey == orderkey)
+        )).scalars().all()
+        products_count = 0
+        for product in products:
+            products_count += product.count
+        products_in_cart = 0
+        for package in pack_variation.packages:
+            if package.status != PackageStatusEnum.PACKED:
+                raise NotAllBoxesClosedError()
+            package_products = (
+                await session.execute(
+                    select(PackageProduct)
+                    .where(PackageProduct.package_id == package.id)
+                )
+            ).scalars().all()
+            products_in_cart += len(package_products)
+        if products_count > products_in_cart:
+            raise NotAllOrderPackedError()
+
+    async def finish_order(
+        self,
+        order: Order,
+        session: AsyncSession
+    ) -> None:
+        await session.refresh(order)
+        order.status = OrderStatusEnum.COLLECTED
+        session.add(order)
+        await session.commit()
 
 
 order_crud = CRUDOrder(Order)

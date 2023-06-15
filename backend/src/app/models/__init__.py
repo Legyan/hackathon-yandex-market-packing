@@ -1,6 +1,8 @@
 from .barcode_sku import BarcodeSKU  # noqa
 from .cargotype import Cargotype  # noqa
 from .cartontype import Cartontype  # noqa
+from .honest_sign import HonestSign  # noqa
+from .imei import Imei  # noqa
 from .order import Order  # noqa
 from .order_product import OrderProduct  # noqa
 from .pack_variation import PackingVariation  # noqa

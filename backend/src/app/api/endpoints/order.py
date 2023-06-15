@@ -6,6 +6,7 @@ from app.core.db import get_async_session
 from app.core.users import get_current_user_id
 from app.schemas.order import (OrderCreateResponseSchema, OrderCreateSchema,
                                OrderToUserSchema)
+from app.schemas.base import BaseOutputSchema
 
 
 router = APIRouter()
@@ -33,3 +34,15 @@ async def get_order(
 ) -> OrderToUserSchema:
     """Получение заказа пользователем."""
     return await order_service.get_order_to_user(user_id, session)
+
+
+@router.get(
+    '/finish',
+    response_model_exclude_none=True,
+)
+async def finish_order(
+    user_id: str = Depends(get_current_user_id),
+    session: AsyncSession = Depends(get_async_session),
+) -> BaseOutputSchema:
+    """Завершение заказа пользователем."""
+    return await order_service.finish_order(user_id, session)

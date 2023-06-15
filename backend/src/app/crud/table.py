@@ -1,3 +1,4 @@
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api.exceptions import NoTableError
@@ -18,6 +19,15 @@ class CRUDTable(CRUDBase):
         table.user_id = user_id
         session.add(table)
         await session.commit()
+
+    async def get_table_by_user(
+            self,
+            user_id: int,
+            session: AsyncSession
+    ) -> Table:
+        return (await session.execute(
+            select(Table).where(Table.user_id == user_id)
+        )).scalars().first()
 
 
 table_crud = CRUDTable(Table)

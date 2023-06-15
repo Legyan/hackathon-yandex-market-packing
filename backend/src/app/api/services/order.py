@@ -4,7 +4,9 @@ from app.api.services.base import BaseService
 from app.api.services.pack_variation import pack_variation_service
 from app.api.services.request_to_ds import get_package_recommendation
 from app.crud.order import order_crud
+from app.crud.pack_variation import pack_variation_crud
 from app.crud.partitions import partition_crud
+from app.schemas.base import BaseOutputSchema
 from app.schemas.order import (OrderCreateResponseSchema, OrderCreateSchema,
                                OrderToUserSchema)
 
@@ -48,7 +50,31 @@ class OrderService(BaseService):
             orderkey=order.orderkey,
             session=session
         )
+        await pack_variation_service.add_active_pack_variation(
+            orderkey=order.orderkey,
+            session=session
+        )
         return order
+
+    async def finish_order(
+        self,
+        user_id: int,
+        session: AsyncSession
+    ) -> BaseOutputSchema:
+        order = await self.crud.get_order_by_user_id(user_id, session)
+        pack_variation = (
+            await pack_variation_crud.get_active_pack_variation(
+                orderkey=order.orderkey,
+                session=session
+            )
+        )
+        await self.crud.check_order_readiness(
+            order,
+            pack_variation,
+            session
+        )
+        await self.crud.finish_order(order, session)
+        return BaseOutputSchema()
 
 
 order_service = OrderService(order_crud)
