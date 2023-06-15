@@ -49,6 +49,14 @@ class NotAllOrderPackedError(HTTPException):
         )
 
 
+class NotRegiserTableError(HTTPException):
+    def __init__(self):
+        super().__init__(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail='Пользователь не зарегистрировал стол.'
+        )
+
+
 class NoFreePatririonError(HTTPException):
     def __init__(self):
         super().__init__(
@@ -110,4 +118,20 @@ class OutOfStockError(HTTPException):
         super().__init__(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail='Недостаточно единиц товара на складе.'
+        )
+
+
+class TableIsBusyError(HTTPException):
+    def __init__(self):
+        super().__init__(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail='Стол уже занят.'
+        )
+
+
+class UserAlreadyHaveTableError(HTTPException):
+    def __init__(self, table_id):
+        super().__init__(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f'За вами уже зарегистрирован стол {table_id}.'
         )

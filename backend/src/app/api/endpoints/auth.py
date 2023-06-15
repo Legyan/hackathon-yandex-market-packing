@@ -11,8 +11,7 @@ from app.core.config import settings
 from app.core.db import get_async_session
 from app.core.users import get_current_user_id
 from app.schemas.auth import RegisterTableSchema, TokenSchema
-from app.schemas.base import BaseOutputSchema
-from app.schemas.printer import PrinterSchema
+from app.schemas.printer import AuthOutputSchema, PrinterSchema
 
 router = APIRouter()
 
@@ -26,7 +25,12 @@ async def register_table(
     session: AsyncSession = Depends(get_async_session),
 ) -> TokenSchema:
     """Регистрация пользоватлея за столом и выдача ему токена."""
-    await user_service.chek_user_exist(data.user_id, session)
+    await user_service.check_user_exist(data.user_id, session)
+    await user_service.check_table_user(
+        user_id=data.user_id,
+        table_id=int(data.table_id),
+        session=session
+    )
     await table_service.set_user_to_table(
         data.user_id,
         int(data.table_id),
@@ -38,7 +42,7 @@ async def register_table(
     }
 
     token = jwt.encode(token_data, settings.secret_key, algorithm="HS256")
-    return TokenSchema(token=token)
+    return TokenSchema(token='Bearer '+token)
 
 
 @router.post(
@@ -49,9 +53,8 @@ async def register_printer(
     printer: PrinterSchema,
     user_id: str = Depends(get_current_user_id),
     session: AsyncSession = Depends(get_async_session),
-) -> BaseOutputSchema:
+) -> AuthOutputSchema:
     """Регистрация пользователя за столом и выдача ему токена."""
-    await printer_service.set_user_to_printer(
+    return await printer_service.set_user_to_printer(
         user_id, int(printer.printer_id), session
     )
-    return BaseOutputSchema()

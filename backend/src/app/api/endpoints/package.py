@@ -33,7 +33,7 @@ async def remove_from_package(
     user_id: str = Depends(get_current_user_id),
     session: AsyncSession = Depends(get_async_session),
 ) -> BaseOutputSchema:
-    """Закрытие коробки/пакета пользователем."""
+    """Удаление товаров из коробки."""
     return await package_service.remove_from_package(
         barcodes.barcodes, user_id, session
     )
