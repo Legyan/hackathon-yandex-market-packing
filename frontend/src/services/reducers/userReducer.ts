@@ -12,7 +12,8 @@ const initialState = {
   success: false,
   error: '',
   user: {
-    user_id: '',
+    user_name: 'Алексей_Шайдуллин',
+    user_id: 1,
     table_id: '',
     printer_id: '',
   },
@@ -54,7 +55,7 @@ export interface IRegistrationPrinterError {
   error?: string;
 }
 
-export type TActionUser =
+export type TActionsUser =
   IRegistrationTableRequest
   | IRegistrationTableSuccess
   | IRegistrationTableError
@@ -63,7 +64,7 @@ export type TActionUser =
   | IRegistrationPrinterError
 
 
-export const userReducer = (state: IState = initialState, action: TActionUser): IState => {
+export const userReducer = (state: IState = initialState, action: TActionsUser): IState => {
   switch(action.type) {
     case REGISTRATION_TABLE_REQUEST:
       return {

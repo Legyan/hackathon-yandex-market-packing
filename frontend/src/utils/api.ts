@@ -46,6 +46,6 @@ export async function registerPrinterApi({inputValue}: IRegisterPrinter) {
   });
 }
 
-export async function getOrder() {
+export async function getOrderApi() {
   return await request<IDataValues<IOrder>>(apiUrl + 'order/');
 }

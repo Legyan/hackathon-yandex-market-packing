@@ -29,6 +29,7 @@ export interface IGoodsProps {
 }
 
 export interface IButton extends ButtonHTMLAttributes<HTMLButtonElement> {
+  purpose: string;
   text: string;
 }
 
@@ -46,7 +47,8 @@ export interface IButtonLink extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export interface IUser {
-  user_id: string;
+  user_name: string;
+  user_id: number;
   table_id: string;
   printer_id: string;
 }

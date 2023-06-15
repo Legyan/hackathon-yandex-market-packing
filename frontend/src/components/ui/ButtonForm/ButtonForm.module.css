@@ -22,11 +22,33 @@
   line-height: 26px;
 }
 
+.btnProportionsMain {
+  max-width: 296px;
+  width: 100%;
+  height: 324px;
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 60px;
+}
+
+/* Кнопка на экранах Auth */
+
 .btnForward{
   background: var(--Yandex-amber-12);
   color: var(--Yandex-black);
 }
 
 .btnForward:hover {
+  background: var(--Yandex-amber-13);
+}
+
+/* Кнопка Получить заказ на главном экране */
+
+.btnPackage {
+  height: 662px;
+  background: var(--Yandex-amber-12);
+}
+
+.btnPackage:hover {
   background: var(--Yandex-amber-13);
 }

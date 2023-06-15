@@ -20,12 +20,12 @@ export function registerTable({userId, inputValue}: IRegisterTable) {
       type: REGISTRATION_TABLE_REQUEST
     });
     registerTableApi({userId, inputValue})
-          .then((res) => {
+          .then(res => {
             if (res && res.success) {
               setCookie('token', res.token.split('Bearer ')[1]);
               dispatch({
                 type: REGISTRATION_TABLE_SUCCESS,
-                token: res.token
+                token: res.token.split('Bearer ')[1]
               });
             } else {
               dispatch({
@@ -48,7 +48,7 @@ export function registerPrinter({inputValue}: IRegisterPrinter) {
       type: REGISTRATION_PRINTER_REQUEST
     });
     registerPrinterApi({inputValue})
-          .then((res) => {
+          .then(res => {
             if (res && res.success) {
               dispatch({
                 type: REGISTRATION_PRINTER_SUCCESS,

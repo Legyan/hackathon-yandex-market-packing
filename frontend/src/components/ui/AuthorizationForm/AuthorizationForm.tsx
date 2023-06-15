@@ -1,18 +1,20 @@
-import { ChangeEvent, FC, SyntheticEvent, useState } from 'react';
+import { ChangeEvent, FC, SyntheticEvent, useState, useCallback } from 'react';
 import style from './AuthorizationForm.module.css';
 import { IAuthorizationForm } from '../../../utils/type/main';
 import ButtonLink from '../ButtonLink/ButtonLink';
 import ButtonForm from '../ButtonForm/ButtonForm';
 import { useHistory } from 'react-router-dom';
 import { userId } from '../../../utils/constants';
-import { registerPrinterApi, registerTableApi } from '../../../utils/api';
-import { getCookie, setCookie } from '../../../utils/cookie';
+import { useDispatch } from '../../../utils/type/redux';
+import { registerPrinter, registerTable } from '../../../services/actions/userActions';
+import { getCookie } from '../../../utils/cookie';
 
 const AuthorizationForm: FC<IAuthorizationForm> = ({label, btnBack, btnForward, linkBack, linkForward}) => {
   const history = useHistory();
   const [inputValue, setInputValue] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>('');
+  const dispatch = useDispatch();
 
   console.log(inputValue);
   console.log(history.location.pathname);
@@ -21,37 +23,29 @@ const AuthorizationForm: FC<IAuthorizationForm> = ({label, btnBack, btnForward, 
     setInputValue(e.target.value.replace(/\D/,''));
   }
 
-  const Auth = async (e: SyntheticEvent) => {
+  const Auth = useCallback((e: SyntheticEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     if (history.location.pathname === '/table') {
-      try {
-        await registerTableApi({userId, inputValue})
-          .then((data: any) => {
-            setCookie('token', data.token.split('Bearer ')[1]);
-            console.log(getCookie("token"));
-            history.replace({ pathname: '/printer' });
-            setIsLoading(false);
-            setErrorMsg('');
-            setInputValue('');
-          })
-      } catch(error) {
-        setErrorMsg('Упс! Что-то пошло не так')
-        console.log(error)
-      }
+      dispatch(
+        registerTable({userId, inputValue})
+      );
+      console.log(getCookie("token"));
+      history.replace({ pathname: linkForward });
+      setIsLoading(false);
+      setErrorMsg('');
+      setInputValue('');
     } else if (history.location.pathname === '/printer') {
-      try {
-        await registerPrinterApi({inputValue})
-          .then((data: any) => {
-            console.log(data);
-          })
-      } catch(error) {
-        setErrorMsg('Упс! Что-то пошло не так')
-        console.log(error)
-      }
+      dispatch(
+        registerPrinter({inputValue})
+      );
+      history.replace({ pathname: linkForward });
+      setIsLoading(false);
+      setErrorMsg('');
+      setInputValue('');
     }
-  }
+  }, [dispatch, history, inputValue, linkForward])
 
 
   return (
@@ -78,7 +72,7 @@ const AuthorizationForm: FC<IAuthorizationForm> = ({label, btnBack, btnForward, 
       )}
       <div className={style.btns}>
         <ButtonLink purpose={'authBack'} title={btnBack} link={linkBack} />
-        <ButtonForm text={btnForward} />
+        <ButtonForm purpose={'authForward'} text={btnForward} />
       </div>
     </form>
   )
