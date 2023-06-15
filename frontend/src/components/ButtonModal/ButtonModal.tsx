@@ -4,7 +4,7 @@ import style from './ButtonModal.module.css';
 interface ButtonModalProps extends PropsWithChildren {
   title: string;
   onClick: () => void;
-  isOpen: boolean;
+  isOpen?: boolean;
 }
 
 const ButtonModal: FC<ButtonModalProps> = ({...props}) => {
