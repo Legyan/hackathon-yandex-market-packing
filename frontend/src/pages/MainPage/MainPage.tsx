@@ -6,8 +6,16 @@ import box from '../../images/icon_stat_box.svg';
 import speed from '../../images/icon_speedstat.svg';
 import cup from '../../images/icon_cup.svg';
 import ButtonLink from '../../components/ui/ButtonLink/ButtonLink';
+import { useSelector } from '../../utils/type/redux';
+import ButtonForm from '../../components/ui/ButtonForm/ButtonForm';
+import { getCookie } from '../../utils/cookie';
 
 const MainPage: FC = () => {
+  const user = useSelector(store => store.userInfo);
+
+  console.log(user);
+
+
   return (
     <>
       <section className={style.wrapper}>
@@ -46,11 +54,7 @@ const MainPage: FC = () => {
             </li>
           </ul>
         </div>
-        <ButtonLink
-            purpose={'package'}
-            title={'Получить заказ'}
-            link={'/order'}
-          />
+        <ButtonForm purpose={'package'} text={'Получить заказ'} />
       </section>
       <Footer />
     </>

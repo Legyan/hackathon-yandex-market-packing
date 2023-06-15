@@ -1,9 +1,9 @@
 import { FC } from 'react';
 import style from './Goods.module.css';
-import { IGoods } from '../../utils/type/main';
+import { IGoodsProps } from '../../utils/type/main';
 import barcodeBlack from '../../images/icon_barcode-black.svg';
 
-const Goods: FC<IGoods> = ({ img, title, clue, percentage, sku, sign }) => {
+const Goods: FC<IGoodsProps> = ({ img, title, clue, percentage, sku, sign }) => {
   return (
     <>
       <li className={style.li}>

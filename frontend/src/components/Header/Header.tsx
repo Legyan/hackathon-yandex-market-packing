@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { useSelector } from '../../utils/type/redux';
 import style from './Header.module.css';
 import burger from '../../images/burger_menu.svg';
 import logoYandex from '../../images/logo_yandex.svg';
@@ -7,6 +8,8 @@ import rocket from '../../images/icon_rocket.svg';
 import actionMenu from '../../images/icon_action-menu.svg';
 
 const Header: FC = () => {
+  const user = useSelector(store => store.userInfo.user);
+
   return (
     <header className={style.header}>
       <div className={style.wrapper}>
@@ -25,7 +28,7 @@ const Header: FC = () => {
       </div>
       <div className={style.wrapperStat}>
         <div className={style.statistics}>
-          <span className={style.nickname}>sof-natgemokee</span>
+          <span className={style.nickname}>{user.user_name}</span>
           <div className={style.buttons}>
             <button className={style.btnKpi}>KPI</button>
             <button className={style.btnStat}>
