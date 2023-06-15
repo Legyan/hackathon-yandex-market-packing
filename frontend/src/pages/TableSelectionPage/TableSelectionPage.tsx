@@ -5,12 +5,13 @@ import AuthorizationForm from '../../components/ui/AuthorizationForm/Authorizati
 import Footer from '../../components/Footer/Footer';
 
 const TableSelectionPage: FC = () => {
+
   return (
     <>
       <section className={style.wrapper}>
         <Progressbar />
         <AuthorizationForm
-          label={'Отсканируйте штрихкод стола или выберете из списка'}
+          label={'Отсканируйте штрихкод стола или введите вручную'}
           btnBack={'Назад'}
           btnForward={'Далее'}
           linkBack={'/table'}

@@ -11,8 +11,8 @@ from app.models.order_product import OrderProduct
 from app.models.pack_variation import PackingVariation
 from app.models.package import PackageProduct, PackageStatusEnum
 from app.models.product import Product
-from app.schemas.order import (ItemBase, OrderCreateSchema, OrderToUserSchema,
-                               PackageSchema, ProductToUser)
+from app.schemas.order import (ItemBase, OrderCreateSchema, OrderDataToUser,
+                               OrderToUserSchema, PackageSchema, ProductToUser)
 
 
 class CRUDOrder(CRUDBase):
@@ -63,9 +63,10 @@ class CRUDOrder(CRUDBase):
         )).scalars().first()
         if not order:
             return OrderToUserSchema(
+                data=OrderDataToUser(),
                 status='No orders to pack'
                 )
-        order_to_user = OrderToUserSchema(
+        order_data = OrderDataToUser(
             orderkey=order.orderkey
         )
 
@@ -90,7 +91,7 @@ class CRUDOrder(CRUDBase):
                 fragility=fragility
             )
             goods.append(product_to_user)
-        order_to_user.goods = goods
+        order_data.goods = goods
 
         recomend_packing = []
         packing_variations = (await session.execute(
@@ -99,7 +100,9 @@ class CRUDOrder(CRUDBase):
             .where(PackingVariation.orderkey == order.orderkey)
         )).scalars().unique().all()
         if not packing_variations:
-            return order_to_user
+            return OrderToUserSchema(
+                data=order_data
+            )
         for packing_variation in packing_variations:
 
             packages = []
@@ -126,14 +129,16 @@ class CRUDOrder(CRUDBase):
                 package_to_user.items = items
                 packages.append(package_to_user)
             recomend_packing.append(packages)
-        order_to_user.recomend_packing = recomend_packing
+        order_data.recomend_packing = recomend_packing
 
         await self.set_order_status(
             orderkey=order.orderkey,
             status=OrderStatusEnum.COLLECT,
             session=session
         )
-        return order_to_user
+        return OrderToUserSchema(
+            data=order_data
+        )
 
     async def check_user_order(
         self,

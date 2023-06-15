@@ -19,7 +19,7 @@ export interface IHint {
   title: string;
 }
 
-export interface IGoods {
+export interface IGoodsProps {
   img: string;
   title: string;
   clue?: string;
@@ -28,6 +28,10 @@ export interface IGoods {
   sign?: string;
 }
 
+export interface IButton extends ButtonHTMLAttributes<HTMLButtonElement> {
+  purpose: string;
+  text: string;
+}
 
 export interface IButtonMenu extends ButtonHTMLAttributes<HTMLButtonElement> {
   icon?: string;
@@ -40,4 +44,31 @@ export interface IButtonLink extends ButtonHTMLAttributes<HTMLButtonElement> {
   purpose: string;
   title: string;
   link: string;
+}
+
+export interface IUser {
+  user_name: string;
+  user_id: number;
+  table_id: string;
+  printer_id: string;
+}
+
+export interface IGoods {
+  sku: string;
+  title: string;
+  description: string;
+  image: string;
+  imei: boolean;
+  honest_sign: boolean;
+  fragility: boolean;
+}
+
+export interface IItems {
+  sku: string;
+  count: number;
+}
+
+export interface IRecPacking {
+  cartontype: string;
+  items: Array<IItems>;
 }
