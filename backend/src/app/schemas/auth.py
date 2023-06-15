@@ -8,3 +8,4 @@ class RegisterTableSchema(BaseModel):
 
 class TokenSchema(BaseModel):
     token: str
+    success: bool = True
