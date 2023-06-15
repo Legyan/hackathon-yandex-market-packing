@@ -6,6 +6,7 @@
 body {
   max-width: 1920px;
   width: 100%;
+  margin: 0 auto;
   position: relative;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
@@ -13,6 +14,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  background: var(--Blue-grey-1);
+  background: var(--Yandex-white-grey-1);
   color: var(--Yandex-black);
 }

@@ -18,5 +18,15 @@ class PackingVariationService(BaseService):
             session=session
         )
 
+    async def add_active_pack_variation(
+            self,
+            orderkey: str,
+            session: AsyncSession
+    ) -> None:
+        await self.crud.add_active_pack_variation(
+            orderkey=orderkey,
+            session=session
+        )
+
 
 pack_variation_service = PackingVariationService(pack_variation_crud)

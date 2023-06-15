@@ -1,6 +1,6 @@
 from enum import Enum as PyEnum
 
-from sqlalchemy import Enum, Column, ForeignKey, String
+from sqlalchemy import Column, Enum, ForeignKey, String
 from sqlalchemy.orm import relationship
 
 from app.core.db import Base
@@ -26,3 +26,5 @@ class BarcodeSKU(Base):
     order = relationship('Order', back_populates='barcodes')
     package = relationship('PackageProduct', back_populates='barcode')
     product = relationship('Product', back_populates='barcodes')
+    imei = relationship('Imei')
+    honest_sign = relationship('HonestSign')

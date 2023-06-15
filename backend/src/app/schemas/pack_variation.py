@@ -11,8 +11,5 @@ class PackageSchema(BaseModel):
 
 class PackingVariationsSchema(BaseModel):
     orderkey: str
-    package: list[PackageSchema]
+    recommendations: list[list[PackageSchema]]
     status: str
-
-    class Config:
-        extra = Extra.forbid

@@ -1,4 +1,5 @@
 .wrapper {
+  height: 78vh;
   margin: 58px 24px 0;
   display: flex;
   justify-content: space-between;

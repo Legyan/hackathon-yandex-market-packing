@@ -2,7 +2,7 @@ import asyncio
 import contextlib
 import csv
 
-from sqlalchemy.exc import IntegrityError, SQLAlchemyError
+from sqlalchemy.exc import IntegrityError
 
 from app.core.db import get_async_session
 from app.crud.barcode import barcode_crud
@@ -157,8 +157,7 @@ async def fill_db():
         await add_cargotypes()
         await add_cartontypes()
     except IntegrityError:
-        print('The database is already full')
-    except SQLAlchemyError as e:
-        print(e)
+        print('The database is already full.')
+
 
 asyncio.run(fill_db())

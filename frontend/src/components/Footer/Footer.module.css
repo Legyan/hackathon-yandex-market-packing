@@ -6,6 +6,8 @@
   align-items: center;
   position: fixed;
   bottom: 0;
+  left: 0;
+  background: #FFFFFF;
   box-shadow: 0px 5px 46px rgba(0, 0, 0, 0.12), 0px 7px 15px rgba(0, 0, 0, 0.12);
 }
 
