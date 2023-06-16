@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { useSelector } from '../../utils/type/redux';
+import { useSelector } from '../../utils/type/store';
 import style from './Header.module.css';
 import burger from '../../images/burger_menu.svg';
 import logoYandex from '../../images/logo_yandex.svg';

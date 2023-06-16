@@ -12,7 +12,7 @@ const ButtonLink: FC<IButtonLink> = ({ purpose, title, link }) => {
           purpose === 'order' ? `${style.btn} ${style.btnProportionsOrder} ${style.btnOrder}` :
           purpose === 'anotherProblem' ? `${style.btn} ${style.btnProportionsOrder} ${style.btnProblem}` :
           purpose === 'problem' ? `${style.btn} ${style.btnProportionsMain} ${style.btnProblem}` :
-          purpose === 'logout' ? `${style.btn} ${style.btnProportionsMain} ${style.btnLogout}` :
+          // purpose === 'logout' ? `${style.btn} ${style.btnProportionsMain} ${style.btnLogout}` :
           ''
         }
         to={link}>

@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { useHistory } from 'react-router-dom';
 import style from './MainPage.module.css'
 import Progressbar from '../../components/Progressbar/Progressbar';
 import Footer from '../../components/Footer/Footer';
@@ -6,14 +7,22 @@ import box from '../../images/icon_stat_box.svg';
 import speed from '../../images/icon_speedstat.svg';
 import cup from '../../images/icon_cup.svg';
 import ButtonLink from '../../components/ui/ButtonLink/ButtonLink';
-import { useSelector } from '../../utils/type/redux';
+import { useSelector } from '../../utils/type/store';
 import ButtonForm from '../../components/ui/ButtonForm/ButtonForm';
-import { getCookie } from '../../utils/cookie';
+import { getCookie, setCookie } from '../../utils/cookie';
+
 
 const MainPage: FC = () => {
+  const history = useHistory();
   const user = useSelector(store => store.userInfo);
 
   console.log(user);
+  console.log(getCookie("token"));
+
+  const logout = () => {
+    setCookie('token', '');
+    history.replace({ pathname: '/table' });
+  }
 
 
   return (
@@ -25,10 +34,10 @@ const MainPage: FC = () => {
             title={'Есть проблема'}
             link={'/problems'}
           />
-          <ButtonLink
+          <ButtonForm
             purpose={'logout'}
             title={'Закрыть стол'}
-            link={'/table'}
+            onClick={logout}
           />
         </div>
         <div className={style.statWrapper}>
@@ -54,7 +63,7 @@ const MainPage: FC = () => {
             </li>
           </ul>
         </div>
-        <ButtonForm purpose={'package'} text={'Получить заказ'} />
+        <ButtonForm purpose={'package'} title={'Получить заказ'} />
       </section>
       <Footer />
     </>
