@@ -38,9 +38,7 @@ export interface IButton extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export interface IButtonMenu extends ButtonHTMLAttributes<HTMLButtonElement> {
-  icon?: string;
-  description: string;
-  count?: string;
+  data: Array<IRecPacking>;
   activeButton: string;
 }
 
@@ -82,6 +80,13 @@ export interface IItems {
 
 export interface IRecPacking {
   cartontype: string;
+  icontype: string;
+  items: Array<IItems>;
+}
+
+export interface IAlreadyPacked {
+  cartontype: string;
+  is_packed: boolean;
   items: Array<IItems>;
 }
 
@@ -90,4 +95,8 @@ export interface IProtectedRoute {
   rest?: HTMLProps<RouteComponentProps>;
   path?: string;
   exact?: boolean;
+}
+
+export interface IMenu {
+  recommend: Array<Array<IRecPacking>>;
 }

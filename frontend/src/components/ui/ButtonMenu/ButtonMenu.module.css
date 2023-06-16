@@ -7,7 +7,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 30px;
+  gap: 43px;
   transition: background .2s linear;
   cursor: pointer;
 }
@@ -37,7 +37,13 @@
 
 .package {
   display: flex;
+  justify-content: center;
+  align-items: center;
   gap: 37px;
+}
+
+.packageBig {
+  gap: 12px;
 }
 
 .img {
@@ -46,6 +52,7 @@
 }
 
 .description {
+  margin: 0;
   font-family: 'Yandex Sans Display';
   font-style: normal;
   font-weight: 700;
@@ -56,30 +63,29 @@
 
 .countWrapper {
   width: 79px;
-  height: 48px;
-  padding: 14px 16px 14px 20px;
-  background: #FFECCC;
-  border-radius: 100px;
+  height: 120px;
+  padding-left: 20px;
+  border-left: 4px solid #FED42B;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: background .2s linear;
 }
 
-.notSelection:hover .countWrapper {
+/* .notSelection:hover .countWrapper {
   background: #FFF;
-}
+} */
 
 .count {
   text-align: center;
   font-family: 'Yandex Sans Display';
   font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
+  font-weight: 700;
+  font-size: 24px;
   line-height: 23px;
   color: #000000;
 }
 
 .invisibleCount {
-  background: #DEDEDE;
+  border-left: 4px solid #DEDEDE;
 }

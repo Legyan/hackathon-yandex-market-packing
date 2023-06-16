@@ -1,3 +1,10 @@
+.threeCircles {
+  height: 78vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .wrapper {
   height: 78vh;
   margin: 36px 24px 0;

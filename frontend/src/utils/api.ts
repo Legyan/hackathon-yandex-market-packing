@@ -47,5 +47,11 @@ export async function registerPrinterApi({inputValue}: IRegisterPrinter) {
 }
 
 export async function getOrderApi() {
-  return await request<IDataValues<IOrder>>(apiUrl + 'order/');
+  return await request<IDataValues<IOrder>>(apiUrl + 'order', {
+    method: 'GET',
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + getCookie("token")
+    }
+  });
 }

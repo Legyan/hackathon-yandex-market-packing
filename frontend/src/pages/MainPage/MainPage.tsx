@@ -6,7 +6,6 @@ import Footer from '../../components/Footer/Footer';
 import box from '../../images/icon_stat_box.svg';
 import speed from '../../images/icon_speedstat.svg';
 import cup from '../../images/icon_cup.svg';
-import ButtonLink from '../../components/ui/ButtonLink/ButtonLink';
 import { useSelector } from '../../utils/type/store';
 import ButtonForm from '../../components/ui/ButtonForm/ButtonForm';
 import { getCookie, setCookie } from '../../utils/cookie';

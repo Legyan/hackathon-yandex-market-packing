@@ -1,4 +1,4 @@
-import { IGoods, IRecPacking, IUser } from "./main";
+import { IAlreadyPacked, IGoods, IRecPacking, IUser } from "./main";
 
 export interface IRegisterTable {
   userId: number;
@@ -20,7 +20,8 @@ export interface IResponsePrinter {
 }
 
 export interface IDataValues<T> {
-  success: boolean;
+  success?: boolean;
+  status?: '';
   data: T;
 }
 
@@ -28,5 +29,6 @@ export interface IOrder {
   partition: string;
   orderkey: string;
   goods: Array<IGoods>
-  recomend_packing: Array<IRecPacking>
+  recomend_packing: Array<Array<IRecPacking>>
+  already_packed: Array<Array<IAlreadyPacked>>;
 }
