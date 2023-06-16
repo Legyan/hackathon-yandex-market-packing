@@ -1,7 +1,9 @@
 import {
   ButtonHTMLAttributes,
-  PropsWithChildren
-} from "react";
+  PropsWithChildren,
+  HTMLProps,
+} from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 
 export interface IAuthorizationForm {
   label: string;
@@ -20,7 +22,7 @@ export interface IHint {
   title: string;
 }
 
-export interface IGoods {
+export interface IGoodsProps {
   img: string;
   title: string;
   clue?: string;
@@ -29,6 +31,11 @@ export interface IGoods {
   sign?: string;
 }
 
+export interface IButton extends ButtonHTMLAttributes<HTMLButtonElement> {
+  purpose: string;
+  title: string;
+  onClick?: () => void;
+}
 
 export interface IButtonMenu extends ButtonHTMLAttributes<HTMLButtonElement> {
   icon?: string;
@@ -50,4 +57,37 @@ export interface IModalOverlay {
  export interface IModalWindow extends PropsWithChildren {
   visible: boolean;
   onClose: () => void;
+}
+export interface IUser {
+  user_name: string;
+  user_id: number;
+  table_id: string;
+  printer_id: string;
+}
+
+export interface IGoods {
+  sku: string;
+  title: string;
+  description: string;
+  image: string;
+  imei: boolean;
+  honest_sign: boolean;
+  fragility: boolean;
+}
+
+export interface IItems {
+  sku: string;
+  count: number;
+}
+
+export interface IRecPacking {
+  cartontype: string;
+  items: Array<IItems>;
+}
+
+export interface IProtectedRoute {
+  children: string | JSX.Element | JSX.Element[];
+  rest?: HTMLProps<RouteComponentProps>;
+  path?: string;
+  exact?: boolean;
 }
