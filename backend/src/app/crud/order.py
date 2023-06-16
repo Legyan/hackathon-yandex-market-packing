@@ -1,10 +1,12 @@
-from sqlalchemy import and_, select
+from sqlalchemy import and_, select, true
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload
 
 from app.api.exceptions import (AlreadyHaveOrderError, NoProductError,
                                 NotAllBoxesClosedError, NotAllOrderPackedError,
                                 OrderkeyAlreadyExistError, OutOfStockError)
+from app.core.constants import (FRAGILITY_CARGOTYPES, NONPACK_CARGOTYPES,
+                                PACKET_CARGOTYPES)
 from app.crud.base import CRUDBase
 from app.crud.partitions import partition_crud
 from app.models.order import Order, OrderStatusEnum
@@ -80,7 +82,7 @@ class CRUDOrder(CRUDBase):
             )).scalars().first()
             fragility = False
             for cargotype in product.cargotypes:
-                if cargotype.cargotype_tag == '310':
+                if cargotype.cargotype_tag in FRAGILITY_CARGOTYPES:
                     fragility = True
             product_to_user = ProductToUser(
                 sku=product.sku,
@@ -89,7 +91,8 @@ class CRUDOrder(CRUDBase):
                 image=product.image,
                 imei=product.need_imei,
                 honest_sign=product.need_honest_sign,
-                fragility=fragility
+                fragility=fragility,
+                count=order_product.count
             )
             goods.append(product_to_user)
         order_data.goods = goods
@@ -98,7 +101,12 @@ class CRUDOrder(CRUDBase):
         packing_variations = (await session.execute(
             select(PackingVariation)
             .options(joinedload(PackingVariation.packages))
-            .where(PackingVariation.orderkey == order.orderkey)
+            .where(
+                and_(
+                    PackingVariation.orderkey == order.orderkey,
+                    PackingVariation.is_recommendation.is_(true())
+                )
+            )
         )).scalars().unique().all()
         if not packing_variations:
             return OrderToUserSchema(
@@ -112,6 +120,9 @@ class CRUDOrder(CRUDBase):
                 items_dict = {}
                 package_to_user = PackageSchema(
                     cartontype=package.cartontype_tag
+                )
+                package_to_user.icontype = await self.get_icontype(
+                    package.cartontype_tag
                 )
                 package_products = (await session.execute(
                     select(PackageProduct)
@@ -240,6 +251,17 @@ class CRUDOrder(CRUDBase):
         session.add(partition)
         session.add(order)
         await session.commit()
+
+    async def get_icontype(
+        self,
+        cargotype_tag: str
+    ):
+        if cargotype_tag in NONPACK_CARGOTYPES:
+            return cargotype_tag
+        elif cargotype_tag in PACKET_CARGOTYPES:
+            return 'packet'
+        else:
+            return 'box'
 
 
 order_crud = CRUDOrder(Order)

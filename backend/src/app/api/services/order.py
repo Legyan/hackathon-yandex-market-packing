@@ -39,10 +39,10 @@ class OrderService(BaseService):
         user_id: int,
         session: AsyncSession,
     ) -> OrderToUserSchema:
-        # await self.crud.check_user_order(user_id, session)
         order: OrderToUserSchema = await self.crud.get_order_to_user(session)
         if order.data.orderkey == '':
             return order
+        await self.crud.check_user_order(user_id, session)
         await self.crud.set_order_packer(
             orderkey=order.data.orderkey,
             user_id=user_id,
