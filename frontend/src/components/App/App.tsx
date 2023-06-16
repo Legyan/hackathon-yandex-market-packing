@@ -10,6 +10,7 @@ import AnotherProblemsPage from '../../pages/AnotherProblemsPage/AnotherProblems
 import DefectiveGoods from '../../pages/DefectiveGoods/DefectiveGoods';
 import Header from '../Header/Header';
 import { ProtectedRoute } from '../ProtectedRoute/ProtectedRoute';
+import PageScanDeffectiveGoods from '../../pages/PageScanDeffectiveGoods/PageScanDeffectiveGoods';
 
 const App: FC = () => {
   return (
@@ -39,6 +40,9 @@ const App: FC = () => {
         </ProtectedRoute>
         <ProtectedRoute path='/defective' exact>
           <DefectiveGoods />
+        </ProtectedRoute>
+        <ProtectedRoute path='/ScanDeffectiveGoods' exact>
+          <PageScanDeffectiveGoods />
         </ProtectedRoute>
       </Switch>
     </>
