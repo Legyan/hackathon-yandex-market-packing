@@ -1,3 +1,5 @@
+from typing import Optional
+
 from pydantic import BaseModel
 
 
@@ -9,3 +11,10 @@ class UserAuthPrinterSchema(BaseModel):
     user_id: int
     table_id: str
     printer_id: str
+
+
+class UserInfoSchema(BaseModel):
+    username: str
+    user_id: int
+    table_id: Optional[int] = None
+    printer_id: Optional[int] = None
