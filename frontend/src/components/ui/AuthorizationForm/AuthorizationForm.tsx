@@ -5,7 +5,7 @@ import ButtonLink from '../ButtonLink/ButtonLink';
 import ButtonForm from '../ButtonForm/ButtonForm';
 import { useHistory } from 'react-router-dom';
 import { userId } from '../../../utils/constants';
-import { useDispatch } from '../../../utils/type/redux';
+import { useDispatch } from '../../../utils/type/store';
 import { registerPrinter, registerTable } from '../../../services/actions/userActions';
 import { getCookie } from '../../../utils/cookie';
 
@@ -72,7 +72,7 @@ const AuthorizationForm: FC<IAuthorizationForm> = ({label, btnBack, btnForward, 
       )}
       <div className={style.btns}>
         <ButtonLink purpose={'authBack'} title={btnBack} link={linkBack} />
-        <ButtonForm purpose={'authForward'} text={btnForward} />
+        <ButtonForm purpose={'authForward'} title={btnForward} />
       </div>
     </form>
   )

@@ -9,36 +9,37 @@ import ProblemsPage from '../../pages/ProblemsPage/ProblemsPage';
 import AnotherProblemsPage from '../../pages/AnotherProblemsPage/AnotherProblemsPage';
 import DefectiveGoods from '../../pages/DefectiveGoods/DefectiveGoods';
 import Header from '../Header/Header';
+import { ProtectedRoute } from '../ProtectedRoute/ProtectedRoute';
 
 const App: FC = () => {
   return (
     <>
       <Header />
       <Switch>
-        <Route path='/' exact>
+        <ProtectedRoute path='/' exact>
           <MainPage />
-        </Route>
+        </ProtectedRoute>
         <Route path='/table' exact>
           <TableSelectionPage />
         </Route>
         <Route path='/printer' exact>
           <PrinterSelectionPage />
         </Route>
-        <Route path='/order' exact>
+        <ProtectedRoute path='/order' exact>
           <OrderPage />
-        </Route>
-        <Route path='/order/completed' exact>
+        </ProtectedRoute>
+        <ProtectedRoute path='/order/completed' exact>
           <OrderCompletedPage />
-        </Route>
-        <Route path='/problems' exact>
+        </ProtectedRoute>
+        <ProtectedRoute path='/problems' exact>
           <ProblemsPage />
-        </Route>
-        <Route path='/problems/another' exact>
+        </ProtectedRoute>
+        <ProtectedRoute path='/problems/another' exact>
           <AnotherProblemsPage />
-        </Route>
-        <Route path='/defective' exact>
+        </ProtectedRoute>
+        <ProtectedRoute path='/defective' exact>
           <DefectiveGoods />
-        </Route>
+        </ProtectedRoute>
       </Switch>
     </>
   );

@@ -1,6 +1,8 @@
 import {
-  ButtonHTMLAttributes
-} from "react";
+  ButtonHTMLAttributes,
+  HTMLProps,
+} from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 
 export interface IAuthorizationForm {
   label: string;
@@ -30,7 +32,8 @@ export interface IGoodsProps {
 
 export interface IButton extends ButtonHTMLAttributes<HTMLButtonElement> {
   purpose: string;
-  text: string;
+  title: string;
+  onClick?: () => void;
 }
 
 export interface IButtonMenu extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -71,4 +74,11 @@ export interface IItems {
 export interface IRecPacking {
   cartontype: string;
   items: Array<IItems>;
+}
+
+export interface IProtectedRoute {
+  children: string | JSX.Element | JSX.Element[];
+  rest?: HTMLProps<RouteComponentProps>;
+  path?: string;
+  exact?: boolean;
 }

@@ -1,7 +1,7 @@
 import { registerPrinterApi, registerTableApi } from "../../utils/api";
 import { setCookie } from "../../utils/cookie";
 import { IRegisterPrinter, IRegisterTable } from "../../utils/type/data";
-import { AppDispatch } from "../../utils/type/redux";
+import { AppDispatch } from "../../utils/type/store";
 
 export const REGISTRATION_TABLE_REQUEST: 'REGISTRATION_TABLE_REQUEST' = 'REGISTRATION_TABLE_REQUEST';
 export const REGISTRATION_TABLE_SUCCESS: 'REGISTRATION_TABLE_SUCCESS' = 'REGISTRATION_TABLE_SUCCESS';
