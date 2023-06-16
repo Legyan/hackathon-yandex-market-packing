@@ -1,5 +1,6 @@
 import {
   ButtonHTMLAttributes,
+  PropsWithChildren,
   HTMLProps,
 } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
@@ -49,6 +50,14 @@ export interface IButtonLink extends ButtonHTMLAttributes<HTMLButtonElement> {
   link: string;
 }
 
+export interface IModalOverlay {
+  visible: boolean;
+  closeModal: () => void;
+}
+ export interface IModalWindow extends PropsWithChildren {
+  visible: boolean;
+  onClose: () => void;
+}
 export interface IUser {
   user_name: string;
   user_id: number;

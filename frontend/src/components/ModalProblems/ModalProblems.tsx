@@ -1,9 +1,19 @@
-import { FC } from 'react';
-import style from './ModalProblems.module.css';
+import ModalWindow from '../ModalWindow/ModalWindow';
+import ButtonModal from '../ButtonModal/ButtonModal';
 
-const ModalProblems = () => {
+
+const ModalProblems = ({...props}) => {
+
   return (
-    <div></div>
+    <ModalWindow
+    visible={props.visible}
+    onClose={props.onClose}
+    // onClick={props.onClick}
+    >
+      <ButtonModal  title='Нет товара' />
+      <ButtonModal  title='Товар бракованный' />
+      <ButtonModal  title='Другая проблема' />
+    </ModalWindow>
   )
 }
 

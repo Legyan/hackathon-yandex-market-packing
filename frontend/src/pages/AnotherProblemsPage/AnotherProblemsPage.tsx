@@ -33,7 +33,7 @@ const AnotherProblemsPage: FC = () => {
       <ButtonModal onClick={openModalSendReq} isOpen={isModalSendReq} title='Позвать бригадира' />
       </div>
       </section>
-      <FooterBack link='/problems' title='Назад'/>
+      <FooterBack link='/' title='Назад'/>
       <ToastSendReq isOpen={isModalSendReq} onClose={closeModalSendReq} onClick={switchPage}/>
     </>
   )
