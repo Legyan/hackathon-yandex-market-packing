@@ -1,0 +1,21 @@
+.btn {
+  width: 322px;
+  height: 221px;
+  background: #F8F8F8;
+  border-radius: 24px;
+
+  font-family: 'Yandex Sans Display';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 26px;
+  border: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  padding: 0px;
+  transition: background .2s linear;
+}
+
+.btn:hover{
+background: var(--Button-grey);
+}

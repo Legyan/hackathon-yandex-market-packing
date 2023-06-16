@@ -54,7 +54,7 @@ async def register_printer(
     user_id: str = Depends(get_current_user_id),
     session: AsyncSession = Depends(get_async_session),
 ) -> AuthOutputSchema:
-    """Регистрация пользователя за столом и выдача ему токена."""
+    """Регистрация принтера пользователем."""
     return await printer_service.set_user_to_printer(
         user_id, int(printer.printer_id), session
     )

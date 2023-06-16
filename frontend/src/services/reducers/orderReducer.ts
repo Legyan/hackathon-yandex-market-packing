@@ -1,5 +1,9 @@
 import { IGoods, IRecPacking } from "../../utils/type/main";
-import { GET_ORDER_ERROR, GET_ORDER_REQUEST, GET_ORDER_SUCCESS } from "../actions/orderActions";
+import {
+  GET_ORDER_ERROR,
+  GET_ORDER_REQUEST,
+  GET_ORDER_SUCCESS
+} from "../actions/orderActions";
 
 const initialState = {
   success: false,

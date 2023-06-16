@@ -7,7 +7,7 @@ import copy
 def predict(dictionary):
     """
     Принимает на вход информацию о заказе в виде словаря со следующими ключами:
-    'orderkey' : str,
+    'orderId' : str,
     'items': List[{'sku': str,
                    'count': int,
                    'size1': Optional[str] = None,
@@ -17,37 +17,36 @@ def predict(dictionary):
                    'type': List[str]
                  }]
     Делает предсказание подходящей упаковки по следующему алгоритму:
-    - проверяет карготипы товаров, если находит карготип 340 или 360, то для
+    1. проверяет карготипы товаров, если находит карготип 340 или 360, то для
       этого sku вернет рекомендацию упаковки NONPACK или STRETCH;
-    - для остальных товаров:
-        - сначала проверит количество товаров, если 1 товар:
-          * проверит есть ли статистика по упаковке товара в sku_pack_dict и
-            вернет рекомендацию на основе статистики;
-          * если статистики нет, проверит указаны ли линейные размеры товара,
-            если не указаны, то возвращает 'status': 'fallback';
-          * если указаны:
-            - сравнит линейные размеры товара и всех коробок, добавит
-              подходящие коробки в список valid_pack;
-            - сравнит длину товара и пакета, диагональ меньшей грани товара с
-              диаметром окружности раскрытого пакета, добавит подходящие
-              пакеты в список valid_pack;
-            - сравнит линейные размеры товара и оставшихся пакетов, добавит
-              подходящие пакеты в список valid_pack;
-            - если в valid_pack нет вариантов упаковки, возвращает
-              'status': 'fallback';
-            - если есть, возвращает топ-3 (при наличии) самых дешевых вариантов
-              упаковки из valid_pack.
-        - если 2-5 товаров:
-          * проверяет для всех ли товаров указаны линейные размеры и вес, если
-            нет, то возвращает 'status': 'fallback';
-          * если указаны для всех, делает предсказание с помощью алгоритма
-            градиентного бустинга и возвращает 3 самых вероятных по мнению модели
-            варианта упаковки.
-        - если больше 5 товаров:
-          * возвращает 'status': 'fallback'.
+    2. для остальных товаров:
+        2.1. сначала проверит количество товаров, если 1 товар:
+          2.1.1. проверит есть ли статистика по упаковке товара в словаре 
+                 sku_pack_dict и вернет рекомендацию на основе статистики;
+          2.1.2. если статистики нет, проверит указаны ли линейные размеры товара,
+                 если не указаны, то возвращает 'status': 'fallback';
+          2.1.3. если указаны:
+              a. сравнит линейные размеры товара и всех коробок, добавит
+                 подходящие коробки в список valid_pack;
+              b. сравнит длину товара и пакета, диагональ меньшей грани товара с
+                 диаметром окружности раскрытого пакета, добавит подходящие
+                 пакеты в список valid_pack;
+              c. сравнит линейные размеры товара и оставшихся пакетов, добавит
+                 подходящие пакеты в список valid_pack;
+              d. если в valid_pack нет вариантов упаковки, возвращает
+                 'status': 'fallback';
+              e. если есть, возвращает топ-3 (при наличии) самых дешевых вариантов
+                 упаковки из valid_pack.
+        2.2. если 2-5 товаров:
+          2.2.1. проверяет для всех ли товаров указаны линейные размеры и вес, если
+                 нет, то возвращает 'status': 'fallback';
+          2.2.2. если указаны для всех, делает предсказание с помощью алгоритма
+                 градиентного бустинга и возвращает три наиболее вероятные по
+                 мнению модели варианта упаковки.
+        2.3. если больше 5 товаров - возвращает 'status': 'fallback'.
     """
     answer = dict()
-    answer['orderkey'] = dictionary['orderkey']
+    answer['orderkey'] = dictionary['orderId']
     boxes = ['YMA', 'YMC', 'YME', 'YMF', 'YMG', 'YML',
              'YMU', 'YMV', 'YMW', 'MYF', 'YMX']
     bags = ['MYA', 'MYB', 'MYC', 'MYD', 'MYE']
@@ -104,7 +103,9 @@ def predict(dictionary):
             answer['status'] = 'ok'
             return answer
         
-        elif not (d['items'][0]['size1'] and d['items'][0]['size2'] and d['items'][0]['size3']):
+        elif not (d['items'][0]['size1']
+                  and d['items'][0]['size2']
+                  and d['items'][0]['size3']):
             answer['status'] = 'fallback'
             return answer
 
@@ -116,11 +117,14 @@ def predict(dictionary):
             size3 = float(d['items'][0]['size3'])
             for pack in boxes:
                 if (np.min([size1, size2, size3])
-                    < np.min(carton_edited.loc[carton_edited['CARTONTYPE'] == pack,['LENGTH', 'WIDTH', 'HEIGHT']].values)
+                    < np.min(carton_edited.loc[carton_edited['CARTONTYPE'] == pack,
+                                               ['LENGTH', 'WIDTH', 'HEIGHT']].values)
                     and np.max([size1, size2, size3])
-                    < np.max(carton_edited.loc[carton_edited['CARTONTYPE'] == pack,['LENGTH', 'WIDTH', 'HEIGHT']].values)
+                    < np.max(carton_edited.loc[carton_edited['CARTONTYPE'] == pack,
+                                               ['LENGTH', 'WIDTH', 'HEIGHT']].values)
                     and np.median([size1, size2, size3])
-                    < np.median(carton_edited.loc[carton_edited['CARTONTYPE'] == pack,['LENGTH', 'WIDTH', 'HEIGHT']].values)):
+                    < np.median(carton_edited.loc[carton_edited['CARTONTYPE'] == pack,
+                                                  ['LENGTH', 'WIDTH', 'HEIGHT']].values)):
                     valid_pack.append(pack)
             for pack in bags:
                 if (1.2 * np.max([size1, size2, size3])
@@ -130,11 +134,14 @@ def predict(dictionary):
                     valid_pack.append(pack)
             for pack in bags:
                 if (not pack in valid_pack and np.min([size1, size2, size3])
-                    < np.min(carton_edited.loc[carton_edited['CARTONTYPE'] == pack,['LENGTH', 'WIDTH', 'HEIGHT']].values)
+                    < np.min(carton_edited.loc[carton_edited['CARTONTYPE'] == pack,
+                                               ['LENGTH', 'WIDTH', 'HEIGHT']].values)
                     and np.max([size1, size2, size3])
-                    < np.max(carton_edited.loc[carton_edited['CARTONTYPE'] == pack,['LENGTH', 'WIDTH', 'HEIGHT']].values)
+                    < np.max(carton_edited.loc[carton_edited['CARTONTYPE'] == pack,
+                                               ['LENGTH', 'WIDTH', 'HEIGHT']].values)
                     and np.median([size1, size2, size3])
-                    < np.median(carton_edited.loc[carton_edited['CARTONTYPE'] == pack,['LENGTH', 'WIDTH', 'HEIGHT']].values)):
+                    < np.median(carton_edited.loc[carton_edited['CARTONTYPE'] == pack,
+                                                  ['LENGTH', 'WIDTH', 'HEIGHT']].values)):
                     valid_pack.append(pack)
 
             if len(valid_pack) == 0:
@@ -162,7 +169,10 @@ def predict(dictionary):
 
     else:
         for item in d['items']:
-            if item['size1'] is None or item['size2'] is None or item['size3'] is None or item['weight'] is None:
+            if (item['size1'] is None
+                or item['size2'] is None
+                or item['size3'] is None
+                or item['weight'] is None):
                 answer['status'] = 'fallback'
                 return answer
 
@@ -215,7 +225,6 @@ def predict(dictionary):
                 if len(stretch_dict) > 0:
                     one_rec.append(stretch_dict)
             recommendations.append(one_rec)
-
 
         answer['recommendations'] = recommendations
         answer['status'] = 'ok'

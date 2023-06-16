@@ -1,5 +1,5 @@
 import { getOrderApi } from "../../utils/api";
-import { AppDispatch } from "../../utils/type/redux";
+import { AppDispatch } from "../../utils/type/store";
 
 export const GET_ORDER_REQUEST: 'GET_ORDER_REQUEST' = 'GET_ORDER_REQUEST';
 export const GET_ORDER_SUCCESS: 'GET_ORDER_SUCCESS' = 'GET_ORDER_SUCCESS';
