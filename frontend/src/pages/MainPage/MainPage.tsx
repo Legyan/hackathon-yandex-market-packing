@@ -15,7 +15,7 @@ const MainPage: FC = () => {
           <ButtonLink
             purpose={'problem'}
             title={'Есть проблема'}
-            link={'/problems'}
+            link={'/problems/another'}
           />
           <ButtonLink
             purpose={'logout'}

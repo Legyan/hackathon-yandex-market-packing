@@ -1,5 +1,6 @@
 import {
-  ButtonHTMLAttributes
+  ButtonHTMLAttributes,
+  PropsWithChildren
 } from "react";
 
 export interface IAuthorizationForm {
@@ -40,4 +41,13 @@ export interface IButtonLink extends ButtonHTMLAttributes<HTMLButtonElement> {
   purpose: string;
   title: string;
   link: string;
+}
+
+export interface IModalOverlay {
+  visible: boolean;
+  closeModal: () => void;
+}
+ export interface IModalWindow extends PropsWithChildren {
+  visible: boolean;
+  onClose: () => void;
 }

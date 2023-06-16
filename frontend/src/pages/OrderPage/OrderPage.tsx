@@ -10,8 +10,21 @@ import iconBox from '../../images/icon_box.svg';
 import pack from '../../images/icon_package.svg';
 import ButtonMenu from '../../components/ui/ButtonMenu/ButtonMenu';
 import ButtonLink from '../../components/ui/ButtonLink/ButtonLink';
+import ModalProblems from '../../components/ModalProblems/ModalProblems'
+import BtnHasProblem from '../../components/ui/BtnHasProblem/BtnHasProblem';
+
 
 const OrderPage: FC = () => {
+
+  const [isModalProblems, setModalProblems] = useState(false);
+
+  const openModalProblems = () => {
+    setModalProblems(true)
+  }
+
+  const closeModalProblems = () => {
+    setModalProblems(false);
+  }
 
   return (
     <>
@@ -59,10 +72,14 @@ const OrderPage: FC = () => {
             />
           </div>
           <div className={style.links}>
-            <ButtonLink
+            {/* <ButtonLink
               purpose={'anotherProblem'}
               title={'ЕСТЬ ПРОБЛЕМА'}
               link={'/problems/another'}
+            /> */}
+            <BtnHasProblem
+            onClick={openModalProblems}
+            title='Есть проблема'
             />
             <ButtonLink
               purpose={'order'}
@@ -73,7 +90,11 @@ const OrderPage: FC = () => {
         </article>
       </section>
       <Footer />
-    </>
+      <ModalProblems
+      visible={isModalProblems}
+      onClose={closeModalProblems}
+      />
+      </>
   )
 }
 

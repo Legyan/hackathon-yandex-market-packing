@@ -3,7 +3,7 @@ import style from './ButtonModal.module.css';
 
 interface ButtonModalProps extends PropsWithChildren {
   title: string;
-  onClick: () => void;
+  onClick?: () => void;
   isOpen?: boolean;
 }
 
