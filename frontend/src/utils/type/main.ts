@@ -55,6 +55,7 @@ export interface IModalOverlay {
 export interface IModalWindow extends PropsWithChildren {
   visible: boolean;
   onClose: () => void;
+  onClick?: () => void;
 }
 export interface IUser {
   user_name: string;

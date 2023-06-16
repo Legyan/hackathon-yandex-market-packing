@@ -47,7 +47,7 @@ async def get_package_recommendation(
             cargotypes_tags.append(cargotype.cargotypes_tag)
         item_to_ds.type = cargotypes_tags
         items_to_ds.append(item_to_ds)
-    order_to_ds = OrderToDS(orderkey=order.orderkey, items=items_to_ds)
+    order_to_ds = OrderToDS(orderId=order.orderkey, items=items_to_ds)
 
     try:
         client = AsyncClient()

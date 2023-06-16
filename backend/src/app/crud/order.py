@@ -6,6 +6,7 @@ from app.api.exceptions import (AlreadyHaveOrderError, NoProductError,
                                 NotAllBoxesClosedError, NotAllOrderPackedError,
                                 OrderkeyAlreadyExistError, OutOfStockError)
 from app.crud.base import CRUDBase
+from app.crud.partitions import partition_crud
 from app.models.order import Order, OrderStatusEnum
 from app.models.order_product import OrderProduct
 from app.models.pack_variation import PackingVariation
@@ -230,6 +231,13 @@ class CRUDOrder(CRUDBase):
     ) -> None:
         await session.refresh(order)
         order.status = OrderStatusEnum.COLLECTED
+        partition = await partition_crud.get_by_attribute(
+            attr_name='orderkey',
+            attr_value=order.orderkey,
+            session=session
+        )
+        partition.oderkey = None
+        session.add(partition)
         session.add(order)
         await session.commit()
 

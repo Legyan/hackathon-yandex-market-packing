@@ -33,7 +33,7 @@ class OrderCreateResponseSchema(BaseModel):
 
 
 class OrderToDS(BaseModel):
-    orderkey: str
+    orderId: str # noqa
     items: list[ItemToDS]
 
 
@@ -45,18 +45,25 @@ class ProductToUser(BaseModel):
     imei: bool
     honest_sign: bool
     fragility: bool
+    count: int
 
 
 class PackageSchema(BaseModel):
-    cartontype: str
+    cartontype: str = '',
+    icontype: str = ''
     items: list[ItemBase] = []
+
+
+class AlreadyPackedSchema(PackageSchema):
+    is_packaged: bool
 
 
 class OrderDataToUser(BaseModel):
     partition: str = ''
     orderkey: str = ''
     goods: list[ProductToUser] = []
-    recomend_packing: list[list[PackageSchema]] = [[]]
+    recomend_packing: list[list[PackageSchema]] = [[PackageSchema()]]
+    already_packed: list[AlreadyPackedSchema] = []
 
 
 class OrderToUserSchema(BaseModel):
