@@ -33,7 +33,7 @@ class OrderCreateResponseSchema(BaseModel):
 
 
 class OrderToDS(BaseModel):
-    orderId: str
+    orderId: str # noqa
     items: list[ItemToDS]
 
 
