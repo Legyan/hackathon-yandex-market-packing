@@ -18,7 +18,7 @@ class Item(BaseModel):
 
 
 class Order(BaseModel):
-    orderkey: str
+    orderId: str
     items: List[Item]
 
 
