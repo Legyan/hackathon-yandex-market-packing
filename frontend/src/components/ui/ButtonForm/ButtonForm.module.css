@@ -61,3 +61,11 @@
 .btnLogout:hover {
   background: var(--Button-grey-2);
 }
+
+.btnProblem {
+  background: var(--Yandex-grey-3);
+}
+
+.btnProblem:hover {
+  background: var(--Button-grey);
+}

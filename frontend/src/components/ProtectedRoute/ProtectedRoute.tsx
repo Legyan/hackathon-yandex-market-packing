@@ -1,7 +1,7 @@
-import React, { FC } from "react";
-import { Route, Redirect } from "react-router-dom";
-import { getCookie } from "../../utils/cookie";
-import { IProtectedRoute } from "../../utils/type/main";
+import React, { FC } from 'react';
+import { Route, Redirect } from 'react-router-dom';
+import { getCookie } from '../../utils/cookie';
+import { IProtectedRoute } from '../../utils/type/main';
 
 export const ProtectedRoute: FC<IProtectedRoute> = ({
   children,
@@ -13,12 +13,12 @@ export const ProtectedRoute: FC<IProtectedRoute> = ({
       path={`${path}`}
       exact
       render={({ location }) =>
-      getCookie("token") ? (
+      getCookie('token') ? (
           children
         ) : (
           <Redirect
             to={{
-              pathname: "/table",
+              pathname: '/table',
               state: { from: location },
             }}
           />

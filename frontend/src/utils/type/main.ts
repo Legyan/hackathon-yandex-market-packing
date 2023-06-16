@@ -54,7 +54,7 @@ export interface IModalOverlay {
   visible: boolean;
   closeModal: () => void;
 }
- export interface IModalWindow extends PropsWithChildren {
+export interface IModalWindow extends PropsWithChildren {
   visible: boolean;
   onClose: () => void;
 }

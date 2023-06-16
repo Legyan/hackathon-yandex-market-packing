@@ -19,9 +19,17 @@ const MainPage: FC = () => {
   console.log(user);
   console.log(getCookie("token"));
 
+  const solveProblem = () => {
+    history.replace({ pathname: '/problems/another' });
+  }
+
   const logout = () => {
     setCookie('token', '');
     history.replace({ pathname: '/table' });
+  }
+
+  const order = () => {
+    history.replace({ pathname: '/order' });
   }
 
 
@@ -29,10 +37,10 @@ const MainPage: FC = () => {
     <>
       <section className={style.wrapper}>
         <div className={style.btnsWrapper}>
-          <ButtonLink
+          <ButtonForm
             purpose={'problem'}
             title={'Есть проблема'}
-            link={'/problems/another'}
+            onClick={solveProblem}
           />
           <ButtonForm
             purpose={'logout'}
@@ -63,7 +71,11 @@ const MainPage: FC = () => {
             </li>
           </ul>
         </div>
-        <ButtonForm purpose={'package'} title={'Получить заказ'} />
+        <ButtonForm
+          purpose={'package'}
+          title={'Получить заказ'}
+          onClick={order}
+        />
       </section>
       <Footer />
     </>
