@@ -11,6 +11,10 @@
   box-shadow: 0px 5px 46px rgba(0, 0, 0, 0.12), 0px 7px 15px rgba(0, 0, 0, 0.12);
 }
 
+.footerBack {
+  justify-content: start;
+}
+
 .btnFooter {
   padding: 0;
   border: none;
@@ -27,4 +31,41 @@
   font-weight: 400;
   font-size: 28px;
   line-height: 31px;
+}
+
+.btnFooterBack {
+  background-image: url('../../images/UnionbackBtn.svg');
+  box-shadow: 0px 1px 3px rgba(38, 41, 43, 0.2), 1px 1px 6px rgba(38, 41, 43, 0.2);
+  border-radius: 24px;
+  width: 296px;
+  height: 72px;
+  cursor: pointer;
+  border: none;
+  background-repeat: no-repeat;
+  background-position: left;
+  margin-left: 1.2%;
+  background-position-x: 88px;
+  padding: 0;
+
+  font-family: 'Yandex Sans Display';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 31px;
+
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #212121;
+}
+
+.wrappText {
+  position: relative;
+  left: 17.25px;
+}
+
+.btnFooterBack:hover {
+  transition: 0.3s;
+    opacity: 0.6;
 }

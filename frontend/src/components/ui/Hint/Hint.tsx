@@ -11,7 +11,7 @@ const Hint: FC<IHint> = ({icon, title}) => {
       { icon === 'pen' ? (
         <img className={style.imgHint} src={pen} alt='Иконка ручки' />
       ) : (
-        <img className={style.imgHint} src={barcodeRed} alt='Иконка штрихкод красный' />
+        <img className={`${style.imgHint} ${style.imgHint}`} src={barcodeRed} alt='Иконка штрихкод красный' />
       )}
       <p className={style.title}>{title}</p>
     </li>

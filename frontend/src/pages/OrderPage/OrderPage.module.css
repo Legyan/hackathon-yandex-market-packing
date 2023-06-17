@@ -1,12 +1,5 @@
-.threeCircles {
-  height: 78vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .wrapper {
-  height: 78vh;
+  height: 824px;
   margin: 36px 24px 0;
   display: flex;
   justify-content: space-between;
@@ -33,7 +26,6 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 12px;
 }
 
 .liGoods {
@@ -73,4 +65,11 @@
 .li {
   margin: 0;
   padding: 0;
+}
+
+.threeCircles {
+  height: 78vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

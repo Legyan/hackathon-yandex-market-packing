@@ -20,7 +20,7 @@ const AuthorizationForm: FC<IAuthorizationForm> = ({label, btnBack, btnForward, 
   console.log(history.location.pathname);
 
   const changeValueIndex = (e: ChangeEvent<HTMLInputElement>): void => {
-    setInputValue(e.target.value.replace(/\D/,''));
+    setInputValue(e.target.value);
   }
 
   const Auth = useCallback((e: SyntheticEvent) => {
@@ -54,7 +54,6 @@ const AuthorizationForm: FC<IAuthorizationForm> = ({label, btnBack, btnForward, 
       <input
         className={style.input}
         type="text"
-        pattern="[0-9]*"
         placeholder=''
         value={inputValue}
         onChange={changeValueIndex}

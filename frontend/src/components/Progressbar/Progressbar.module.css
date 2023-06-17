@@ -9,6 +9,8 @@
 
 .mw {
   margin: 0;
+  max-width: 1090px;
+  width: 100%;
 }
 
 .wrapperStep {
@@ -40,12 +42,11 @@
 
 .steps::after {
   content: '';
-  width: 700px;
+  width: 837px;
   height: 4px;
   background-color: var(--Yandex-amber-12);
   position: absolute;
   top: 32px;
-  z-index: -1;
 }
 
 .steps:first-child::after {
@@ -55,7 +56,6 @@
   background-color: var(--Yandex-amber-12);
   position: absolute;
   top: 32px;
-  z-index: -1;
 }
 
 .steps:last-child::after {
@@ -65,7 +65,6 @@
   background-color: var(--Yandex-amber-12);
   position: absolute;
   top: 32px;
-  z-index: -1;
 }
 
 .step {
@@ -85,6 +84,7 @@
   height: 28px;
   background: var(--Yandex-white-grey-1);
   border-radius: 50%;
+  z-index: 2;
 }
 
 .circleYellow {
@@ -95,6 +95,7 @@
   height: 20px;
   background-color: var(--Yandex-amber-12);
   border-radius: 50%;
+  z-index: 2;
 }
 
 .counter {
