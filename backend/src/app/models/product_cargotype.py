@@ -5,6 +5,8 @@ from app.core.db import Base
 
 
 class ProductCargotype(Base):
+    """Отношение товаров к карготипам."""
+
     __tablename__ = 'products_cargotypes'
 
     sku = Column(

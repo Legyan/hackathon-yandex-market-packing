@@ -6,6 +6,7 @@ from app.core.db import Base
 
 class PackingVariation(Base):
     """Модель вариантов упаковки заказа."""
+
     __tablename__ = 'pack_variation'
 
     orderkey = Column(

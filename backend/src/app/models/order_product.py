@@ -5,6 +5,8 @@ from app.core.db import Base
 
 
 class OrderProduct(Base):
+    """Модель товара в заказе."""
+
     __tablename__ = 'order_products'
 
     orderkey = Column(

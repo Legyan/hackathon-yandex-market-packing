@@ -5,6 +5,8 @@ from app.core.db import Base
 
 
 class User(Base):
+    """Модель пользователя."""
+
     __tablename__ = 'users'
 
     name = Column(String(100), unique=True, nullable=False)

@@ -2,7 +2,8 @@ from typing import Union
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.api.exceptions import (NeedToClosePackageError, NoActiveOrderError,
+from app.api.exceptions import (InvalidHonestSignError, InvalidImeiError,
+                                NeedToClosePackageError, NoActiveOrderError,
                                 NoActivePackageError, NoBarcodeError)
 from app.api.services.base import BaseService
 from app.api.services.package import package_service
@@ -120,6 +121,22 @@ class BarcodeService(BaseService):
             honest_sign=product.need_honest_sign
         )
 
+    async def handle_imei(
+        self,
+        barcode: str,
+        imei: str,
+        session: AsyncSession,
+    ) -> BaseOutputSchema:
+        await self.check_imei_mock(
+            imei=imei,
+            session=session
+        )
+        return await self.add_imei(
+            barcode=barcode,
+            imei=imei,
+            session=session
+        )
+
     async def add_imei(
         self,
         barcode: str,
@@ -139,6 +156,22 @@ class BarcodeService(BaseService):
         )
         return BaseOutputSchema()
 
+    async def handle_honest_sign(
+        self,
+        barcode: str,
+        honest_sign: str,
+        session: AsyncSession,
+    ) -> BaseOutputSchema:
+        await self.check_honest_sign_mock(
+            honest_sign=honest_sign,
+            session=session
+        )
+        return await self.add_honest_sign(
+            barcode=barcode,
+            honest_sign=honest_sign,
+            session=session
+        )
+
     async def add_honest_sign(
         self,
         barcode: str,
@@ -157,6 +190,22 @@ class BarcodeService(BaseService):
             session=session
         )
         return BaseOutputSchema()
+
+    async def check_imei_mock(
+        self,
+        imei: str,
+        session: AsyncSession,
+    ) -> None:
+        if len(imei) != 15:
+            raise InvalidImeiError()
+
+    async def check_honest_sign_mock(
+        self,
+        honest_sign: str,
+        session: AsyncSession,
+    ) -> None:
+        if len(honest_sign) != 13:
+            raise InvalidHonestSignError()
 
 
 barcode_service = BarcodeService(barcode_crud)
