@@ -11,7 +11,7 @@ router = APIRouter()
 
 
 @router.get(
-    '/close_package',
+    '/close',
     response_model_exclude_none=True,
 )
 async def close_package(
@@ -25,7 +25,7 @@ async def close_package(
 
 
 @router.post(
-    '/remove_from_package',
+    '/remove_item',
     response_model_exclude_none=True,
 )
 async def remove_from_package(

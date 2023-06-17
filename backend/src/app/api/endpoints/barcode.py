@@ -13,7 +13,7 @@ router = APIRouter()
 
 
 @router.post(
-    '/barcode',
+    '',
     response_model_exclude_none=True,
 )
 async def handle_barcode(
