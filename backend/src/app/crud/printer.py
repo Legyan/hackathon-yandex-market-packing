@@ -12,7 +12,11 @@ class CRUDPrinter(CRUDBase):
         printer_id: int,
         session: AsyncSession,
     ) -> None:
-        printer = await self.get(printer_id, session)
+        printer = await self.get_by_attribute(
+            attr_name='name',
+            attr_value=printer_id,
+            session=session
+        )
         if not printer:
             raise NoPrinterError()
         printer.user_id = user_id

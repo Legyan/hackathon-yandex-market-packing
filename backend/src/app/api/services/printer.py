@@ -1,7 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api.exceptions import (AlreadyHavePrinterError, NotRegiserTableError,
-                                PrinterIsBusyError)
+                                NoPrinterError, PrinterIsBusyError)
 from app.api.services.base import BaseService
 from app.crud.printer import printer_crud
 from app.crud.table import table_crud
@@ -26,16 +26,19 @@ class PrinterService(BaseService):
             raise NotRegiserTableError()
         table_id = str(table.id)
         user_printer = await self.crud.get_by_attribute(
-            attr_name="user_id",
+            attr_name='user_id',
             attr_value=user_id,
             session=session
         )
-        if user_printer and user_printer.id != int(printer_id):
-            raise AlreadyHavePrinterError(user_printer.id)
-        printer = await self.crud.get(
-            int(printer_id),
-            session=session
+        if user_printer and user_printer.name != printer_id:
+            raise AlreadyHavePrinterError(user_printer.name)
+        printer = await self.crud.get_by_attribute(
+            attr_name='name',
+            attr_value=printer_id,
+            session=session,
         )
+        if not printer:
+            raise NoPrinterError()
         if printer.user_id and printer.user_id != user_id:
             raise PrinterIsBusyError()
         await self.crud.set_user_to_printer(

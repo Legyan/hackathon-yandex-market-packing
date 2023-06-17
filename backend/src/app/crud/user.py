@@ -17,6 +17,8 @@ class CRUDUser(CRUDBase):
             attr_value=user_id,
             session=session
         )
+        if not table:
+            return
         table.user_id = None
         session.add(table)
         await session.commit()
@@ -31,6 +33,8 @@ class CRUDUser(CRUDBase):
             attr_value=user_id,
             session=session
         )
+        if not printer:
+            return
         printer.user_id = None
         session.add(printer)
         await session.commit()

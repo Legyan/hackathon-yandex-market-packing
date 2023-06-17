@@ -4,6 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.api.services.user import user_service
 from app.core.db import get_async_session
 from app.core.users import get_current_user_id
+from app.schemas.base import BaseOutputSchema
 from app.schemas.user import UserInfoSchema
 
 router = APIRouter()
@@ -28,7 +29,7 @@ async def get_user_info(
 async def logout(
     user_id: str = Depends(get_current_user_id),
     session: AsyncSession = Depends(get_async_session),
-) -> UserInfoSchema:
+) -> BaseOutputSchema:
     """Отвязывание стола и принтера от пользователя."""
     return await user_service.logout(
         user_id, session

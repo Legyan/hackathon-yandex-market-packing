@@ -10,10 +10,14 @@ class CRUDTable(CRUDBase):
     async def set_user_to_table(
         self,
         user_id: int,
-        table_id: int,
+        table_id: str,
         session: AsyncSession,
     ) -> None:
-        table = await self.get(table_id, session)
+        table = await self.get_by_attribute(
+            attr_name='name',
+            attr_value=table_id,
+            session=session
+        )
         if not table:
             raise NoTableError()
         table.user_id = user_id
