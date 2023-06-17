@@ -6,6 +6,7 @@ from app.core.db import Base
 
 class Printer(Base):
     """Модель принтера."""
+
     __tablename__ = 'printers'
 
     name = Column(String(50), unique=True, nullable=False)
