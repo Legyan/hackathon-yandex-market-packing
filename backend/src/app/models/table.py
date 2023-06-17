@@ -6,6 +6,7 @@ from app.core.db import Base
 
 class Table(Base):
     """Модель стола для упаковки."""
+
     __tablename__ = 'tables'
 
     name = Column(String(50), unique=True, nullable=False)

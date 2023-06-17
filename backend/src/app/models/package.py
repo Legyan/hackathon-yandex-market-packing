@@ -14,6 +14,7 @@ class PackageStatusEnum(PyEnum):
 
 class Package(Base):
     """Модель упаковки (коробки или пакета)"""
+
     __tablename__ = 'packages'
 
     cartontype_tag = Column(
@@ -31,6 +32,7 @@ class Package(Base):
 
 class PackageProduct(Base):
     """Отношение упаковки (коробки или пакета) к товарам для упаковки в неё."""
+
     __tablename__ = 'package_products'
 
     package_id = Column(Integer, ForeignKey('packages.id'))

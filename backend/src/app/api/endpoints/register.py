@@ -12,13 +12,12 @@ from app.core.db import get_async_session
 from app.core.users import get_current_user_id
 from app.schemas.auth import RegisterTableSchema, TokenSchema
 from app.schemas.printer import AuthOutputSchema, PrinterSchema
-from app.schemas.user import UserInfoSchema
 
 router = APIRouter()
 
 
 @router.post(
-    '/register_table',
+    '/table',
     response_model_exclude_none=True,
 )
 async def register_table(
@@ -47,7 +46,7 @@ async def register_table(
 
 
 @router.post(
-    '/register_printer',
+    '/printer',
     response_model_exclude_none=True,
 )
 async def register_printer(
@@ -58,17 +57,4 @@ async def register_printer(
     """Регистрация принтера пользователем."""
     return await printer_service.set_user_to_printer(
         user_id, int(printer.printer_id), session
-    )
-
-
-@router.get(
-    '/user',
-)
-async def get_user_info(
-    user_id: str = Depends(get_current_user_id),
-    session: AsyncSession = Depends(get_async_session),
-) -> UserInfoSchema:
-    """Получение информации о пользователе по токену."""
-    return await user_service.get_user_info(
-        user_id, session
     )

@@ -14,6 +14,7 @@ class BarcodeStatusEnum(PyEnum):
 
 class BarcodeSKU(Base):
     """Модель штрихкода конкретного товара."""
+
     __tablename__ = 'barcode_sku'
 
     barcode = Column(String(500), unique=True, nullable=False)

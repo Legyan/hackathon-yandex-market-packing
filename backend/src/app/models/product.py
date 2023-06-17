@@ -5,6 +5,8 @@ from app.core.db import Base
 
 
 class Product(Base):
+    """Модель товара."""
+
     __tablename__ = 'products'
 
     sku = Column(String(100), unique=True, nullable=False)

@@ -5,6 +5,8 @@ from app.core.db import Base
 
 
 class Cargotype(Base):
+    """Модель карготипа товара."""
+
     __tablename__ = 'cargotypes'
 
     tag = Column(String(10), unique=True, nullable=False)

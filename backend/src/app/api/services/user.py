@@ -69,5 +69,19 @@ class UserService(BaseService):
             printer_id=str(printer_id)
         )
 
+    async def logout(
+        self,
+        user_id: int,
+        session: AsyncSession
+    ) -> None:
+        await user_crud.unlink_table(
+            user_id,
+            session
+        )
+        await user_crud.unlink_printer(
+            user_id,
+            session
+        )
+
 
 user_service = UserService(user_crud)
