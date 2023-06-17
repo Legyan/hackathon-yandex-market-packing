@@ -2,9 +2,11 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api.exceptions import NoActivePackageError
 from app.api.services.base import BaseService
+from app.crud.barcode import barcode_crud
 from app.crud.order import order_crud
 from app.crud.pack_variation import pack_variation_crud
 from app.crud.package import package_crud
+from app.models.barcode_sku import BarcodeStatusEnum
 from app.models.order import Order
 from app.models.package import Package, PackageStatusEnum
 from app.schemas.base import BaseOutputSchema
@@ -90,6 +92,11 @@ class PackageService(BaseService):
         for barcode in barcodes:
             await self.crud.delete_package_product(
                 barcode=barcode,
+                session=session
+            )
+            await barcode_crud.set_barcode_status(
+                barcode=barcode,
+                status=BarcodeStatusEnum.ALLOWED,
                 session=session
             )
         return BaseOutputSchema()

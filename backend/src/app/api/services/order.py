@@ -6,9 +6,10 @@ from app.api.services.request_to_ds import get_package_recommendation
 from app.crud.order import order_crud
 from app.crud.pack_variation import pack_variation_crud
 from app.crud.partitions import partition_crud
+from app.models.order import OrderStatusEnum
 from app.schemas.base import BaseOutputSchema
 from app.schemas.order import (OrderCreateResponseSchema, OrderCreateSchema,
-                               OrderToUserSchema)
+                               OrderDataToUser, OrderToUserSchema)
 
 
 class OrderService(BaseService):
@@ -39,23 +40,56 @@ class OrderService(BaseService):
         user_id: int,
         session: AsyncSession,
     ) -> OrderToUserSchema:
-        # await self.crud.check_user_order(user_id, session)
-        order: OrderToUserSchema = await self.crud.get_order_to_user(session)
-        if order.data.orderkey == '':
-            return order
-        await self.crud.set_order_packer(
-            orderkey=order.data.orderkey,
+        order = await self.crud.get_order_by_user_id(
             user_id=user_id,
             session=session
         )
-        order.data.partition = await partition_crud.set_partition_to_order(
-            orderkey=order.data.orderkey,
+        if not order:
+            order_is_active = False
+            order = await self.crud.get_new_order(session)
+            if not order:
+                return OrderToUserSchema(
+                    data=OrderDataToUser(),
+                    status='No orders to pack'
+                )
+        else:
+            order_is_active = True
+        order: OrderToUserSchema = await self.crud.get_order_products_info(
+            order=order,
             session=session
         )
-        await pack_variation_service.add_active_pack_variation(
-            orderkey=order.data.orderkey,
-            session=session
+        order.data.already_packed = await self.crud.get_already_packaged(
+                orderkey=order.data.orderkey,
+                session=session
         )
+        if not order_is_active:
+
+            await self.crud.set_order_packer(
+                orderkey=order.data.orderkey,
+                user_id=user_id,
+                session=session
+            )
+            await self.crud.set_order_status(
+                orderkey=order.data.orderkey,
+                status=OrderStatusEnum.COLLECT,
+                session=session
+            )
+            order.data.partition = await partition_crud.set_partition_to_order(
+                orderkey=order.data.orderkey,
+                session=session
+            )
+            await pack_variation_service.add_active_pack_variation(
+                orderkey=order.data.orderkey,
+                session=session
+            )
+        else:
+
+            partition = await partition_crud.get_by_attribute(
+                attr_name='orderkey',
+                attr_value=order.data.orderkey,
+                session=session
+            )
+            order.data.partition = partition.name
         return order
 
     async def finish_order(

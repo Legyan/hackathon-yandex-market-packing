@@ -4,17 +4,10 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.api.services.order import order_service
 from app.core.db import get_async_session
 from app.core.users import get_current_user_id
-from app.schemas.order import (
-    ItemBase,
-    OrderCreateResponseSchema,
-    OrderCreateSchema,
-    OrderDataToUser,
-    OrderToUserSchema,
-    PackageSchema,
-    ProductToUser,
-)
 from app.schemas.base import BaseOutputSchema
-
+from app.schemas.order import (ItemBase, OrderCreateResponseSchema,
+                               OrderCreateSchema, OrderDataToUser,
+                               OrderToUserSchema, PackageSchema, ProductToUser)
 
 router = APIRouter()
 
@@ -100,7 +93,6 @@ async def get_order(
     recommendation1 = [r1p1]
     recommendation2 = [r2p1, r2p2]
     recommendation3 = [r3p1, r3p2]
-
     data = OrderDataToUser(
         partition='test_partition',
         orderkey='test_order_to_front',
