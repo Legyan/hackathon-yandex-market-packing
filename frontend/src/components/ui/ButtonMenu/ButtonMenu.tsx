@@ -6,18 +6,28 @@ import iconBox from '../../../images/icon_box.svg';
 import packet from '../../../images/icon_package.svg';
 import stretch from '../../../images/icon_stretch.svg';
 import nonpack from '../../../images/icon_nonpack.svg';
+import { useDispatch } from '../../../utils/type/store';
+import { selectRecommendation } from '../../../services/actions/recommendationAction';
 
-const ButtonMenu: FC<IButtonMenu> = ({ data, activeButton, ...rest }) => {
-  console.log(data.length);
+const ButtonMenu: FC<IButtonMenu> = ({
+  data,
+  index,
+  recomendnIndex,
+  ...rest
+}) => {
+  const dispatch = useDispatch();
+
+  const choiceRecommendation = () => {
+    dispatch(selectRecommendation(data, index))
+    console.log(data)
+  }
 
   return (
     <button
       className={
-        activeButton === 'active' ? `${style.wrapper} ${style.active}` :
-        activeButton === 'notSelection' ? `${style.wrapper} ${style.notSelection}` :
-        activeButton === 'inactive' ? `${style.wrapper} ${style.inactive}` :
-        ''
+        recomendnIndex === index ? `${style.wrapper} ${style.active}` : `${style.wrapper} ${style.notSelection}`
       }
+      onClick={choiceRecommendation}
     >{data.map(btn => {
       return(
         <div

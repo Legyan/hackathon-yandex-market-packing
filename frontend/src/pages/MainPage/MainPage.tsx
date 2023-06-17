@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import style from './MainPage.module.css'
 import Progressbar from '../../components/Progressbar/Progressbar';
@@ -22,10 +22,10 @@ const MainPage: FC = () => {
     history.replace({ pathname: '/problems/another' });
   }
 
-  const logout = () => {
+  const logout = useCallback(() => {
     setCookie('token', '');
     history.replace({ pathname: '/table' });
-  }
+  }, [history])
 
   const order = () => {
     history.replace({ pathname: '/order' });
@@ -49,6 +49,9 @@ const MainPage: FC = () => {
         </div>
         <div className={style.statWrapper}>
           <Progressbar title={'Упаковка'} />
+          {/*
+            Вывести в отдельный компонент
+          */}
           <ul className={style.statistics}>
             <li className={style.stat}>
               <h3 className={style.statTitle}>Упаковано за сегодня</h3>

@@ -19,8 +19,6 @@ const request: TRequest = async <T>(url: string, options?: RequestInit) => {
 }
 
 export async function registerTableApi({userId, inputValue}: IRegisterTable) {
-  console.log(userId);
-  console.log(inputValue)
   return await request<IResponseTable>(apiUrl + 'register_table', {
     method: 'POST',
     headers: { "Content-Type": "application/json" },
@@ -32,8 +30,6 @@ export async function registerTableApi({userId, inputValue}: IRegisterTable) {
 }
 
 export async function registerPrinterApi({inputValue}: IRegisterPrinter) {
-  console.log(inputValue);
-  console.log("Bearer " + getCookie("token"));
   return await request<IResponsePrinter>(apiUrl + 'register_printer', {
     method: 'POST',
     headers: {
