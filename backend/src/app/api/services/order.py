@@ -3,10 +3,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.api.exceptions import NoActiveOrderError
 from app.api.services.base import BaseService
 from app.api.services.pack_variation import pack_variation_service
-from app.api.services.request_to_ds import get_package_recommendation
 from app.crud.order import order_crud
 from app.crud.pack_variation import pack_variation_crud
-from app.crud.partitions import partition_crud
+from app.crud.partition import partition_crud
 from app.models.order import OrderStatusEnum
 from app.schemas.base import BaseOutputSchema
 from app.schemas.order import (OrderCreateResponseSchema, OrderCreateSchema,
@@ -22,9 +21,11 @@ class OrderService(BaseService):
         session: AsyncSession,
     ) -> OrderCreateResponseSchema:
         new_order = await self.crud.add_order(order, session)
-        package_recommendations = await get_package_recommendation(
-            orderkey=new_order.orderkey,
-            session=session
+        package_recommendations = await (
+            pack_variation_service.get_package_recommendation(
+                orderkey=new_order.orderkey,
+                session=session
+            )
         )
         await pack_variation_service.write_pack_variations_to_db(
             packing_variations=package_recommendations,

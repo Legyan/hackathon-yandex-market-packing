@@ -2,15 +2,15 @@ import asyncio
 import contextlib
 import csv
 
+from backend.src.app.crud.partition import partition_crud
+from backend.src.app.crud.product import product_crud
 from sqlalchemy.exc import IntegrityError
 
 from app.core.db import get_async_session
 from app.crud.barcode import barcode_crud
 from app.crud.cargotype import cargotype_crud
 from app.crud.cartontype import cartontype_crud
-from app.crud.partitions import partition_crud
-from app.crud.printers import printer_crud
-from app.crud.products import product_crud
+from app.crud.printer import printer_crud
 from app.crud.table import table_crud
 from app.crud.user import user_crud
 from app.schemas.barcode import BarcodeSKUSchema

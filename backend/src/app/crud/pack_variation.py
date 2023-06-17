@@ -4,6 +4,7 @@ from sqlalchemy.orm import joinedload
 
 from app.crud.base import CRUDBase
 from app.crud.order import order_crud
+from app.crud.product import product_crud
 from app.models.cartontype import Cartontype
 from app.models.order import OrderStatusEnum
 from app.models.pack_variation import PackingVariation
@@ -53,11 +54,17 @@ class CRUDPackingVariation(CRUDBase):
                 await session.commit()
                 await session.refresh(new_package)
                 for product_sku in package.goods:
-                    new_package_product = PackageProduct(
-                        package_id=new_package.id,
-                        product_sku=product_sku
+                    count = await product_crud.get_order_products_count(
+                        sku=product_sku,
+                        orderkey=packing_variations.orderkey,
+                        session=session
                     )
-                    session.add(new_package_product)
+                    for _ in range(count):
+                        new_package_product = PackageProduct(
+                            package_id=new_package.id,
+                            product_sku=product_sku
+                        )
+                        session.add(new_package_product)
                 await session.commit()
 
         await order_crud.set_order_status(

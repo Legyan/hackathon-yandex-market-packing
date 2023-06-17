@@ -12,7 +12,7 @@ export const getOrder = () => {
     });
     getOrderApi()
       .then(res => {
-        if (res && res.success) {
+        if (res && res.status) {
           dispatch({
             type: GET_ORDER_SUCCESS,
             data: res.data

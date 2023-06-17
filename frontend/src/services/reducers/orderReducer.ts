@@ -1,4 +1,4 @@
-import { IGoods, IRecPacking } from "../../utils/type/main";
+import { IAlreadyPacked, IGoods, IRecPacking } from "../../utils/type/main";
 import {
   GET_ORDER_ERROR,
   GET_ORDER_REQUEST,
@@ -8,30 +8,42 @@ import {
 const initialState = {
   success: false,
   isLoading: false,
-  data: {
-    orderkey: '',
-    partition: '',
-    goods: [
-      {
-        sku: '',
-        title: '',
-        description: '',
-        image: '',
-        imei: false,
-        honest_sign: false,
-        fragility: true,
-      }
-    ],
-    recomend_packing: [
-      {
-        cartontype: '',
-        items: [{
-          sku: '',
-          count: 0
-        }]
-      }
-    ]
-  }
+  data: null,
+  // {
+  //   orderkey: '',
+  //   partition: '',
+  //   goods: [
+  //     {
+  //       sku: '',
+  //       title: '',
+  //       description: '',
+  //       image: '',
+  //       imei: false,
+  //       honest_sign: false, // честный знак
+  //       fragility: true, // подсказка пупырка
+  //     }
+  //   ],
+  //   recomend_packing: [
+  //     {
+  //       cartontype: '',
+  //       icontype: '',
+  //       items: [{
+  //         sku: '',
+  //         count: 0
+  //       }]
+  //     }
+  //   ],
+  //   already_packed: [
+  //     [{
+  //       cartontype: '',
+  //       is_packed: false,
+  //       items: [{
+  //         sku: '',
+  //         count: 0
+  //       }]
+  //     }]
+  //   ]
+  // }
 }
 
 interface IState {
@@ -41,8 +53,9 @@ interface IState {
     orderkey: string;
     partition: string;
     goods: Array<IGoods>;
-    recomend_packing: Array<IRecPacking>;
-  }
+    recomend_packing: Array<Array<IRecPacking>>;
+    already_packed: Array<Array<IAlreadyPacked>>;
+  } | null,
 }
 
 export interface IGetOrderRequest {
@@ -55,7 +68,8 @@ export interface IGetOrderSuccess {
     orderkey: string;
     partition: string;
     goods: Array<IGoods>;
-    recomend_packing: Array<IRecPacking>;
+    recomend_packing: Array<Array<IRecPacking>>;
+    already_packed: Array<Array<IAlreadyPacked>>;
   }
 }
 
@@ -74,12 +88,13 @@ export const orderReducer = (state: IState = initialState, action: TActionsOrder
       return {
         ...state,
         success: true,
+        isLoading: true,
       }
     case GET_ORDER_SUCCESS:
       return {
         ...state,
         data: action.data,
-        isLoading: true,
+        isLoading: false,
       }
     case GET_ORDER_ERROR:
       return {
