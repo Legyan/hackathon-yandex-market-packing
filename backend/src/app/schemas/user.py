@@ -16,5 +16,5 @@ class UserAuthPrinterSchema(BaseModel):
 class UserInfoSchema(BaseModel):
     username: str
     user_id: int
-    table_id: Optional[int] = None
-    printer_id: Optional[int] = None
+    table_id: Optional[str] = None
+    printer_id: Optional[str] = None
