@@ -33,11 +33,35 @@ class AlreadyHaveHonestSignError(HTTPException):
         )
 
 
+class AlreadyHandledBarcodeError(HTTPException):
+    def __init__(self):
+        super().__init__(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail='Штих-код уже был обработан.'
+        )
+
+
+class NeedToClosePackageError(HTTPException):
+    def __init__(self):
+        super().__init__(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail='Необходимо закрыть открытую коробку.'
+        )
+
+
 class NoActivePackageError(HTTPException):
     def __init__(self):
         super().__init__(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail='Нет открытых коробок/пакетов.'
+        )
+
+
+class NoActiveOrderError(HTTPException):
+    def __init__(self):
+        super().__init__(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail='Нет активного заказа.'
         )
 
 

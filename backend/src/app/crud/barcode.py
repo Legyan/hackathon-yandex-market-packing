@@ -4,11 +4,13 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload
 
-from app.api.exceptions import (AlreadyHaveHonestSignError,
+from app.api.exceptions import (AlreadyHandledBarcodeError,
+                                AlreadyHaveHonestSignError,
                                 AlreadyHaveImeiError, NoBarcodeError)
+from app.core.constants import NONPACK_TYPES
 from app.crud.base import CRUDBase
 from app.crud.package import package_crud
-from app.models.barcode_sku import BarcodeSKU
+from app.models.barcode_sku import BarcodeSKU, BarcodeStatusEnum
 from app.models.cartontype import Cartontype
 from app.models.honest_sign import HonestSign
 from app.models.imei import Imei
@@ -31,6 +33,8 @@ class CRUDBarcode(CRUDBase):
             barcode=barcode,
             session=session
         )
+        if barcode_sku.status != BarcodeStatusEnum.ALLOWED:
+            raise AlreadyHandledBarcodeError()
         if barcode_sku:
             return barcode_sku
         raise NoBarcodeError()
@@ -55,14 +59,11 @@ class CRUDBarcode(CRUDBase):
         barcode: BarcodeSKU,
         session: AsyncSession
     ) -> None:
-        if cargotype_tag == '360':
-            cartontype = 'STRETCH'
-        else:
-            cartontype = 'NONPACK'
+        cartontype = NONPACK_TYPES[cargotype_tag]
         new_package = await package_crud.add_new_package(
             cartontype_tag=cartontype,
             pack_variation_id=packing_variation_id,
-            status=PackageStatusEnum.PACKED,
+            status=PackageStatusEnum.ACTIVE,
             session=session
         )
         await package_crud.add_package_product(
@@ -119,6 +120,21 @@ class CRUDBarcode(CRUDBase):
         session.add(honest_sign)
         await session.commit()
         return honest_sign
+
+    async def set_barcode_status(
+        self,
+        barcode: str,
+        status: BarcodeStatusEnum,
+        session: AsyncSession
+    ) -> None:
+        barcode = await barcode_crud.get_by_attribute(
+            attr_name='barcode',
+            attr_value=barcode,
+            session=session
+        )
+        barcode.status = status
+        session.add(barcode)
+        await session.commit()
 
 
 barcode_crud = CRUDBarcode(BarcodeSKU)

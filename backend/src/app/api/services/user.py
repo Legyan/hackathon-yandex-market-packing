@@ -1,8 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.api.exceptions import (
-    NoUserError, TableIsBusyError, UserAlreadyHaveTableError
-)
+from app.api.exceptions import (NoUserError, TableIsBusyError,
+                                UserAlreadyHaveTableError)
 from app.api.services.base import BaseService
 from app.api.services.printer import printer_service
 from app.api.services.table import table_service
@@ -66,8 +65,8 @@ class UserService(BaseService):
         return UserInfoSchema(
             username=user.name,
             user_id=user_id,
-            table_id=table_id,
-            printer_id=printer_id
+            table_id=str(table_id),
+            printer_id=str(printer_id)
         )
 
 
