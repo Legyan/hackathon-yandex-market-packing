@@ -6,6 +6,7 @@ from app.core.db import Base
 
 class Partition(Base):
     """Модель ячейки с товарами заказа для упаковки."""
+
     __tablename__ = 'partitions'
 
     name = Column(String(100), unique=True, nullable=False)

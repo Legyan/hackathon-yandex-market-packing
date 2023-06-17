@@ -4,6 +4,8 @@ from app.core.db import Base
 
 
 class Imei(Base):
+    """Модель IMEI товара."""
+
     __tablename__ = 'imeis'
 
     imei = Column(String(50), unique=True)

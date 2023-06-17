@@ -31,13 +31,13 @@ async def handle_barcode(
     '/imei',
     response_model_exclude_none=True,
 )
-async def add_imei(
+async def handle_imei(
     imei: ImeiInputSchema,
     user_id: str = Depends(get_current_user_id),
     session: AsyncSession = Depends(get_async_session),
 ) -> BaseOutputSchema:
     """Обработка imei товара."""
-    return await barcode_service.add_imei(
+    return await barcode_service.handle_imei(
         barcode=imei.barcode, imei=imei.imei, session=session
     )
 
@@ -46,7 +46,7 @@ async def add_imei(
     '/honest_sign',
     response_model_exclude_none=True,
 )
-async def add_honest_sign(
+async def handle_honest_sign(
     honest_sign: HonestSignInputSchema,
     user_id: str = Depends(get_current_user_id),
     session: AsyncSession = Depends(get_async_session),

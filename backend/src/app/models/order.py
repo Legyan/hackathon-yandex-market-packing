@@ -16,6 +16,8 @@ class OrderStatusEnum(PyEnum):
 
 
 class Order(Base):
+    """Модель заказа."""
+
     __tablename__ = 'orders'
 
     orderkey = Column(String(50), unique=True, nullable=False)

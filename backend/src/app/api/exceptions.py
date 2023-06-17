@@ -41,6 +41,22 @@ class AlreadyHandledBarcodeError(HTTPException):
         )
 
 
+class InvalidImeiError(HTTPException):
+    def __init__(self):
+        super().__init__(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail='Невалидный IMEI.'
+        )
+
+
+class InvalidHonestSignError(HTTPException):
+    def __init__(self):
+        super().__init__(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail='Невалидный "Честный знак".'
+        )
+
+
 class NeedToClosePackageError(HTTPException):
     def __init__(self):
         super().__init__(

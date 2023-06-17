@@ -4,6 +4,8 @@ from app.core.db import Base
 
 
 class Cartontype(Base):
+    """Модель типа упаковки товара."""
+
     __tablename__ = 'cartontypes'
 
     tag = Column(String(10), unique=True, nullable=False)
