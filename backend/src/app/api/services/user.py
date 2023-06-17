@@ -7,7 +7,8 @@ from app.api.services.printer import printer_service
 from app.api.services.table import table_service
 from app.crud.user import user_crud
 from app.models.user import User
-from app.schemas.user import UserInfoSchema
+from app.schemas.base import BaseOutputSchema
+from app.schemas.user import UserDataSchema, UserInfoSchema
 
 
 class UserService(BaseService):
@@ -28,16 +29,19 @@ class UserService(BaseService):
     async def check_table_user(
         self,
         user_id: int,
-        table_id: int,
+        table_id: str,
         session: AsyncSession
     ) -> None:
-        table = await table_service.crud.get(table_id, session)
+        table = await table_service.crud.get_by_attribute(
+            attr_name='name',
+            attr_value=table_id,
+            session=session
+        )
         if table and table.user_id and table.user_id != user_id:
             raise TableIsBusyError()
         table = await table_service.crud.get_table_by_user(user_id, session)
-        if table and int(table.id) != table_id:
-            raise UserAlreadyHaveTableError(table.id)
-        table = await table_service.crud.get(int(table_id), session)
+        if table and table.name != table_id:
+            raise UserAlreadyHaveTableError(table.name)
 
     async def get_user_info(
         self,
@@ -49,31 +53,33 @@ class UserService(BaseService):
             session=session
         )
         if not user:
-            raise NoUserError
+            raise NoUserError()
         table = await table_service.crud.get_by_attribute(
             attr_name='user_id',
             attr_value=user_id,
             session=session
         )
-        table_id = None if not table else table.id
+        table_id = None if not table else table.name
         printer = await printer_service.crud.get_by_attribute(
             attr_name='user_id',
             attr_value=user_id,
             session=session
         )
-        printer_id = None if not printer else printer.id
+        printer_id = None if not printer else printer.name
         return UserInfoSchema(
-            username=user.name,
-            user_id=user_id,
-            table_id=str(table_id),
-            printer_id=str(printer_id)
+            data=UserDataSchema(
+                username=user.name,
+                user_id=user_id,
+                table_id=table_id,
+                printer_id=printer_id
+            )
         )
 
     async def logout(
         self,
         user_id: int,
         session: AsyncSession
-    ) -> None:
+    ) -> BaseOutputSchema:
         await user_crud.unlink_table(
             user_id,
             session
@@ -82,6 +88,7 @@ class UserService(BaseService):
             user_id,
             session
         )
+        return BaseOutputSchema()
 
 
 user_service = UserService(user_crud)

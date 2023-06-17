@@ -13,8 +13,13 @@ class UserAuthPrinterSchema(BaseModel):
     printer_id: str
 
 
-class UserInfoSchema(BaseModel):
+class UserDataSchema(BaseModel):
     username: str
     user_id: int
     table_id: Optional[str] = None
     printer_id: Optional[str] = None
+
+
+class UserInfoSchema(BaseModel):
+    data: UserDataSchema
+    success: bool = True

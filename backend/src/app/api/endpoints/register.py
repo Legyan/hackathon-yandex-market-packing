@@ -28,12 +28,12 @@ async def register_table(
     await user_service.check_user_exist(data.user_id, session)
     await user_service.check_table_user(
         user_id=data.user_id,
-        table_id=int(data.table_id),
+        table_id=data.table_id,
         session=session
     )
     await table_service.set_user_to_table(
         data.user_id,
-        int(data.table_id),
+        data.table_id,
         session
     )
     token_data = {
@@ -56,5 +56,5 @@ async def register_printer(
 ) -> AuthOutputSchema:
     """Регистрация принтера пользователем."""
     return await printer_service.set_user_to_printer(
-        user_id, int(printer.printer_id), session
+        user_id, printer.printer_id, session
     )
