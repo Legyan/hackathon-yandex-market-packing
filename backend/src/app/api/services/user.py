@@ -8,7 +8,7 @@ from app.api.services.table import table_service
 from app.crud.user import user_crud
 from app.models.user import User
 from app.schemas.base import BaseOutputSchema
-from app.schemas.user import UserInfoSchema
+from app.schemas.user import UserDataSchema, UserInfoSchema
 
 
 class UserService(BaseService):
@@ -53,24 +53,26 @@ class UserService(BaseService):
             session=session
         )
         if not user:
-            raise NoUserError
+            raise NoUserError()
         table = await table_service.crud.get_by_attribute(
             attr_name='user_id',
             attr_value=user_id,
             session=session
         )
-        table_id = None if not table else table.id
+        table_id = None if not table else table.name
         printer = await printer_service.crud.get_by_attribute(
             attr_name='user_id',
             attr_value=user_id,
             session=session
         )
-        printer_id = None if not printer else printer.id
+        printer_id = None if not printer else printer.name
         return UserInfoSchema(
-            username=user.name,
-            user_id=user_id,
-            table_id=str(table_id),
-            printer_id=str(printer_id)
+            data=UserDataSchema(
+                username=user.name,
+                user_id=user_id,
+                table_id=table_id,
+                printer_id=printer_id
+            )
         )
 
     async def logout(
