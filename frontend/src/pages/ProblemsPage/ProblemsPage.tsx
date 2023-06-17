@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import style from './ProblemsPage.module.css';
-import FooterBack from '../../components/FooterBack/FooterBack';
 import ButtonProblem from '../../components/ButtonProblems/ButtonProblems';
+import Footer from '../../components/Footer/Footer';
 
 const ProblemsPage: FC = () => {
   return (
@@ -13,7 +13,7 @@ const ProblemsPage: FC = () => {
       <ButtonProblem link='/problems/another' title='Другая проблема'/>
       </div>
     </section>
-    <FooterBack link='/' title='Назад'/>
+    <Footer title='Назад'/>
     </>
   )
 }

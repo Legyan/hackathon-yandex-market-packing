@@ -111,3 +111,7 @@ export interface IProtectedRoute {
 export interface IMenu {
   recommend: Array<Array<IRecPacking>>;
 }
+
+export interface IFooter {
+  title?: string;
+}
