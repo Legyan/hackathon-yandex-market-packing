@@ -28,7 +28,7 @@ const Header: FC = () => {
       </div>
       <div className={style.wrapperStat}>
         <div className={style.statistics}>
-          <span className={style.nickname}>{user.user_name}</span>
+          <span className={style.nickname}>{user.username}</span>
           <div className={style.buttons}>
             <button className={style.btnKpi}>KPI</button>
             <button className={style.btnStat}>

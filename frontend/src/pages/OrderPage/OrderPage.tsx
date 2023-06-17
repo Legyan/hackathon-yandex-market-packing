@@ -1,4 +1,4 @@
-import { FC, useEffect, useState, useMemo } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { ThreeCircles } from  'react-loader-spinner';
 import { v4 as uuid4 } from 'uuid';
 import style from './OrderPage.module.css';
@@ -6,8 +6,6 @@ import Footer from '../../components/Footer/Footer';
 import Progressbar from '../../components/Progressbar/Progressbar';
 import Package from '../../components/Package/Package';
 import Goods from '../../components/Goods/Goods';
-import bootleJuice from '../../images/photo-goods/bottle_of_juice.jpg';
-import column from '../../images/photo-goods/column.jpg';
 import ButtonLink from '../../components/ui/ButtonLink/ButtonLink';
 import ModalProblems from '../../components/ModalProblems/ModalProblems'
 import BtnHasProblem from '../../components/ui/BtnHasProblem/BtnHasProblem';
