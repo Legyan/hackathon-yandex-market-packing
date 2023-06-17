@@ -1,5 +1,6 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.api.exceptions import NoActiveOrderError
 from app.api.services.base import BaseService
 from app.api.services.pack_variation import pack_variation_service
 from app.api.services.request_to_ds import get_package_recommendation
@@ -98,6 +99,8 @@ class OrderService(BaseService):
         session: AsyncSession
     ) -> BaseOutputSchema:
         order = await self.crud.get_order_by_user_id(user_id, session)
+        if not order:
+            raise NoActiveOrderError()
         pack_variation = (
             await pack_variation_crud.get_active_pack_variation(
                 orderkey=order.orderkey,

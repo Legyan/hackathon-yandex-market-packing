@@ -65,8 +65,8 @@ class UserService(BaseService):
         return UserInfoSchema(
             username=user.name,
             user_id=user_id,
-            table_id=table_id,
-            printer_id=printer_id
+            table_id=str(table_id),
+            printer_id=str(printer_id)
         )
 
 

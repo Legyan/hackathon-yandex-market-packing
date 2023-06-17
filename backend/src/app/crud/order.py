@@ -299,7 +299,9 @@ class CRUDOrder(CRUDBase):
             attr_value=order.orderkey,
             session=session
         )
-        partition.oderkey = None
+        partition.orderkey = None
+        session.add(partition)
+        await session.flush()
         order_with_barcodes = await self.get_order_by_user_id_with_barcodes(
             user_id=order.packer_user_id,
             session=session
@@ -307,8 +309,8 @@ class CRUDOrder(CRUDBase):
         for barcode in order_with_barcodes.barcodes:
             barcode.status = BarcodeStatusEnum.NOT_ALLOWED
             session.add(barcode)
-        session.add(partition)
         session.add(order)
+        await session.flush()
         await session.commit()
 
     async def get_icontype(
