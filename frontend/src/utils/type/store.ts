@@ -3,8 +3,12 @@ import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { RootState } from "../../services/store";
 import { TActionsUser } from '../../services/reducers/userReducer';
 import { TActionsOrder } from "../../services/reducers/orderReducer";
+import { TActionsRecommendation } from "../../services/reducers/recommendationReducer";
 
-export type TApplicationActions = TActionsUser | TActionsOrder;
+export type TApplicationActions =
+  TActionsUser
+  | TActionsOrder
+  | TActionsRecommendation
 
 export type AppDispatch = ThunkDispatch<RootState, never, TApplicationActions>;
 

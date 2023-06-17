@@ -25,9 +25,11 @@ export interface IHint {
 export interface IGoodsProps {
   img: string;
   title: string;
-  clue?: string;
+  clue: boolean;
   percentage: string;
   sku: string;
+  imei: boolean;
+  honest_sign: boolean;
   sign?: string;
 }
 
@@ -38,10 +40,10 @@ export interface IButton extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export interface IButtonMenu extends ButtonHTMLAttributes<HTMLButtonElement> {
-  icon?: string;
-  description: string;
-  count?: string;
-  activeButton: string;
+  data: Array<IRecPacking>;
+  index: number;
+  recomendnIndex: number;
+  // firstRecommen: Array<IRecPacking>
 }
 
 export interface IButtonLink extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -67,6 +69,7 @@ export interface IUser {
 }
 
 export interface IGoods {
+  count?: number;
   sku: string;
   title: string;
   description: string;
@@ -81,8 +84,20 @@ export interface IItems {
   count: number;
 }
 
+export interface IPackage {
+  icon: string;
+  title: string;
+}
+
 export interface IRecPacking {
   cartontype: string;
+  icontype: string;
+  items: Array<IItems>;
+}
+
+export interface IAlreadyPacked {
+  cartontype: string;
+  is_packed: boolean;
   items: Array<IItems>;
 }
 
@@ -91,4 +106,8 @@ export interface IProtectedRoute {
   rest?: HTMLProps<RouteComponentProps>;
   path?: string;
   exact?: boolean;
+}
+
+export interface IMenu {
+  recommend: Array<Array<IRecPacking>>;
 }

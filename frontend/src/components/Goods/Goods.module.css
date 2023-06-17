@@ -1,11 +1,3 @@
-.li {
-  list-style-type: none;
-  background: #F8F8F8;
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-}
-
 .goods {
   padding: 12px;
   display: flex;

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import style from './MainPage.module.css'
 import Progressbar from '../../components/Progressbar/Progressbar';
@@ -6,7 +6,6 @@ import Footer from '../../components/Footer/Footer';
 import box from '../../images/icon_stat_box.svg';
 import speed from '../../images/icon_speedstat.svg';
 import cup from '../../images/icon_cup.svg';
-import ButtonLink from '../../components/ui/ButtonLink/ButtonLink';
 import { useSelector } from '../../utils/type/store';
 import ButtonForm from '../../components/ui/ButtonForm/ButtonForm';
 import { getCookie, setCookie } from '../../utils/cookie';
@@ -23,10 +22,10 @@ const MainPage: FC = () => {
     history.replace({ pathname: '/problems/another' });
   }
 
-  const logout = () => {
+  const logout = useCallback(() => {
     setCookie('token', '');
     history.replace({ pathname: '/table' });
-  }
+  }, [history])
 
   const order = () => {
     history.replace({ pathname: '/order' });
@@ -50,6 +49,9 @@ const MainPage: FC = () => {
         </div>
         <div className={style.statWrapper}>
           <Progressbar title={'Упаковка'} />
+          {/*
+            Вывести в отдельный компонент
+          */}
           <ul className={style.statistics}>
             <li className={style.stat}>
               <h3 className={style.statTitle}>Упаковано за сегодня</h3>
