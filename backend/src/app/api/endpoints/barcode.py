@@ -6,9 +6,8 @@ from app.core.db import get_async_session
 from app.core.users import get_current_user_id
 from app.schemas.barcode import BarcodeInfoSchema, BarcodeInputSchema
 from app.schemas.base import BaseOutputSchema
-from app.schemas.imei import ImeiInputSchema
 from app.schemas.honest_sign import HonestSignInputSchema
-
+from app.schemas.imei import ImeiInputSchema
 
 router = APIRouter()
 

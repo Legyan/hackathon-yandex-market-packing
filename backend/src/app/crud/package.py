@@ -4,7 +4,7 @@ from sqlalchemy.orm import joinedload
 
 from app.crud.base import CRUDBase
 from app.crud.pack_variation import pack_variation_crud
-from app.models.barcode_sku import BarcodeSKU
+from app.models.barcode_sku import BarcodeSKU, BarcodeStatusEnum
 from app.models.package import Package, PackageProduct, PackageStatusEnum
 
 
@@ -49,6 +49,7 @@ class CRUDPackage(CRUDBase):
 
     async def add_package_product(
             self,
+            orderkey: str,
             active_package: Package,
             barcode: BarcodeSKU,
             session: AsyncSession
@@ -59,6 +60,9 @@ class CRUDPackage(CRUDBase):
             product_sku=barcode.sku,
             barecode_tag=barcode.barcode
         )
+        barcode.status = BarcodeStatusEnum.IN_CART
+        barcode.orderkey = orderkey
+        session.add(barcode)
         session.add(package_product)
         await session.commit()
 

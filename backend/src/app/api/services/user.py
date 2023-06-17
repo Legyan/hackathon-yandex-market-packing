@@ -1,8 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.api.exceptions import (
-    NoUserError, TableIsBusyError, UserAlreadyHaveTableError
-)
+from app.api.exceptions import (NoUserError, TableIsBusyError,
+                                UserAlreadyHaveTableError)
 from app.api.services.base import BaseService
 from app.api.services.table import table_service
 from app.crud.user import user_crud

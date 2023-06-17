@@ -24,7 +24,7 @@ async def close_package(
     )
 
 
-@router.get(
+@router.post(
     '/remove_from_package',
     response_model_exclude_none=True,
 )

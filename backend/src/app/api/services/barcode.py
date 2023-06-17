@@ -2,17 +2,21 @@ from typing import Union
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.api.exceptions import NoBarcodeError, NoActivePackageError
+from app.api.exceptions import (NeedToClosePackageError, NoActiveOrderError,
+                                NoActivePackageError, NoBarcodeError)
 from app.api.services.base import BaseService
 from app.api.services.package import package_service
+from app.core.constants import NONPACK_CARGOTYPES
 from app.crud.barcode import barcode_crud
 from app.crud.order import order_crud
+from app.crud.pack_variation import pack_variation_crud
 from app.crud.package import package_crud
 from app.models.barcode_sku import BarcodeSKU
 from app.models.cartontype import Cartontype
+from app.models.order import Order
 from app.models.package import Package
-from app.schemas.base import BaseOutputSchema
 from app.schemas.barcode import BarcodeInfoSchema
+from app.schemas.base import BaseOutputSchema
 
 
 class BarcodeService(BaseService):
@@ -31,6 +35,8 @@ class BarcodeService(BaseService):
             )
         )
         order = await order_crud.get_order_by_user_id(user_id, session)
+        if not order:
+            raise NoActiveOrderError()
         active_package = await package_service.get_active_package(
             orderkey=order.orderkey,
             session=session
@@ -58,36 +64,48 @@ class BarcodeService(BaseService):
                 honest_sign=False
             )
         return await self.handle_sku_barcode(
-                barcode_obj,
-                active_package,
-                session
+                barcode=barcode_obj,
+                active_package=active_package,
+                order=order,
+                session=session
         )
 
     async def handle_sku_barcode(
         self,
         barcode: BarcodeSKU,
         active_package: Package,
+        order: Order,
         session: AsyncSession,
     ) -> BarcodeInfoSchema:
-        if not active_package:
-            raise NoActivePackageError()
-        packing_variation_id = active_package.packing_variation_id
+        pack_variation = (
+            await pack_variation_crud.get_active_pack_variation(
+                orderkey=order.orderkey,
+                session=session
+            )
+        )
+        pack_variation_id = pack_variation.id
         product = await self.crud.get_product_by_sku(
             barcode.sku,
             session
         )
         nonpack = False
         for cargotype in product.cargotypes:
-            if cargotype.cargotype_tag in ['340', '360']:
+            if cargotype.cargotype_tag in NONPACK_CARGOTYPES:
+                if active_package:
+                    raise NeedToClosePackageError()
                 await barcode_crud.handle_nonpack_product(
                     cargotype_tag=cargotype.cargotype_tag,
-                    packing_variation_id=packing_variation_id,
+                    packing_variation_id=pack_variation_id,
                     barcode=barcode,
                     session=session
                 )
                 nonpack = True
+                break
+        if not active_package and not nonpack:
+            raise NoActivePackageError()
         if not nonpack:
             await package_crud.add_package_product(
+                orderkey=order.orderkey,
                 active_package=active_package,
                 barcode=barcode,
                 session=session
