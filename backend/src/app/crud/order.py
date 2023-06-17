@@ -10,7 +10,7 @@ from app.api.exceptions import (NoProductError, NotAllBoxesClosedError,
 from app.core.constants import (FRAGILITY_CARGOTYPES, NONPACK_CARTONTYPES,
                                 PACKET_CARTONTYPES)
 from app.crud.base import CRUDBase
-from app.crud.partitions import partition_crud
+from app.crud.partition import partition_crud
 from app.models.barcode_sku import BarcodeStatusEnum
 from app.models.order import Order, OrderStatusEnum
 from app.models.order_product import OrderProduct
@@ -258,6 +258,17 @@ class CRUDOrder(CRUDBase):
                     # Order.status == OrderStatusEnum.COLLECT,
                     Order.packer_user_id == user_id)
             )
+        )).scalars().first()
+
+    async def get_order_with_products(
+            self,
+            orderkey: str,
+            session: AsyncSession
+    ) -> Order:
+        return (await session.execute(
+            select(Order)
+            .options(joinedload(Order.products))
+            .where(Order.orderkey == orderkey)
         )).scalars().first()
 
     async def check_order_readiness(

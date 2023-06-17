@@ -33,7 +33,7 @@ async def get_order(
     session: AsyncSession = Depends(get_async_session),
 ) -> OrderToUserSchema:
     """Получение заказа пользователем."""
-    # return await order_service.get_order_to_user(user_id, session)
+    return await order_service.get_order_to_user(user_id, session)
     product_to_user_1 = ProductToUser(
         sku='sku111111111111111111111',
         title='Яндекс станция с Алисой',
