@@ -49,13 +49,13 @@ class ProductToUser(BaseModel):
 
 
 class PackageSchema(BaseModel):
-    cartontype: str = '',
+    cartontype: str = ''
     icontype: str = ''
     items: list[ItemBase] = []
 
 
 class AlreadyPackedSchema(PackageSchema):
-    is_packaged: bool
+    is_packaged: bool = False
 
 
 class OrderDataToUser(BaseModel):
@@ -63,7 +63,7 @@ class OrderDataToUser(BaseModel):
     orderkey: str = ''
     goods: list[ProductToUser] = []
     recomend_packing: list[list[PackageSchema]] = [[PackageSchema()]]
-    already_packed: list[AlreadyPackedSchema] = []
+    already_packed: list[AlreadyPackedSchema] = [AlreadyPackedSchema()]
 
 
 class OrderToUserSchema(BaseModel):
