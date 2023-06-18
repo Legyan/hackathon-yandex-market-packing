@@ -16,7 +16,7 @@ from app.models.barcode_sku import BarcodeSKU
 from app.models.cartontype import Cartontype
 from app.models.order import Order
 from app.models.package import Package
-from app.schemas.barcode import BarcodeInfoSchema
+from app.schemas.barcode import BarcodeDataSchema, BarcodeInfoSchema
 from app.schemas.base import BaseOutputSchema
 
 
@@ -58,11 +58,12 @@ class BarcodeService(BaseService):
                     session=session
                 )
             return BarcodeInfoSchema(
-                status='ok',
-                type='carton',
-                info=cartontype_tag,
-                imei=False,
-                honest_sign=False
+                data=BarcodeDataSchema(
+                    type='carton',
+                    info=cartontype_tag,
+                    imei=False,
+                    honest_sign=False
+                )
             )
         return await self.handle_sku_barcode(
                 barcode=barcode_obj,
@@ -114,11 +115,12 @@ class BarcodeService(BaseService):
         await session.refresh(barcode)
         await session.refresh(product)
         return BarcodeInfoSchema(
-            status='ok',
-            type='goods',
-            info=barcode.sku,
-            imei=product.need_imei,
-            honest_sign=product.need_honest_sign
+            data=BarcodeDataSchema(
+                type='goods',
+                info=barcode.sku,
+                imei=product.need_imei,
+                honest_sign=product.need_honest_sign
+            )
         )
 
     async def handle_imei(
