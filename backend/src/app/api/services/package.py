@@ -20,6 +20,8 @@ class PackageService(BaseService):
         orderkey: str,
         session: AsyncSession
     ) -> Package:
+        """Получение активной упаковки."""
+
         return await self.crud.get_active_package(
             orderkey=orderkey,
             session=session
@@ -32,6 +34,8 @@ class PackageService(BaseService):
         order: Order,
         session: AsyncSession
     ) -> None:
+        """Изменение активной упаковки."""
+
         new_package = await self.add_new_package(
             cartontype_tag=cartontype,
             order=order,
@@ -55,6 +59,7 @@ class PackageService(BaseService):
         order: Order,
         session: AsyncSession
     ) -> Package:
+        """Добавление упаковки."""
         pack_variation = await pack_variation_crud.get_active_pack_variation(
             orderkey=order.orderkey,
             session=session
@@ -71,6 +76,8 @@ class PackageService(BaseService):
         user_id: int,
         session: AsyncSession
     ) -> BaseOutputSchema:
+        """Закрытие упаковки."""
+
         order = await order_crud.get_order_by_user_id(user_id, session)
         active_package = await package_service.get_active_package(
             orderkey=order.orderkey,
@@ -90,6 +97,7 @@ class PackageService(BaseService):
         user_id: int,
         session: AsyncSession
     ) -> BaseOutputSchema:
+        """Удаление из упаковки."""
         for barcode in barcodes:
             await self.crud.delete_package_product(
                 barcode=barcode,

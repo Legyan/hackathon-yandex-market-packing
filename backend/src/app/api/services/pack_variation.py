@@ -69,6 +69,8 @@ class PackingVariationService(BaseService):
         packing_variations: PackingVariationsSchema,
         session: AsyncSession,
     ) -> None:
+        """Запись вариантов упаковки в базу данных."""
+
         await self.crud.write_pack_variations_to_db(
             packing_variations=packing_variations,
             session=session
@@ -79,6 +81,8 @@ class PackingVariationService(BaseService):
             orderkey: str,
             session: AsyncSession
     ) -> None:
+        """Добавление варианта упаковки."""
+
         await self.crud.add_active_pack_variation(
             orderkey=orderkey,
             session=session
