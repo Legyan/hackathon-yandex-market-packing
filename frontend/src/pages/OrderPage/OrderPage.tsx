@@ -15,12 +15,13 @@ import ButtonMenu from '../../components/ui/ButtonMenu/ButtonMenu';
 import { firstRecommendation } from '../../services/actions/recommendationAction';
 import ModalBarcode from '../../components/ModalBarcode/ModalBarcode';
 import ModalImei from '../../components/ModalImei/ModalImei';
+import ModalHonest from '../../components/ModalHonest/ModalHonest';
 
 const OrderPage: FC = () => {
   const dispatch = useDispatch();
   const [isModalProblems, setModalProblems] = useState<boolean>(false);
   const [isModalBarcode, setModalBarcode] = useState<boolean>(false);
-  const [isModalImei, setModalImei] = useState<boolean>(true);
+  const [isModalImei, setModalImei] = useState<boolean>(false);
   const [isModalHonest, setModalHonest] = useState<boolean>(false);
   const order = useSelector(store => store.orderInfo.data);
   const recommendationInfo = useSelector(store => store.recommendationInfo);
@@ -165,6 +166,10 @@ const OrderPage: FC = () => {
         onClose={closeModalBarcode}
       />
       <ModalImei
+        visible={isModalImei}
+        onClose={closeModalImei}
+      />
+      <ModalHonest
         visible={isModalImei}
         onClose={closeModalImei}
       />
