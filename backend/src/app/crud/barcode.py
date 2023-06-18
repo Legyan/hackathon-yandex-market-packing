@@ -19,18 +19,24 @@ from app.models.product import Product
 
 
 class CRUDBarcode(CRUDBase):
+    """CRUD штрих-кодов."""
+
     async def detect_barcode_type(
         self,
         barcode: str,
         session: AsyncSession,
     ) -> Union[BarcodeSKU, Cartontype]:
+        """Определяет тип штрихкода (товар/корбка)
+        и возвращает объект, которому принадлежит штрихкод."""
+
         cartontype = (await session.execute(
                 select(Cartontype).where(Cartontype.tag == barcode)
             )).scalars().first()
         if cartontype:
             return cartontype
-        barcode_sku = await self.get_barcode(
-            barcode=barcode,
+        barcode_sku = await self.get_by_attribute(
+            attr_name='barcode',
+            attr_value=barcode,
             session=session
         )
         if barcode_sku.status != BarcodeStatusEnum.ALLOWED:
@@ -44,6 +50,8 @@ class CRUDBarcode(CRUDBase):
         sku: str,
         session: AsyncSession,
     ) -> Product:
+        """Получение продукта с карготипами."""
+
         return (
             await session.execute(
                 select(Product)
@@ -59,6 +67,8 @@ class CRUDBarcode(CRUDBase):
         barcode: BarcodeSKU,
         session: AsyncSession
     ) -> None:
+        """Обработка NONPAC товара."""
+
         cartontype = NONPACK_TYPES[cargotype_tag]
         new_package = await package_crud.add_new_package(
             cartontype_tag=cartontype,
@@ -72,23 +82,14 @@ class CRUDBarcode(CRUDBase):
             session=session
         )
 
-    async def get_barcode(
-            self,
-            barcode: str,
-            session: AsyncSession
-    ):
-        return (
-            await session.execute(
-                select(BarcodeSKU).where(BarcodeSKU.barcode == barcode)
-            )
-        ).scalars().first()
-
     async def add_imei(
         self,
         barcode: str,
         imei: str,
         session: AsyncSession
     ) -> None:
+        """Запись IMEI товара в базу данных."""
+
         already_imei = (await session.execute(
                 select(Imei).where(Imei.barcode == barcode)
             )).scalars().first()
@@ -108,6 +109,8 @@ class CRUDBarcode(CRUDBase):
         honest_sign: str,
         session: AsyncSession
     ) -> None:
+        """Запись "Честного знака" товара в базу данных."""
+
         already_honest_sign = (await session.execute(
                 select(HonestSign).where(HonestSign.barcode == barcode)
             )).scalars().first()
@@ -127,6 +130,8 @@ class CRUDBarcode(CRUDBase):
         status: BarcodeStatusEnum,
         session: AsyncSession
     ) -> None:
+        """Присваивание статуса штрих-коду."""
+
         barcode = await barcode_crud.get_by_attribute(
             attr_name='barcode',
             attr_value=barcode,

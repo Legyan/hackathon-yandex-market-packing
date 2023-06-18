@@ -7,11 +7,15 @@ from app.models.user import User
 
 
 class CRUDUser(CRUDBase):
+    """CRUD пользователей."""
+
     async def unlink_table(
         self,
         user_id: int,
         session: AsyncSession
     ) -> None:
+        """Открепление пользователя от стола."""
+
         table = await table_crud.get_by_attribute(
             attr_name='user_id',
             attr_value=user_id,
@@ -28,6 +32,8 @@ class CRUDUser(CRUDBase):
         user_id: int,
         session: AsyncSession
     ) -> None:
+        """Открепление пользователя от принтера."""
+
         printer = await printer_crud.get_by_attribute(
             attr_name='user_id',
             attr_value=user_id,

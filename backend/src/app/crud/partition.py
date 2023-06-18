@@ -7,11 +7,15 @@ from app.models.partition import Partition
 
 
 class CRUDPartition(CRUDBase):
+    """CRUD ячейки."""
+
     async def set_partition_to_order(
             self,
             orderkey: str,
             session: AsyncSession
     ) -> str:
+        """Помещение заказа в ячейку."""
+
         partition = (await session.execute(
             select(Partition).where(Partition.orderkey.is_(None))
         )).scalars().first()

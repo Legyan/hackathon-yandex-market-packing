@@ -14,15 +14,18 @@ Swagger документация DS: http://62.84.121.232:8001/docs.
 
 ### Стек технологий 
 
-![](https://img.shields.io/badge/Python-3.9-black?style=flat&logo=python) 
-![](https://img.shields.io/badge/FastAPI-0.78.0-black?style=flat&logo=fastapi)
-![](https://img.shields.io/badge/Pydantic-1.9.1-black?style=flat)
-![](https://img.shields.io/badge/SQLAlchemy-1.4.29-black?style=flat)
+![](https://img.shields.io/badge/Python-3.10-black?style=flat&logo=python) 
+![](https://img.shields.io/badge/FastAPI-0.96.0-black?style=flat&logo=fastapi)
+![](https://img.shields.io/badge/Uvicorn-0.17.0-black?style=flat&logo=uvicorn)
+![](https://img.shields.io/badge/Pydantic-1.10.8-black?style=flat)
+![](https://img.shields.io/badge/SQLAlchemy-1.4.36-black?style=flat)
 ![](https://img.shields.io/badge/Pandas-2.0.2-black?style=flat&logo=pandas)
 ![](https://img.shields.io/badge/Numpy-1.24.3-black?style=flat&logo=numpy)
 ![](https://img.shields.io/badge/LightGBM-3.3.5-black?style=flat&logo=lightgbm)
 ![](https://img.shields.io/badge/Typing-3.7.4.3-black?style=flat&logo=typing)
-![](https://img.shields.io/badge/Uvicorn-0.22.0-black?style=flat&logo=uvicorn)
+![](https://img.shields.io/badge/React-18.2.0-black?style=flat&logo=react)
+![](https://img.shields.io/badge/TypeScript-4.9.5-black?style=flat&logo=typescript)
+![](https://img.shields.io/badge/Redux-4.2.1-black?style=flat&logo=redux)
 ![](https://img.shields.io/badge/Docker-black?style=flat&logo=docker)
 
 ## Описание
@@ -88,11 +91,12 @@ Swagger документация DS: http://62.84.121.232:8001/docs.
     POSTGRES_DB=ym-packing
     POSTGRES_USER=postgres
     POSTGRES_PASSWORD=postgres
-    DB_HOST=localhost
+    DB_HOST=db-ym-pack
     DB_PORT=5432
-    DATABASE_URL=postgresql+asyncpg://postgres:postgres@localhost/postgres
-    SECRET_KEY=secret_key
+    DATABASE_URL=postgresql+asyncpg://postgres:postgres@db-ym-pack/postgres
     HOST=localhost
+    DS_HOST=localhost:8001
+    SECRET_KEY=SECRET_KEY
    ```
 
 3. Запустить все контейнеры приложения с помощью Docker-compose:
@@ -101,39 +105,31 @@ Swagger документация DS: http://62.84.121.232:8001/docs.
     sudo docker-compose up -d --build
     ```
 
-4. Применить миграции к базе данных:
-
-    ```shell
-    cd ../../backend/src/
-    ```
-
-5. Создать в директории файл .env и заполнить его согласно примеру в .env.example.
-
-    ```shell
-   nano .env
-   ```
-
-   ```
-   # Переменные базы данных
-   POSTGRES_DB=ym-packing
-   POSTGRES_USER=postgres
-   POSTGRES_PASSWORD=postgres
-   DB_HOST=localhost
-   DB_PORT=5432
-   DATABASE_URL=postgresql+asyncpg://postgres:postgres@localhost/postgres
-   ```
-
-6. Применить миграции к базе данных.
+4. Применить миграции к базе данных.
 
    ```shell
    sudo docker exec infra_backend-ym-pack_1 alembic upgrade head
    ```
 
-7. Заполнить базу данных тестовыми данными:
+5. Заполнить базу данных тестовыми данными:
 
     ```shell
     sudo docker exec infra_backend-ym-pack_1 python3 -m app.management.fill_db
     ```
+
+6. Сгенерировать штрих-коды товаров и добавить в базу:
+
+    ```shell
+    sudo docker exec infra_backend-ym-pack_1 python3 -m app.management.add_random_barcodes
+    ```
+
+7. Добавить тестовые заказы:
+
+    ```shell
+    sudo docker exec infra_backend-ym-pack_1 python3 -m app.management.add_orders
+    ```
+
+Проект будет развернут на машине и доступен по адресу http://localhost.
 
 ## Методика тестирования проекта
 

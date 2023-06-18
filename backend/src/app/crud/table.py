@@ -7,12 +7,16 @@ from app.models.table import Table
 
 
 class CRUDTable(CRUDBase):
+    """CRUD столов для упаковки товаров."""
+
     async def set_user_to_table(
         self,
         user_id: int,
         table_id: str,
         session: AsyncSession,
     ) -> None:
+        """Присвоение пользователю стола."""
+
         table = await self.get_by_attribute(
             attr_name='name',
             attr_value=table_id,
@@ -29,6 +33,8 @@ class CRUDTable(CRUDBase):
             user_id: int,
             session: AsyncSession
     ) -> Table:
+        """Получение стола, за которым работает пользователь."""
+
         return (await session.execute(
             select(Table).where(Table.user_id == user_id)
         )).scalars().first()

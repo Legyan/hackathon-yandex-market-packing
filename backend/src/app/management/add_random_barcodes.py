@@ -14,10 +14,14 @@ get_async_session_context = contextlib.asynccontextmanager(get_async_session)
 
 
 async def get_random_barcode(length=14):
+    """Генерация случайных штрих-кодов."""
+
     return ''.join(random.choice(string.digits) for _ in range(length))
 
 
 async def add_random_barcode_sku():
+    """Добавление штрих-кодов товаров для теста."""
+
     with open('../data/barcode_sku.csv') as csvfile:
         reader = csv.reader(csvfile)
         next(reader)

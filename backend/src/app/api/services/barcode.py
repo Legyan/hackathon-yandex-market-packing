@@ -29,6 +29,8 @@ class BarcodeService(BaseService):
         barcode: str,
         session: AsyncSession,
     ) -> BarcodeInfoSchema:
+        """Обработка штрих-кода (товара/коробки)."""
+
         barcode_obj: Union[BarcodeSKU, Cartontype] = (
             await self.crud.detect_barcode_type(
                 barcode,
@@ -79,6 +81,8 @@ class BarcodeService(BaseService):
         order: Order,
         session: AsyncSession,
     ) -> BarcodeInfoSchema:
+        """Обработка штрихкода товара."""
+
         pack_variation = (
             await pack_variation_crud.get_active_pack_variation(
                 orderkey=order.orderkey,
@@ -129,6 +133,8 @@ class BarcodeService(BaseService):
         imei: str,
         session: AsyncSession,
     ) -> BaseSuccessSchema:
+        """Обработка IMEI товара."""
+
         await self.check_imei_mock(
             imei=imei,
             session=session
@@ -145,6 +151,8 @@ class BarcodeService(BaseService):
         imei: str,
         session: AsyncSession,
     ) -> BaseSuccessSchema:
+        """Добавление IMEI товара."""
+
         barcode_sku = await self.crud.get_barcode(
             barcode=barcode,
             session=session
@@ -180,6 +188,8 @@ class BarcodeService(BaseService):
         honest_sign: str,
         session: AsyncSession,
     ) -> BaseSuccessSchema:
+        """Обработка "Честного знака" товара."""
+
         barcode_sku = await self.crud.get_barcode(
             barcode=barcode,
             session=session
@@ -198,6 +208,8 @@ class BarcodeService(BaseService):
         imei: str,
         session: AsyncSession,
     ) -> None:
+        """Заглушка проверки IMEI товара."""
+
         if len(imei) != 15:
             raise InvalidImeiError()
 
@@ -206,6 +218,8 @@ class BarcodeService(BaseService):
         honest_sign: str,
         session: AsyncSession,
     ) -> None:
+        """Заглушка проверки "Честного знака" товара."""
+
         if len(honest_sign) != 13:
             raise InvalidHonestSignError()
 

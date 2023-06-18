@@ -3,6 +3,8 @@ from app.models.cartontype import Cartontype
 
 
 class CRUDCartontype(CRUDBase):
+    """CRUD типов коробки."""
+
     pass
 
 

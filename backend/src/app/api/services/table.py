@@ -13,6 +13,8 @@ class TableService(BaseService):
         table_id: str,
         session: AsyncSession,
     ) -> None:
+        """Присвоение пользователю стола."""
+
         await self.crud.set_user_to_table(
             user_id,
             table_id,
