@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import style from './DefectiveGoods.module.css';
 import basket from '../../images/Basket.svg';
-import FooterBack from '../../components/FooterBack/FooterBack';
+import Footer from '../../components/Footer/Footer';
 
 const DefectiveGoods: FC = () => {
   return (
@@ -13,7 +13,7 @@ const DefectiveGoods: FC = () => {
     </div>
     <button className={style.btnPacked}>УПАКОВАНО</button>
     </section>
-    <FooterBack link='/problems' title='Назад'/>
+    <Footer title='Назад'/>
     </>
   )
 }

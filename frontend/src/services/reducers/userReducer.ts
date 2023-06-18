@@ -1,5 +1,8 @@
 import { IUser } from "../../utils/type/main";
 import {
+  GET_USER_ERROR,
+  GET_USER_REQUEST,
+  GET_USER_SUCCESS,
   REGISTRATION_PRINTER_ERROR,
   REGISTRATION_PRINTER_REQUEST,
   REGISTRATION_PRINTER_SUCCESS,
@@ -12,7 +15,7 @@ const initialState = {
   success: false,
   error: '',
   user: {
-    user_name: 'Алексей_Шайдуллин',
+    username: 'Алексей_Шайдуллин',
     user_id: 1,
     table_id: '',
     printer_id: '',
@@ -55,6 +58,20 @@ export interface IRegistrationPrinterError {
   error?: string;
 }
 
+export interface IGetUserRequest {
+  readonly type: typeof GET_USER_REQUEST;
+}
+
+export interface IGetUserSuccess {
+  readonly type: typeof GET_USER_SUCCESS;
+  data: IUser;
+}
+
+export interface IGetUserError {
+  readonly type: typeof GET_USER_ERROR;
+  error?: string;
+}
+
 export type TActionsUser =
   IRegistrationTableRequest
   | IRegistrationTableSuccess
@@ -62,7 +79,9 @@ export type TActionsUser =
   | IRegistrationPrinterRequest
   | IRegistrationPrinterSuccess
   | IRegistrationPrinterError
-
+  | IGetUserRequest
+  | IGetUserSuccess
+  | IGetUserError
 
 export const userReducer = (state: IState = initialState, action: TActionsUser): IState => {
   switch(action.type) {
@@ -99,6 +118,23 @@ export const userReducer = (state: IState = initialState, action: TActionsUser):
         success: false,
         error: action.error,
       }
+
+      case GET_USER_REQUEST:
+        return {
+          ...state,
+          success: true,
+        }
+      case GET_USER_SUCCESS:
+        return {
+          ...state,
+          user: action.data,
+        }
+      case GET_USER_ERROR:
+        return {
+          ...state,
+          success: false,
+          error: action.error,
+        }
     default:
       return state;
   }

@@ -1,7 +1,11 @@
-import { registerPrinterApi, registerTableApi } from "../../utils/api";
+import { getUserApi, registerPrinterApi, registerTableApi } from "../../utils/api";
 import { setCookie } from "../../utils/cookie";
 import { IRegisterPrinter, IRegisterTable } from "../../utils/type/data";
 import { AppDispatch } from "../../utils/type/store";
+
+export const GET_USER_REQUEST: 'GET_USER_REQUEST' = 'GET_USER_REQUEST';
+export const GET_USER_SUCCESS: 'GET_USER_SUCCESS' = 'GET_USER_SUCCESS';
+export const GET_USER_ERROR: 'GET_USER_ERROR' = 'GET_USER_ERROR';
 
 export const REGISTRATION_TABLE_REQUEST: 'REGISTRATION_TABLE_REQUEST' = 'REGISTRATION_TABLE_REQUEST';
 export const REGISTRATION_TABLE_SUCCESS: 'REGISTRATION_TABLE_SUCCESS' = 'REGISTRATION_TABLE_SUCCESS';
@@ -66,5 +70,33 @@ export function registerPrinter({inputValue}: IRegisterPrinter) {
               error: err.message,
             })
           });
+  }
+}
+
+export function getUser() {
+  return function(dispatch: AppDispatch) {
+    dispatch({
+      type: GET_USER_REQUEST
+    });
+    getUserApi()
+      .then(res => {
+        console.log(res);
+        if (res && res.success) {
+          dispatch({
+            type: GET_USER_SUCCESS,
+            data: res.data,
+          })
+        } else {
+          dispatch({
+            type: GET_USER_ERROR,
+          })
+        }
+      })
+      .catch((err) => {
+        dispatch({
+          type: GET_USER_ERROR,
+          error: err.message,
+        })
+      });
   }
 }
