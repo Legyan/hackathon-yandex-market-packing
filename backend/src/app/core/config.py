@@ -8,7 +8,7 @@ class Settings(BaseSettings):
         'postgresql+asyncpg://postgres:postgres@localhost/postgres'
     )
     secret_key: str = 'secret_key'
-    ds_host = 'localhost:8001'
+    ds_host = 'localhost'
 
     class Config:
         env_file = '.env'
