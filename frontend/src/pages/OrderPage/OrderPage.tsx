@@ -13,17 +13,23 @@ import { useDispatch, useSelector } from '../../utils/type/store';
 import { getOrder } from '../../services/actions/orderActions';
 import ButtonMenu from '../../components/ui/ButtonMenu/ButtonMenu';
 import { firstRecommendation } from '../../services/actions/recommendationAction';
+import ModalBarcode from '../../components/ModalBarcode/ModalBarcode';
+import ModalImei from '../../components/ModalImei/ModalImei';
 
 const OrderPage: FC = () => {
   const dispatch = useDispatch();
   const [isModalProblems, setModalProblems] = useState<boolean>(false);
+  const [isModalBarcode, setModalBarcode] = useState<boolean>(false);
+  const [isModalImei, setModalImei] = useState<boolean>(true);
+  const [isModalHonest, setModalHonest] = useState<boolean>(false);
   const order = useSelector(store => store.orderInfo.data);
-  const recommendationInfo = useSelector(store => store.recommendationInfo)
-  const recommendation = useSelector(store => store.recommendationInfo.recommendation)
+  const recommendationInfo = useSelector(store => store.recommendationInfo);
+  const recommendation = useSelector(store => store.recommendationInfo.recommendation);
+  const confirmation = useSelector(store => store.barcodeInfo)
 
-  console.log(order);
+  // console.log(order);
 
-  console.log(recommendation);
+  // console.log(recommendation);
 
   const firstRecommend = order !== null ? order.recomend_packing[0] : null;
 
@@ -43,29 +49,63 @@ const OrderPage: FC = () => {
     setModalProblems(false);
   }
 
+  const openModalBarcode = () => {
+    setModalBarcode(true)
+  }
+
+  const closeModalBarcode = () => {
+    setModalBarcode(false);
+  }
+
+  const openModalImei = () => {
+    setModalImei(true)
+  }
+
+  const closeModalImei = () => {
+    setModalImei(false)
+  }
+
+  const openModalHonest = () => {
+    setModalHonest(true)
+  }
+
+  const closeModalHonest = () => {
+    setModalHonest(false)
+  }
+
+  if (confirmation.statusImei === 'ok') {
+    openModalImei()
+  } else if (confirmation.statusHonest === 'ok') {
+    openModalHonest()
+  } else if (confirmation.success) {
+    closeModalBarcode();
+    closeModalImei();
+    closeModalHonest()
+  }
+
   return (
     <>
-    {order !== null && firstRecommend !== null && recommendation !== null ?
-      <section className={style.wrapper}>
-        {/* Вывести в отдельный компонент */}
-        <article className={style.wrapperGoods}>
-          <Progressbar title={`Товары ячейки ${order.partition}`} />
+      {order !== null && firstRecommend !== null && recommendation !== null ?
+        <section className={style.wrapper}>
+          {/* Вывести в отдельный компонент */}
+          <article className={style.wrapperGoods}>
+            <Progressbar title={`Товары ячейки ${order.partition}`} />
             {recommendation.map(goods => {
               return (
                 <div key={uuid4()}>
                   <Package icon={goods.icontype} title={goods.cartontype} />
                   <ul className={style.goods}>
-                    {goods.items.map(i => order.goods.find(item => item.sku === i.sku)).map(goods => {
+                    {goods.items.map(i => order.goods.find(items => items.sku === i.sku)).map(item => {
                       return (
                         <li className={style.liGoods} key={uuid4()}>
                           <Goods
-                            img={goods!.image}
-                            title={`${goods!.title} ${goods!.description}`}
-                            percentage={`${goods!.count} шт.`}
-                            sku={goods!.sku}
-                            imei={goods!.imei}
-                            honest_sign={goods!.honest_sign}
-                            clue={goods!.fragility}
+                            img={item!.image}
+                            title={`${item!.title} ${item!.description}`}
+                            percentage={`${item!.count} шт.`}
+                            sku={item!.sku}
+                            imei={item!.imei}
+                            honest_sign={item!.honest_sign}
+                            clue={item!.fragility}
                           />
                         </li>
                       )
@@ -74,53 +114,61 @@ const OrderPage: FC = () => {
                 </div>
               )
             })}
+          </article>
+          {/* Вывести в отдельный компонент */}
+          <article className={style.packingGoods}>
+            <h2 className={style.title}>Варианты упаковки</h2>
+            <ul className={style.btns}>
+              {order.recomend_packing.map((recomend, index) => {
+                return (
+                  <li className={style.li} key={uuid4()}>
+                    <ButtonMenu
+                      data={recomend}
+                      index={index}
+                      recomendnIndex={recommendationInfo.index}
+                    />
+                  </li>
+                )
+              })}
+            </ul>
+            <div className={style.links}>
+              <BtnHasProblem
+                onClick={openModalProblems}
+                title='Есть проблема'
+              />
+              <ButtonLink
+                purpose={'order'}
+                title={'УПАКОВАНО'}
+                link={'/order/completed'}
+              />
+            </div>
+          </article>
+        </section> :
+        <article className={style.threeCircles}>
+          <ThreeCircles
+            height="100"
+            width="100"
+            color="#FED42B"
+            wrapperStyle={{}}
+            visible={true}
+            ariaLabel="three-circles-rotating"
+          />
         </article>
-        {/* Вывести в отдельный компонент */}
-        <article className={style.packingGoods}>
-          <h2 className={style.title}>Варианты упаковки</h2>
-          <ul className={style.btns}>
-            {order.recomend_packing.map((recomend, index) => {
-              return(
-                <li className={style.li} key={uuid4()}>
-                  <ButtonMenu
-                    data={recomend}
-                    index={index}
-                    recomendnIndex={recommendationInfo.index}
-                  />
-                </li>
-              )
-            })}
-          </ul>
-          <div className={style.links}>
-            <BtnHasProblem
-            onClick={openModalProblems}
-            title='Есть проблема'
-            />
-            <ButtonLink
-              purpose={'order'}
-              title={'УПАКОВАНО'}
-              link={'/order/completed'}
-            />
-          </div>
-        </article>
-      </section> :
-      <article className={style.threeCircles}>
-        <ThreeCircles
-          height="100"
-          width="100"
-          color="#FED42B"
-          wrapperStyle={{}}
-          visible={true}
-          ariaLabel="three-circles-rotating"
-        />
-      </article>
-    }
-      <Footer />
+      }
+      <Footer onClick={openModalBarcode} />
       <ModalProblems
-      visible={isModalProblems}
-      onClose={closeModalProblems}
+        visible={isModalProblems}
+        onClose={closeModalProblems}
       />
-      </>
+      <ModalBarcode
+        visible={isModalBarcode}
+        onClose={closeModalBarcode}
+      />
+      <ModalImei
+        visible={isModalImei}
+        onClose={closeModalImei}
+      />
+    </>
   )
 }
 

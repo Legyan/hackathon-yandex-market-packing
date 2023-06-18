@@ -4,11 +4,13 @@ import { RootState } from "../../services/store";
 import { TActionsUser } from '../../services/reducers/userReducer';
 import { TActionsOrder } from "../../services/reducers/orderReducer";
 import { TActionsRecommendation } from "../../services/reducers/recommendationReducer";
+import { TActionsBarcode } from "../../services/reducers/barcodeReducer";
 
 export type TApplicationActions =
   TActionsUser
   | TActionsOrder
   | TActionsRecommendation
+  | TActionsBarcode
 
 export type AppDispatch = ThunkDispatch<RootState, never, TApplicationActions>;
 
@@ -21,4 +23,4 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   RootState,
   unknown,
   TApplicationActions
->;
+>

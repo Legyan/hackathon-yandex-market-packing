@@ -7,8 +7,13 @@ import nonpack from '../../images/nonpack.png';
 import chevron from '../../images/icon_chevron.svg';
 import Hint from '../ui/Hint/Hint';
 import { IPackage } from '../../utils/type/main';
+import { useSelector } from '../../utils/type/store';
 
 const Package: FC<IPackage> = ({ icon, title }) => {
+  const alreadyPacked = useSelector(store => store.orderInfo.data?.already_packed);
+
+  console.log(alreadyPacked);
+
   return (
     <article className={style.wrapper}>
       <div className={style.wrapperPacking}>

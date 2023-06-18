@@ -1,5 +1,3 @@
-import { IAlreadyPacked, IGoods, IRecPacking, IUser } from "./main";
-
 export interface IRegisterTable {
   userId: number;
   inputValue: string;
@@ -21,7 +19,7 @@ export interface IResponsePrinter {
 
 export interface IDataValues<T> {
   success?: boolean;
-  status?: '';
+  status?: string;
   data: T;
 }
 
@@ -34,11 +32,63 @@ export interface IOrder {
 }
 
 export interface IBarcode {
-  barcode: string;
-  imei?: string;
-  honest_sign?: string;
+  inputValue: string;
+}
+
+export interface IResponseBarcode {
+  status: string;
+  type: string;
+  info: string;
+  imei: boolean;
+  honest_sign: boolean;
+}
+
+export interface IImei {
+  barcode?: string;
+  inputValue: string;
+}
+
+export interface IHonestSign {
+  barcode?: string;
+  inputValue: string;
 }
 
 export interface IStatus {
   status: string;
 }
+
+export interface IUser {
+  username: string;
+  user_id: number;
+  table_id: string;
+  printer_id: string;
+}
+
+export interface IGoods {
+  count?: number;
+  sku: string;
+  title: string;
+  description: string;
+  image: string;
+  imei: boolean;
+  honest_sign: boolean;
+  fragility: boolean;
+}
+
+export interface IItems {
+  sku: string;
+  count: number;
+}
+
+export interface IRecPacking {
+  cartontype: string;
+  icontype: string;
+  items: Array<IItems>;
+}
+
+export interface IAlreadyPacked {
+  cartontype: string;
+  is_packed: boolean;
+  items: Array<IItems>;
+}
+

@@ -1,4 +1,4 @@
-.hint {
+.hintBtn {
   width: 290px;
   padding: 12px 24px;
   display: flex;
@@ -8,22 +8,43 @@
   background: #F3F0E9;
   border-radius: 12px;
   transition: background .2s linear;
-  cursor: pointer;
+}
+
+.hint {
+  width: 290px;
+  padding: 12px 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background: #FFF0F1;
+  border-radius: 12px;
+}
+
+.btn {
+  border: none;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background .2s linear;
 }
 
 .hintShadow {
   box-shadow: 0px 1px 3px rgba(38, 41, 43, 0.2), 1px 1px 6px rgba(38, 41, 43, 0.2);
 }
 
-.hintRed {
-  background: #FFF0F1;
-}
-
 .hintGreen {
   background: #2AAD2E;
 }
 
-.hint:hover {
+.hintBtn:hover {
+  cursor: pointer;
+  background: #DEDEDE;
+}
+
+.hintBtn:hover .btn {
+  cursor: pointer;
   background: #DEDEDE;
 }
 

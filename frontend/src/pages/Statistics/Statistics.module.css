@@ -1,0 +1,50 @@
+.statistics {
+  margin: 50px 0 0;
+  padding: 0;
+  display: flex;
+  gap: 24px;
+  list-style-type: none;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.statTitle {
+  margin: 0;
+  font-family: 'Yandex Sans Display', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 35px;
+  text-align: center;
+}
+
+.img {
+  margin: 41px 0 53px;
+  width: 115px;
+  height: 115px;
+}
+
+.description {
+  margin: 0;
+  font-family: 'Yandex Sans Display', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 16px;
+}
+
+.counter {
+  margin-top: 16px;
+  font-family: 'Yandex Sans Display', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 48px;
+  text-align: center;
+  color: var(--Yandex-green-7);
+}

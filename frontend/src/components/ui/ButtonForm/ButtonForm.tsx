@@ -15,6 +15,7 @@ const ButtonForm: FC<IButton> = ({
         purpose === 'package' ? `${style.btn} ${style.btnProportionsMain} ${style.btnPackage}` :
         purpose === 'logout' ? `${style.btn} ${style.btnProportionsMain} ${style.btnLogout}` :
         purpose === 'problem' ? `${style.btn} ${style.btnProportionsMain} ${style.btnProblem}` :
+        purpose === 'authBack' ? `${style.btn} ${style.btnProportionsAuth} ${style.btnBack}` :
         ''
         }
         onClick={onClick}

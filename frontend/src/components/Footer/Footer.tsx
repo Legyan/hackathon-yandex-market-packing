@@ -4,10 +4,9 @@ import keyboard from '../../images/icon_keyboard.svg';
 import { useHistory, useLocation } from 'react-router-dom';
 import { IFooter } from '../../utils/type/main';
 
-const Footer: FC<IFooter> = ({title}) => {
+const Footer: FC<IFooter> = ({title, onClick}) => {
   const history = useHistory();
   const location = useLocation()
-  console.log(history);
 
   const goBack = () => {
     history.goBack()
@@ -20,7 +19,7 @@ const Footer: FC<IFooter> = ({title}) => {
     >
       {
         location.pathname === '/order' || location.pathname === '/ScanDeffectiveGoods' ?
-          <button className={style.btnFooter}>
+          <button className={style.btnFooter} onClick={onClick}>
             <img src={keyboard} alt='Иконка клавиатуры' />
             <span className={style.description}>Ввести с клавиатуры</span>
           </button>

@@ -7,13 +7,20 @@ import { IHint } from '../../../utils/type/main';
 const Hint: FC<IHint> = ({icon, title}) => {
 
   return (
-    <li className={icon === 'pen' ? `${style.hint} ${style.hintShadow}` : `${style.hint} ${style.hintRed}`}>
-      { icon === 'pen' ? (
-        <img className={style.imgHint} src={pen} alt='Иконка ручки' />
+    <li className={
+      icon === 'pen' ? `${style.hintBtn} ${style.hintShadow}` : `${style.hint}`}
+    >
+      {icon === 'pen' ? (
+        <button className={style.btn}>
+          <img className={`${style.imgHint}`} src={pen} alt='Иконка ручки' />
+          <p className={style.title}>{title}</p>
+        </button>
       ) : (
-        <img className={`${style.imgHint} ${style.imgHint}`} src={barcodeRed} alt='Иконка штрихкод красный' />
+        <>
+          <img className={`${style.imgHint} ${style.imgHint}`} src={barcodeRed} alt='Иконка штрихкод красный' />
+          <p className={style.title}>{title}</p>
+        </>
       )}
-      <p className={style.title}>{title}</p>
     </li>
   )
 }

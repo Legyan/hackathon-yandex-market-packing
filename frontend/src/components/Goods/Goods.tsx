@@ -2,6 +2,7 @@ import { FC } from 'react';
 import style from './Goods.module.css';
 import { IGoodsProps } from '../../utils/type/main';
 import barcodeBlack from '../../images/icon_barcode-black.svg';
+import { useSelector } from '../../utils/type/store';
 
 const Goods: FC<IGoodsProps> = ({
   img,
@@ -12,6 +13,10 @@ const Goods: FC<IGoodsProps> = ({
   honest_sign,
   clue
 }) => {
+  const alreadyPacked = useSelector(store => store.orderInfo.data?.already_packed);
+
+  console.log(alreadyPacked);
+
   return (
     <>
       <div className={style.goods}>

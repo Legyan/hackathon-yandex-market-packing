@@ -1,4 +1,4 @@
-import { IRecPacking } from "../../utils/type/main"
+import { IRecPacking } from "../../utils/type/data"
 import { FIRST_RECOMMENDATION, SELECT_RECOMMENDATION } from "../actions/recommendationAction";
 
 const initialState = {
