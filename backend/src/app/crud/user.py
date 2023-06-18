@@ -1,9 +1,9 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.crud.base import CRUDBase
-from app.models.user import User
 from app.crud.printer import printer_crud
 from app.crud.table import table_crud
+from app.models.user import User
 
 
 class CRUDUser(CRUDBase):

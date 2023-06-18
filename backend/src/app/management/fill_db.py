@@ -16,11 +16,11 @@ from app.crud.table import table_crud
 from app.crud.user import user_crud
 from app.schemas.barcode import BarcodeSKUSchema
 from app.schemas.cargotypes import CargotypeSchema
-from app.schemas.products_cargotypes import ProductsCargotypesSchema
 from app.schemas.cartontypes import CartontypeSchema
 from app.schemas.partition import PartitionSchema
 from app.schemas.printer import PrinterToDBSchema
 from app.schemas.products import ProductSchema
+from app.schemas.products_cargotypes import ProductsCargotypesSchema
 from app.schemas.tables import TableSchema
 from app.schemas.user import UserSchema
 
