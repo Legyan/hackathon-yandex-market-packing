@@ -5,8 +5,7 @@ from app.api.services.order import order_service
 from app.core.db import get_async_session
 from app.core.users import get_current_user_id
 from app.schemas.base import BaseOutputSchema
-from app.schemas.order import (OrderCreateResponseSchema,
-                               OrderCreateSchema,
+from app.schemas.order import (OrderCreateResponseSchema, OrderCreateSchema,
                                OrderToUserSchema)
 
 router = APIRouter()

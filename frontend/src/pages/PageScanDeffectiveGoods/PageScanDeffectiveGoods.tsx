@@ -11,8 +11,8 @@ const PageScanDeffectiveGoods: FC = () => {
           label={'Отсканируйте бракованный товар или введите вручную'}
           btnBack={'Назад'}
           btnForward={'Далее'}
-          linkBack={'/order'}
-          linkForward={'/printer'}
+          linkBack={'order'}
+          linkForward={'/deffectiveGoods/waitConfirmation'}
         />
       </section>
       <Footer />

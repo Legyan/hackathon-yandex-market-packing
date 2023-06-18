@@ -8,7 +8,7 @@ const ModalProblems: FC<IModal> = ({visible, onClose, onClick}) => {
   const history = useHistory();
 
   const switchPageDeffectiveGoods = () => {
-    history.push('/ScanDeffectiveGoods');
+    history.push('/deffectiveGoods');
   }
 
   const switchPageAnotherProblems = () => {

@@ -11,6 +11,9 @@ import DefectiveGoods from '../../pages/DefectiveGoods/DefectiveGoods';
 import Header from '../Header/Header';
 import { ProtectedRoute } from '../ProtectedRoute/ProtectedRoute';
 import PageScanDeffectiveGoods from '../../pages/PageScanDeffectiveGoods/PageScanDeffectiveGoods';
+import PageWaitConfirmation from '../../pages/PageWaitConfirmation/PageWaitConfirmation';
+import { useDispatch, useSelector } from '../../utils/type/store';
+import { getUser } from '../../services/actions/userActions';
 
 const App: FC = () => {
 
@@ -42,8 +45,11 @@ const App: FC = () => {
         <ProtectedRoute path='/defective' exact>
           <DefectiveGoods />
         </ProtectedRoute>
-        <ProtectedRoute path='/ScanDeffectiveGoods' exact>
+        <ProtectedRoute path='/deffectiveGoods' exact>
           <PageScanDeffectiveGoods />
+        </ProtectedRoute>
+        <ProtectedRoute path='/deffectiveGoods/waitConfirmation' exact>
+          <PageWaitConfirmation />
         </ProtectedRoute>
       </Switch>
     </>

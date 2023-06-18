@@ -11,6 +11,7 @@ from app.crud.cartontype import cartontype_crud
 from app.crud.partition import partition_crud
 from app.crud.printer import printer_crud
 from app.crud.product import product_crud
+from app.crud.products_cargotypes import products_cargotypes_crud
 from app.crud.table import table_crud
 from app.crud.user import user_crud
 from app.schemas.barcode import BarcodeSKUSchema
@@ -19,6 +20,7 @@ from app.schemas.cartontypes import CartontypeSchema
 from app.schemas.partition import PartitionSchema
 from app.schemas.printer import PrinterToDBSchema
 from app.schemas.products import ProductSchema
+from app.schemas.products_cargotypes import ProductsCargotypesSchema
 from app.schemas.tables import TableSchema
 from app.schemas.user import UserSchema
 
@@ -60,6 +62,21 @@ async def add_barcode_sku():
                 )
                 await barcode_crud.create(barecode_in, session=session)
             print('Barecode added to DB.')
+
+
+async def add_products_cargotypes():
+    with open('../data/products_cargotypes.csv') as csvfile:
+        reader = csv.reader(csvfile)
+        next(reader)
+        async with get_async_session_context() as session:
+            for row in reader:
+                products_cargotypes_in = ProductsCargotypesSchema(
+                    sku=row[0], cargotype_tag=row[1]
+                )
+                await products_cargotypes_crud.create(
+                    products_cargotypes_in,
+                    session=session)
+            print('Products cargotypes added to DB.')
 
 
 async def add_tables():
@@ -138,13 +155,14 @@ async def fill_db():
         await add_products()
         await add_barcode_sku()
         await add_tables()
+        await add_cargotypes()
+        await add_products_cargotypes()
         await add_partitions()
         await add_printers()
         await add_users()
-        await add_cargotypes()
         await add_cartontypes()
-    except IntegrityError:
-        print('The database is already full.')
+    except IntegrityError as e:
+        print(f'The database is already full. {e}')
 
 
 asyncio.run(fill_db())

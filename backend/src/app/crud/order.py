@@ -255,7 +255,7 @@ class CRUDOrder(CRUDBase):
             .options(joinedload(Order.barcodes))
             .where(
                 and_(
-                    # Order.status == OrderStatusEnum.COLLECT,
+                    Order.status == OrderStatusEnum.COLLECT,
                     Order.packer_user_id == user_id)
             )
         )).scalars().first()
@@ -304,7 +304,6 @@ class CRUDOrder(CRUDBase):
         session: AsyncSession
     ) -> None:
         await session.refresh(order)
-        order.status = OrderStatusEnum.COLLECTED
         partition = await partition_crud.get_by_attribute(
             attr_name='orderkey',
             attr_value=order.orderkey,
@@ -320,6 +319,7 @@ class CRUDOrder(CRUDBase):
         for barcode in order_with_barcodes.barcodes:
             barcode.status = BarcodeStatusEnum.NOT_ALLOWED
             session.add(barcode)
+        order.status = OrderStatusEnum.COLLECTED
         session.add(order)
         await session.flush()
         await session.commit()

@@ -5,7 +5,7 @@ from app.api.services.barcode import barcode_service
 from app.core.db import get_async_session
 from app.core.users import get_current_user_id
 from app.schemas.barcode import BarcodeInfoSchema, BarcodeInputSchema
-from app.schemas.base import BaseOutputSchema
+from app.schemas.base import BaseSuccessSchema
 from app.schemas.honest_sign import HonestSignInputSchema
 from app.schemas.imei import ImeiInputSchema
 
@@ -35,7 +35,7 @@ async def handle_imei(
     imei: ImeiInputSchema,
     user_id: str = Depends(get_current_user_id),
     session: AsyncSession = Depends(get_async_session),
-) -> BaseOutputSchema:
+) -> BaseSuccessSchema:
     """Обработка imei товара."""
     return await barcode_service.handle_imei(
         barcode=imei.barcode, imei=imei.imei, session=session
@@ -50,9 +50,9 @@ async def handle_honest_sign(
     honest_sign: HonestSignInputSchema,
     user_id: str = Depends(get_current_user_id),
     session: AsyncSession = Depends(get_async_session),
-) -> BaseOutputSchema:
+) -> BaseSuccessSchema:
     """Обработка "Честного знака" товара."""
-    return await barcode_service.add_honest_sign(
+    return await barcode_service.handle_honest_sign(
         barcode=honest_sign.barcode,
         honest_sign=honest_sign.honest_sign,
         session=session
