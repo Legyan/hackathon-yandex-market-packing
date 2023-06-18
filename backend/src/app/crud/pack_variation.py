@@ -2,6 +2,7 @@ from sqlalchemy import and_, false, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload
 
+from app.core.constants import NONPACK_CARTONTYPES
 from app.crud.base import CRUDBase
 from app.crud.order import order_crud
 from app.crud.product import product_crud
@@ -45,6 +46,15 @@ class CRUDPackingVariation(CRUDBase):
                     # )
                     return
                 await session.refresh(new_pack_variation)
+                if cartontype.tag in NONPACK_CARTONTYPES:
+                    await self.add_nonpack_package(
+                        cartontype=cartontype.tag,
+                        pack_variation_id=new_pack_variation.id,
+                        goods=package.goods,
+                        orderkey=packing_variations.orderkey,
+                        session=session
+                    )
+                    continue
                 new_package = Package(
                     cartontype_tag=cartontype.tag,
                     packing_variation_id=new_pack_variation.id,
@@ -72,6 +82,36 @@ class CRUDPackingVariation(CRUDBase):
                 status=OrderStatusEnum.WAITING,
                 session=session
             )
+
+    async def add_nonpack_package(
+            self,
+            cartontype: str,
+            pack_variation_id: int,
+            goods: list[Package],
+            orderkey: str,
+            session: AsyncSession
+    ) -> None:
+        for nonpack_product in goods:
+            count = await product_crud.get_order_products_count(
+                sku=nonpack_product,
+                orderkey=orderkey,
+                session=session
+            )
+            for _ in range(count):
+                new_package = Package(
+                    cartontype_tag=cartontype,
+                    packing_variation_id=pack_variation_id,
+                    status=PackageStatusEnum.INACTIVE
+                )
+                session.add(new_package)
+                await session.commit()
+                await session.refresh(new_package)
+                new_package_product = PackageProduct(
+                    package_id=new_package.id,
+                    product_sku=nonpack_product
+                )
+                session.add(new_package_product)
+            await session.commit()
 
     async def add_active_pack_variation(
             self,
