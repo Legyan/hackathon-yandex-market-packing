@@ -95,6 +95,8 @@ class CRUDPackingVariation(CRUDBase):
             orderkey: str,
             session: AsyncSession
     ) -> None:
+        """Добавление продукта, не требующего упаковки."""
+
         for nonpack_product in goods:
             count = await product_crud.get_order_products_count(
                 sku=nonpack_product,
