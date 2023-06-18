@@ -52,7 +52,7 @@ class PackingVariationService(BaseService):
         try:
             client = AsyncClient()
             response = await client.post(
-                'http://' + settings.ds_host + '/pack',
+                'http://' + settings.ds_host + ':8001/pack',
                 data=order_to_ds.json()
             )
             response.raise_for_status()
