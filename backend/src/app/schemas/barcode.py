@@ -3,12 +3,16 @@ from typing import Optional
 from pydantic import BaseModel
 
 
-class BarcodeInfoSchema(BaseModel):
-    status: str
+class BarcodeDataSchema(BaseModel):
     type: str
     info: str
     imei: bool
     honest_sign: bool
+
+
+class BarcodeInfoSchema(BaseModel):
+    success: bool = True
+    data: BarcodeDataSchema
 
 
 class BarcodeInputSchema(BaseModel):

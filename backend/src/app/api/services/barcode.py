@@ -16,8 +16,8 @@ from app.models.barcode_sku import BarcodeSKU
 from app.models.cartontype import Cartontype
 from app.models.order import Order
 from app.models.package import Package
-from app.schemas.barcode import BarcodeInfoSchema
-from app.schemas.base import BaseOutputSchema
+from app.schemas.barcode import BarcodeDataSchema, BarcodeInfoSchema
+from app.schemas.base import BaseSuccessSchema
 
 
 class BarcodeService(BaseService):
@@ -58,11 +58,12 @@ class BarcodeService(BaseService):
                     session=session
                 )
             return BarcodeInfoSchema(
-                status='ok',
-                type='carton',
-                info=cartontype_tag,
-                imei=False,
-                honest_sign=False
+                data=BarcodeDataSchema(
+                    type='carton',
+                    info=cartontype_tag,
+                    imei=False,
+                    honest_sign=False
+                )
             )
         return await self.handle_sku_barcode(
                 barcode=barcode_obj,
@@ -114,11 +115,12 @@ class BarcodeService(BaseService):
         await session.refresh(barcode)
         await session.refresh(product)
         return BarcodeInfoSchema(
-            status='ok',
-            type='goods',
-            info=barcode.sku,
-            imei=product.need_imei,
-            honest_sign=product.need_honest_sign
+            data=BarcodeDataSchema(
+                type='goods',
+                info=barcode.sku,
+                imei=product.need_imei,
+                honest_sign=product.need_honest_sign
+            )
         )
 
     async def handle_imei(
@@ -126,7 +128,7 @@ class BarcodeService(BaseService):
         barcode: str,
         imei: str,
         session: AsyncSession,
-    ) -> BaseOutputSchema:
+    ) -> BaseSuccessSchema:
         await self.check_imei_mock(
             imei=imei,
             session=session
@@ -142,7 +144,7 @@ class BarcodeService(BaseService):
         barcode: str,
         imei: str,
         session: AsyncSession,
-    ) -> BaseOutputSchema:
+    ) -> BaseSuccessSchema:
         barcode_sku = await self.crud.get_barcode(
             barcode=barcode,
             session=session
@@ -154,14 +156,14 @@ class BarcodeService(BaseService):
             imei=imei,
             session=session
         )
-        return BaseOutputSchema()
+        return BaseSuccessSchema()
 
     async def handle_honest_sign(
         self,
         barcode: str,
         honest_sign: str,
         session: AsyncSession,
-    ) -> BaseOutputSchema:
+    ) -> BaseSuccessSchema:
         await self.check_honest_sign_mock(
             honest_sign=honest_sign,
             session=session
@@ -177,7 +179,7 @@ class BarcodeService(BaseService):
         barcode: str,
         honest_sign: str,
         session: AsyncSession,
-    ) -> BaseOutputSchema:
+    ) -> BaseSuccessSchema:
         barcode_sku = await self.crud.get_barcode(
             barcode=barcode,
             session=session
@@ -189,7 +191,7 @@ class BarcodeService(BaseService):
             honest_sign=honest_sign,
             session=session
         )
-        return BaseOutputSchema()
+        return BaseSuccessSchema()
 
     async def check_imei_mock(
         self,
