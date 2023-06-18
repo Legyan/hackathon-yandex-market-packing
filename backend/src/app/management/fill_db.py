@@ -118,7 +118,7 @@ async def add_users():
         next(reader)
         async with get_async_session_context() as session:
             for row in reader:
-                users_in = UserSchema(name=row[0])
+                users_in = UserSchema(id=row[0], name=row[1])
                 await user_crud.create(users_in, session=session)
             print('Users added to DB.')
 
@@ -159,8 +159,8 @@ async def fill_db():
         await add_products_cargotypes()
         await add_partitions()
         await add_printers()
-        await add_users()
         await add_cartontypes()
+        await add_users()
     except IntegrityError as e:
         print(f'The database is already full. {e}')
 
