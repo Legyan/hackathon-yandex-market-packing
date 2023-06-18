@@ -3,7 +3,7 @@ from httpx import AsyncClient
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api.services.base import BaseService
-from app.core.constants import DS_URL
+from app.core.config import settings
 from app.core.db import AsyncSessionLocal, get_async_session
 from app.crud.order import order_crud
 from app.crud.pack_variation import pack_variation_crud
@@ -52,7 +52,7 @@ class PackingVariationService(BaseService):
         try:
             client = AsyncClient()
             response = await client.post(
-                url=DS_URL,
+                url=settings.ds_pack_url,
                 data=order_to_ds.json()
             )
             response.raise_for_status()
@@ -61,7 +61,7 @@ class PackingVariationService(BaseService):
         except Exception as e:
             raise HTTPException(
                 status_code=400,
-                detail='DS container error: ' + str(e) + DS_URL
+                detail='DS container error: ' + str(e)
             )
 
     async def write_pack_variations_to_db(

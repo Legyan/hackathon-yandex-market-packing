@@ -1,6 +1,3 @@
-from app.core.config import settings
-
-
 NONPACK_CARTONTYPES = (
     'NONPACK',
     'STRETCH',
@@ -20,4 +17,4 @@ PACKET_CARTONTYPES = (
 FRAGILITY_CARGOTYPES = (
     310,
 )
-DS_URL = 'http://' + settings.ds_host + ':8001/pack'
+ADD_ORDERS_URL = 'http://localhost:8000/api/v1/order'
