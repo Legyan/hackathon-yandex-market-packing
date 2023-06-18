@@ -23,15 +23,13 @@ async def add_orders():
         data = json.load(f)
         client = AsyncClient()
         for order in data['test_orders']:
-            print(order)
-            print('-'*100)
             order['orderkey'] = await get_random_orderkey()
             order_json = json.dumps(order)
-            print(order_json)
             await send_add_order(
                 data=order_json,
                 client=client
             )
+        print('Тестовые заказы загружены.')
 
 
 async def send_add_order(
@@ -44,6 +42,7 @@ async def send_add_order(
         url=DS_URL,
         data=data
     )
+    print(response.json())
     response.raise_for_status()
     data = response.json()
 
