@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import style from './TableSelectionPage.module.css';
 import Progressbar from '../../components/Progressbar/Progressbar';
-import AuthorizationForm from '../../components/ui/AuthorizationForm/AuthorizationForm';
+import Form from '../../components/Form/Form';
 import Footer from '../../components/Footer/Footer';
 import { getCookie } from '../../utils/cookie';
 
@@ -12,7 +12,7 @@ const TableSelectionPage: FC = () => {
     <>
       <section className={style.wrapper}>
         <Progressbar />
-        <AuthorizationForm
+        <Form
           label={'Отсканируйте штрихкод стола или введите вручную'}
           btnBack={'Назад'}
           btnForward={'Далее'}

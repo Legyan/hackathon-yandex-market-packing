@@ -17,3 +17,22 @@ body {
   background: var(--Yandex-white-grey-1);
   color: var(--Yandex-black);
 }
+
+::-webkit-scrollbar-track {
+  background-color: rgb(0,0,0,.2);
+}
+
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  background-color: rgb(0,0,0,.2);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(0,0,0,.2);
+}
+
+::-webkit-scrollbar {
+  width: 6px !important;
+  height: 6px !important;
+}

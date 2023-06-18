@@ -24,25 +24,25 @@ export function registerTable({userId, inputValue}: IRegisterTable) {
       type: REGISTRATION_TABLE_REQUEST
     });
     registerTableApi({userId, inputValue})
-          .then(res => {
-            if (res && res.success) {
-              setCookie('token', res.token.split('Bearer ')[1]);
-              dispatch({
-                type: REGISTRATION_TABLE_SUCCESS,
-                token: res.token.split('Bearer ')[1]
-              });
-            } else {
-              dispatch({
-                type: REGISTRATION_TABLE_ERROR,
-              });
-            }
-          })
-          .catch((err) => {
-            dispatch({
-              type: REGISTRATION_TABLE_ERROR,
-              error: err.message,
-            })
+      .then(res => {
+        if (res && res.success) {
+          setCookie('token', res.token.split('Bearer ')[1]);
+          dispatch({
+            type: REGISTRATION_TABLE_SUCCESS,
+            token: res.token.split('Bearer ')[1]
           });
+        } else {
+          dispatch({
+            type: REGISTRATION_TABLE_ERROR,
+          });
+        }
+      })
+      .catch((err) => {
+        dispatch({
+          type: REGISTRATION_TABLE_ERROR,
+          error: err.message,
+        })
+      });
   }
 }
 
@@ -52,24 +52,24 @@ export function registerPrinter({inputValue}: IRegisterPrinter) {
       type: REGISTRATION_PRINTER_REQUEST
     });
     registerPrinterApi({inputValue})
-          .then(res => {
-            if (res && res.success) {
-              dispatch({
-                type: REGISTRATION_PRINTER_SUCCESS,
-                user: res.user
-              });
-            } else {
-              dispatch({
-                type: REGISTRATION_PRINTER_ERROR,
-              });
-            }
-          })
-          .catch((err) => {
-            dispatch({
-              type: REGISTRATION_PRINTER_ERROR,
-              error: err.message,
-            })
+      .then(res => {
+        if (res && res.success) {
+          dispatch({
+            type: REGISTRATION_PRINTER_SUCCESS,
+            user: res.user
           });
+        } else {
+          dispatch({
+            type: REGISTRATION_PRINTER_ERROR,
+          });
+        }
+      })
+      .catch((err) => {
+        dispatch({
+          type: REGISTRATION_PRINTER_ERROR,
+          error: err.message,
+        })
+      });
   }
 }
 

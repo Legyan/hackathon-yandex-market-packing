@@ -7,7 +7,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 43px;
+  gap: 42px;
   transition: background .2s linear;
   cursor: pointer;
 }
@@ -51,6 +51,11 @@
   height: 73px;
 }
 
+.imgSmall {
+  width: 40px;
+  height: 40px;
+}
+
 .description {
   margin: 0;
   font-family: 'Yandex Sans Display';
@@ -71,10 +76,6 @@
   justify-content: center;
   transition: background .2s linear;
 }
-
-/* .notSelection:hover .countWrapper {
-  background: #FFF;
-} */
 
 .count {
   text-align: center;

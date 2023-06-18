@@ -1,4 +1,4 @@
-import { IAlreadyPacked, IGoods, IRecPacking } from "../../utils/type/main";
+import { IAlreadyPacked, IGoods, IRecPacking } from "../../utils/type/data";
 import {
   GET_ORDER_ERROR,
   GET_ORDER_REQUEST,
@@ -8,12 +8,13 @@ import {
 const initialState = {
   success: false,
   isLoading: false,
+  error: '',
   data: null,
   // {
   //   orderkey: '',
   //   partition: '',
   //   goods: [
-  //     {
+  //     {                        Дописать count  в типизации
   //       sku: '',
   //       title: '',
   //       description: '',
@@ -47,15 +48,16 @@ const initialState = {
 }
 
 interface IState {
-  success: boolean,
-  isLoading: boolean,
+  success: boolean;
+  isLoading: boolean;
+  error?: string | boolean;
   data:{
     orderkey: string;
     partition: string;
     goods: Array<IGoods>;
     recomend_packing: Array<Array<IRecPacking>>;
-    already_packed: Array<Array<IAlreadyPacked>>;
-  } | null,
+    already_packed: Array<IAlreadyPacked>;
+  } | null;
 }
 
 export interface IGetOrderRequest {
@@ -69,12 +71,13 @@ export interface IGetOrderSuccess {
     partition: string;
     goods: Array<IGoods>;
     recomend_packing: Array<Array<IRecPacking>>;
-    already_packed: Array<Array<IAlreadyPacked>>;
+    already_packed: Array<IAlreadyPacked>;
   }
 }
 
 export interface IGetOrderError {
-  readonly type: typeof GET_ORDER_ERROR
+  readonly type: typeof GET_ORDER_ERROR;
+  error?: string;
 }
 
 export type TActionsOrder =
@@ -100,6 +103,7 @@ export const orderReducer = (state: IState = initialState, action: TActionsOrder
       return {
         ...state,
         success: false,
+        error: action.error,
       }
     default:
       return state;

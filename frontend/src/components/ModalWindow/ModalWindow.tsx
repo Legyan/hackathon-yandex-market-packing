@@ -3,17 +3,17 @@ import ReactDOM from 'react-dom';
 import ModalOverlay from '../ModalOverlay/ModalOverlay';
 import style from './ModalWindow.module.css';
 import { modalContainer, body } from '../../utils/constants';
-import { IModalWindow } from '../../utils/type/main';
+import { IModal } from '../../utils/type/main';
 
 
-const ModalWindow: FC<IModalWindow> = ( props ) => {
+const ModalWindow: FC<IModal> = ({visible, onClose, children}) => {
 
   useEffect(() => {
     const handleEscClose = (e: {key: string}) => {
-      if (e.key === 'Escape') {props.onClose()}
+      if (e.key === 'Escape') {onClose()}
     }
 
-    if (props.visible) {
+    if (visible) {
       document.addEventListener('keydown', handleEscClose);
       body.style.overflow = 'hidden';
     }
@@ -22,21 +22,21 @@ const ModalWindow: FC<IModalWindow> = ( props ) => {
       document.removeEventListener('keydown', handleEscClose);
       body.style.overflow = 'visible';
     };
-  }, [props, props.visible]);
+  }, [onClose, visible]);
 
   return ReactDOM.createPortal(
     <div
       className={
-        props.visible
+        visible
           ? `${style.modal} ${style.modalOpened}`
           : `${style.modal}`
       }
     >
-      <ModalOverlay closeModal={props.onClose} visible={props.visible} />
+      <ModalOverlay closeModal={onClose} visible={visible} />
 
         <div className={style.container}>
-          <button className={style.btnClose} onClick={props.onClose} />
-          {props.children}
+          <button className={style.btnClose} onClick={onClose} />
+          {children}
         </div>
 
     </div>,

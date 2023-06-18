@@ -1,4 +1,4 @@
-import { IUser } from "../../utils/type/main";
+import { IUser } from "../../utils/type/data";
 import {
   GET_USER_ERROR,
   GET_USER_REQUEST,

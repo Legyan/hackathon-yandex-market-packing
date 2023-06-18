@@ -26,6 +26,7 @@ export function getOrder () {
       .catch((err) => {
         dispatch({
           type: GET_ORDER_ERROR,
+          error: err.message,
         })
       });
   }
