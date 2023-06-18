@@ -42,7 +42,6 @@ async def send_add_order(
         url=DS_URL,
         data=data
     )
-    print(response.json())
     response.raise_for_status()
     data = response.json()
 

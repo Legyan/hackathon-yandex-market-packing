@@ -95,7 +95,7 @@ Swagger документация DS: http://62.84.121.232:8001/docs.
     DB_PORT=5432
     DATABASE_URL=postgresql+asyncpg://postgres:postgres@db-ym-pack/postgres
     HOST=localhost
-    DS_HOST=localhost:8001
+    DS_HOST=ds-ym-pack:8001
     SECRET_KEY=SECRET_KEY
    ```
 
