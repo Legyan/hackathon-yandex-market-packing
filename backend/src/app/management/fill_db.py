@@ -180,8 +180,8 @@ async def fill_db():
         await add_printers()
         await add_cartontypes()
         await add_users()
-    except IntegrityError as e:
-        print(f'The database is already full. {e}')
+    except IntegrityError:
+        print('The database is already full.')
 
 
 asyncio.run(fill_db())
