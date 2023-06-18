@@ -23,11 +23,14 @@ from app.schemas.order import (AlreadyPackedSchema, ItemBase,
 
 
 class CRUDOrder(CRUDBase):
+    """CRUD заказов."""
     async def add_order(
         self,
         order: OrderCreateSchema,
         session: AsyncSession,
     ) -> Order:
+        """Добавляет заказ."""
+
         new_order = Order()
         already_exist_orderkey = (await session.execute(
                 select(Order).where(Order.orderkey == order.orderkey)
@@ -64,6 +67,8 @@ class CRUDOrder(CRUDBase):
         order: Order,
         session: AsyncSession
     ) -> OrderToUserSchema:
+        """Получение информации о заказе для пользователя."""
+
         order_data = OrderDataToUser(
             orderkey=order.orderkey
         )
@@ -145,6 +150,8 @@ class CRUDOrder(CRUDBase):
         self,
         session: AsyncSession
     ) -> Optional[Order]:
+        """Получение нового заказа."""
+
         return (await session.execute(
                 select(Order)
                 .options(joinedload(Order.products))
@@ -156,6 +163,8 @@ class CRUDOrder(CRUDBase):
         orderkey: str,
         session: AsyncSession
     ) -> Optional[list[AlreadyPackedSchema]]:
+        """Получение упакованных коробок и товаров."""
+
         packages = []
         already_packed = (await session.execute(
             select(PackingVariation)
@@ -206,6 +215,8 @@ class CRUDOrder(CRUDBase):
         status: OrderStatusEnum,
         session: AsyncSession
     ) -> Order:
+        """Изменение статуса заказа."""
+
         order = (await session.execute(
             select(Order).where(Order.orderkey == orderkey)
         )).scalars().first()
@@ -221,6 +232,8 @@ class CRUDOrder(CRUDBase):
         user_id: int,
         session: AsyncSession
     ) -> Order:
+        """Присвоение заказу упаковщика."""
+
         order = (await session.execute(
             select(Order).where(Order.orderkey == orderkey)
         )).scalars().first()
@@ -235,6 +248,8 @@ class CRUDOrder(CRUDBase):
         user_id: str,
         session: AsyncSession
     ) -> Order:
+        """Получение заказа по пользователю."""
+
         return (await session.execute(
             select(Order)
             .options(joinedload(Order.products))
@@ -250,6 +265,8 @@ class CRUDOrder(CRUDBase):
         user_id: str,
         session: AsyncSession
     ) -> Order:
+        """Получение активного заказа пользователя с штрих-кодами."""
+
         return (await session.execute(
             select(Order)
             .options(joinedload(Order.barcodes))
@@ -265,6 +282,8 @@ class CRUDOrder(CRUDBase):
             orderkey: str,
             session: AsyncSession
     ) -> Order:
+        """Получение заказа с товарами."""
+
         return (await session.execute(
             select(Order)
             .options(joinedload(Order.products))
@@ -277,6 +296,8 @@ class CRUDOrder(CRUDBase):
         pack_variation: PackingVariation,
         session: AsyncSession
     ) -> None:
+        """Проверка готовности заказа."""
+
         orderkey = order.orderkey
         products = (await session.execute(
             select(OrderProduct).where(OrderProduct.orderkey == orderkey)
@@ -303,6 +324,8 @@ class CRUDOrder(CRUDBase):
         order: Order,
         session: AsyncSession
     ) -> None:
+        """Завершение заказа."""
+
         await session.refresh(order)
         partition = await partition_crud.get_by_attribute(
             attr_name='orderkey',
@@ -328,6 +351,8 @@ class CRUDOrder(CRUDBase):
         self,
         cargotype_tag: str
     ) -> str:
+        """Получение типа иконки упаковки."""
+
         match cargotype_tag:
             case tag if tag in NONPACK_CARTONTYPES:
                 return cargotype_tag

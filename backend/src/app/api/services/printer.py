@@ -18,6 +18,8 @@ class PrinterService(BaseService):
         printer_id: str,
         session: AsyncSession,
     ) -> AuthOutputSchema:
+        """Присвоение пользователю принтера."""
+
         table = await table_crud.get_table_by_user(
             user_id=user_id,
             session=session

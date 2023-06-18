@@ -2,6 +2,8 @@ from pydantic import BaseModel
 
 
 class ProductSchema(BaseModel):
+    """Схема товаров."""
+
     sku: str
     title: str
     description: str

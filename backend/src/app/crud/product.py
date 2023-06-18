@@ -8,12 +8,15 @@ from app.models.product import Product
 
 
 class CRUDProduct(CRUDBase):
+    """CRUD товаров."""
 
     async def get_product_with_cargotypes(
             self,
             sku: str,
             session: AsyncSession
     ) -> Product:
+        """Получение товара с карготипами."""
+
         return (await session.execute(
                 select(Product)
                 .options(joinedload(Product.cargotypes))
@@ -26,6 +29,8 @@ class CRUDProduct(CRUDBase):
             sku: str,
             session: AsyncSession
     ) -> int:
+        """Получение количества товаров в заказе."""
+
         products = (await session.execute(
             select(OrderProduct)
             .where(

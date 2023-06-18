@@ -19,6 +19,7 @@ async def close_package(
     session: AsyncSession = Depends(get_async_session),
 ) -> BaseOutputSchema:
     """Закрытие коробки/пакета пользователем."""
+
     return await package_service.close_package(
         user_id, session
     )
@@ -34,6 +35,7 @@ async def remove_from_package(
     session: AsyncSession = Depends(get_async_session),
 ) -> BaseOutputSchema:
     """Удаление товаров из коробки."""
+
     return await package_service.remove_from_package(
         barcodes.barcodes, user_id, session
     )

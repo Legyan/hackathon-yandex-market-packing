@@ -13,6 +13,8 @@ get_async_session_context = contextlib.asynccontextmanager(get_async_session)
 
 
 async def delete_all_in_table(model):
+    """Удаление данных в таблице базы данных."""
+
     async with get_async_session_context() as session:
         await session.execute(
             delete(model)
@@ -22,6 +24,8 @@ async def delete_all_in_table(model):
 
 
 async def clear_db():
+    """Удаление данных из базы данных."""
+
     await delete_all_in_table(HonestSign)
     await delete_all_in_table(Imei)
     await delete_all_in_table(PackageProduct)

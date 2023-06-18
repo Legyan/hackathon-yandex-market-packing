@@ -20,6 +20,8 @@ class OrderService(BaseService):
         order: OrderCreateSchema,
         session: AsyncSession,
     ) -> OrderCreateResponseSchema:
+        """Добавление заказа."""
+
         new_order = await self.crud.add_order(order, session)
         package_recommendations = await (
             pack_variation_service.get_package_recommendation(
@@ -42,6 +44,8 @@ class OrderService(BaseService):
         user_id: int,
         session: AsyncSession,
     ) -> OrderToUserSchema:
+        """Получение заказа пользователем."""
+
         order = await self.crud.get_order_by_user_id(
             user_id=user_id,
             session=session
@@ -99,6 +103,8 @@ class OrderService(BaseService):
         user_id: int,
         session: AsyncSession
     ) -> BaseOutputSchema:
+        """Завершение заказа."""
+
         order = await self.crud.get_order_by_user_id(user_id, session)
         if not order:
             raise NoActiveOrderError()

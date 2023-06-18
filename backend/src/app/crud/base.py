@@ -4,6 +4,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 
 class CRUDBase:
+    """Базовый CRUD."""
+
     def __init__(self, model):
         self.model = model
 

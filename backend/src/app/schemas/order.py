@@ -4,6 +4,8 @@ from pydantic import BaseModel, Extra
 
 
 class ItemBase(BaseModel):
+    """Базовая схема товара."""
+
     sku: str
     count: int
 
@@ -12,6 +14,8 @@ class ItemBase(BaseModel):
 
 
 class ItemToDS(ItemBase):
+    """Базовая схема товара для DS."""
+
     size1: Optional[str] = None
     size2: Optional[str] = None
     size3: Optional[str] = None
@@ -20,6 +24,8 @@ class ItemToDS(ItemBase):
 
 
 class OrderCreateSchema(BaseModel):
+    """Базовая схема для создания заказа."""
+
     orderkey: str
     items: list[ItemBase]
 
@@ -28,16 +34,22 @@ class OrderCreateSchema(BaseModel):
 
 
 class OrderCreateResponseSchema(BaseModel):
+    """Схема ответа на создание заказа."""
+
     orderkey: str
     status: str
 
 
 class OrderToDS(BaseModel):
+    """Схема для заказа из DS."""
+
     orderId: str # noqa
     items: list[ItemToDS]
 
 
 class ProductToUser(BaseModel):
+    """Схема товара в заказе для пользователя."""
+
     sku: str
     title: str
     description: Optional[str]
@@ -49,16 +61,22 @@ class ProductToUser(BaseModel):
 
 
 class PackageSchema(BaseModel):
+    """Схема упаковки пользователем."""
+
     cartontype: str = ''
     icontype: str = ''
     items: list[ItemBase] = []
 
 
 class AlreadyPackedSchema(PackageSchema):
+    """Схема упаковки пользователем с информацией о закрытии."""
+
     is_packaged: bool = False
 
 
 class OrderDataToUser(BaseModel):
+    """Схема информации о заказе для пользователя."""
+
     partition: str = ''
     orderkey: str = ''
     goods: list[ProductToUser] = []
@@ -67,5 +85,7 @@ class OrderDataToUser(BaseModel):
 
 
 class OrderToUserSchema(BaseModel):
+    """Схема для выдачи заказа пользователю."""
+
     data: OrderDataToUser
     status: str = 'ok'

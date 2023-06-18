@@ -52,7 +52,7 @@ class PackingVariationService(BaseService):
         try:
             client = AsyncClient()
             response = await client.post(
-                'http://' + settings.ds_host + '/pack',
+                url=settings.ds_pack_url,
                 data=order_to_ds.json()
             )
             response.raise_for_status()
@@ -61,7 +61,7 @@ class PackingVariationService(BaseService):
         except Exception as e:
             raise HTTPException(
                 status_code=400,
-                detail='DS container error:\n' + str(e)
+                detail='DS container error: ' + str(e)
             )
 
     async def write_pack_variations_to_db(
@@ -69,6 +69,8 @@ class PackingVariationService(BaseService):
         packing_variations: PackingVariationsSchema,
         session: AsyncSession,
     ) -> None:
+        """Запись вариантов упаковки в базу данных."""
+
         await self.crud.write_pack_variations_to_db(
             packing_variations=packing_variations,
             session=session
@@ -79,6 +81,8 @@ class PackingVariationService(BaseService):
             orderkey: str,
             session: AsyncSession
     ) -> None:
+        """Добавление варианта упаковки."""
+
         await self.crud.add_active_pack_variation(
             orderkey=orderkey,
             session=session
