@@ -4,8 +4,6 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api.services.base import BaseService
 from app.core.constants import DS_URL
-from app.core.config import settings
-from app.core.constants import DS_URL
 from app.core.db import AsyncSessionLocal, get_async_session
 from app.crud.order import order_crud
 from app.crud.pack_variation import pack_variation_crud
