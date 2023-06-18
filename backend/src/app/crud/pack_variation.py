@@ -46,15 +46,15 @@ class CRUDPackingVariation(CRUDBase):
                     # )
                     return
                 await session.refresh(new_pack_variation)
-                if cartontype.tag in NONPACK_CARTONTYPES:
-                    await self.add_nonpack_package(
-                        cartontype=cartontype.tag,
-                        pack_variation_id=new_pack_variation.id,
-                        goods=package.goods,
-                        orderkey=packing_variations.orderkey,
-                        session=session
-                    )
-                    continue
+                # if cartontype.tag in NONPACK_CARTONTYPES:
+                #     await self.add_nonpack_package(
+                #         cartontype=cartontype.tag,
+                #         pack_variation_id=new_pack_variation.id,
+                #         goods=package.goods,
+                #         orderkey=packing_variations.orderkey,
+                #         session=session
+                #     )
+                #     continue
                 new_package = Package(
                     cartontype_tag=cartontype.tag,
                     packing_variation_id=new_pack_variation.id,
