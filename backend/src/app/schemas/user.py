@@ -5,6 +5,7 @@ from pydantic import BaseModel
 
 class UserSchema(BaseModel):
     name: str
+    id: int
 
 
 class UserAuthPrinterSchema(BaseModel):
