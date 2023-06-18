@@ -1,15 +1,30 @@
 .wrapper {
   height: 824px;
-  margin: 36px 24px 0;
   display: flex;
   justify-content: space-between;
   gap: 12px;
+  box-sizing: border-box;
 }
 
 .wrapperGoods {
   padding: 40px 32px 0;
   background: var(--Yandex-white-grey-1);
   border-radius: 12px;
+}
+
+.wrp{
+  margin-top: 32px;
+  max-height: 585px;
+  outline: none;
+  overflow-y: scroll;
+}
+
+.wrpGoods {
+  max-width: 1090px;
+  width: 100%;
+  box-sizing: border-box;
+  padding-bottom: 32px;
+  border-bottom: 2px solid #E8E8E8;
 }
 
 .packingGoods {
@@ -19,6 +34,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  box-sizing: border-box;
 }
 
 .goods {

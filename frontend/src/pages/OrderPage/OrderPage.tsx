@@ -91,30 +91,32 @@ const OrderPage: FC = () => {
           {/* Вывести в отдельный компонент */}
           <article className={style.wrapperGoods}>
             <Progressbar title={`Товары ячейки ${order.partition}`} />
-            {recommendation.map(goods => {
-              return (
-                <div key={uuid4()}>
-                  <Package icon={goods.icontype} title={goods.cartontype} />
-                  <ul className={style.goods}>
-                    {goods.items.map(i => order.goods.find(items => items.sku === i.sku)).map(item => {
-                      return (
-                        <li className={style.liGoods} key={uuid4()}>
-                          <Goods
-                            img={item!.image}
-                            title={`${item!.title} ${item!.description}`}
-                            percentage={`${item!.count} шт.`}
-                            sku={item!.sku}
-                            imei={item!.imei}
-                            honest_sign={item!.honest_sign}
-                            clue={item!.fragility}
-                          />
-                        </li>
-                      )
-                    })}
-                  </ul>
-                </div>
-              )
-            })}
+            <div className={style.wrp}>
+              {recommendation.map(goods => {
+                return (
+                  <div className={style.wrpGoods} key={uuid4()}>
+                    <Package icon={goods.icontype} title={goods.cartontype} />
+                    <ul className={style.goods}>
+                      {goods.items.map(i => order.goods.find(items => items.sku === i.sku)).map(item => {
+                        return (
+                          <li className={style.liGoods} key={uuid4()}>
+                            <Goods
+                              img={item!.image}
+                              title={`${item!.title} ${item!.description}`}
+                              percentage={`${item!.count} шт.`}
+                              sku={item!.sku}
+                              imei={item!.imei}
+                              honest_sign={item!.honest_sign}
+                              clue={item!.fragility}
+                            />
+                          </li>
+                        )
+                      })}
+                    </ul>
+                  </div>
+                )
+              })}
+            </div>
           </article>
           {/* Вывести в отдельный компонент */}
           <article className={style.packingGoods}>

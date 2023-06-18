@@ -37,10 +37,18 @@ const ButtonMenu: FC<IButtonMenu> = ({
           key={uuid4()}
         >
           {
-            btn.icontype === 'box' ? <img className={style.img} src={iconBox} alt='Иконка коробки' /> :
-            btn.icontype === 'packet' ? <img className={style.img} src={packet} alt='Иконка пакета' /> :
-            btn.icontype === 'STRETCH' ? <img className={style.img} src={stretch} alt='Иконка стретч-плёнки' /> :
-            btn.icontype === 'NONPACK' ? <img className={style.img} src={nonpack} alt='Иконка нон-пака' /> :
+            btn.icontype === 'box' ?
+              <img className={data.length === 3 ? `${style.imgSmall}` : `${style.img}`}
+              src={iconBox} alt='Иконка коробки' /> :
+            btn.icontype === 'packet' ?
+              <img className={data.length === 3 ? `${style.imgSmall}` : `${style.img}`}
+              src={packet} alt='Иконка пакета' /> :
+            btn.icontype === 'STRETCH' ?
+              <img className={data.length === 3 ? `${style.imgSmall}` : `${style.img}`}
+              src={stretch} alt='Иконка стретч-плёнки' /> :
+            btn.icontype === 'NONPACK' ?
+            <img className={data.length === 3 ? `${style.imgSmall}` : `${style.img}`}
+            src={nonpack} alt='Иконка нон-пака' /> :
             ''
           }
           <p className={style.description}>{btn.cartontype}</p>

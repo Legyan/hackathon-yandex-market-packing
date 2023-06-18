@@ -2,11 +2,12 @@
   padding: 12px;
   display: flex;
   align-items: center;
+  justify-content: space-around;
   gap: 22px;
 }
 
 .wrapper {
-  max-width: 556px;
+  max-width: 526px;
   width: 100%;
   display: flex;
   justify-content: space-between;
