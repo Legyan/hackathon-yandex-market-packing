@@ -119,7 +119,6 @@ jobs:
             echo DS_HOST=${{ secrets.DS_HOST }} >> .env
             sudo docker-compose up -d
             sudo docker exec infra_backend-ym-pack_1 alembic upgrade head
-            sudo docker exec infra_backend-ym-pack_1 python3 -m app.management.clear_db
             sudo docker exec infra_backend-ym-pack_1 python3 -m app.management.fill_db
             sudo docker exec infra_backend-ym-pack_1 python3 -m app.management.add_orders
             sudo docker exec infra_backend-ym-pack_1 python3 -m app.management.add_random_barcodes
