@@ -27,12 +27,14 @@ const OrderPage: FC = () => {
   const recommendationInfo = useSelector(store => store.recommendationInfo);
   const recommendation = useSelector(store => store.recommendationInfo.recommendation);
   const confirmation = useSelector(store => store.barcodeInfo)
-
-  // console.log(order);
-
-  // console.log(recommendation);
+  const alreadyPacked = useSelector(store => store.orderInfo.data?.already_packed);
 
   const firstRecommend = order !== null ? order.recomend_packing[0] : null;
+  const choiceCartontype = alreadyPacked !== undefined ? alreadyPacked.map(pack => pack.cartontype)[0] : null;
+  // const choiceGoods = alreadyPacked !== undefined ? alreadyPacked.map : null;
+
+  // console.log(alreadyPacked?.map(items => items.items.));
+
 
   useEffect(() => {
     dispatch(getOrder())
@@ -40,7 +42,7 @@ const OrderPage: FC = () => {
 
   useEffect(() => {
     dispatch(firstRecommendation(firstRecommend))
-  }, [dispatch, firstRecommend])
+  }, [firstRecommend])
 
   const openModalProblems = () => {
     setModalProblems(true)
@@ -93,13 +95,25 @@ const OrderPage: FC = () => {
             <Progressbar title={`Товары ячейки ${order.partition}`} />
             <div className={style.wrp}>
               {recommendation.map(goods => {
+                {console.log(choiceCartontype === goods.cartontype)}
                 return (
-                  <div className={style.wrpGoods} key={uuid4()}>
-                    <Package icon={goods.icontype} title={goods.cartontype} />
+                  <div className={
+                    choiceCartontype === goods.cartontype ? `${style.wrpGoods}` :
+                    `${style.wrpGoods} ${style.disablePack}`}
+                    key={uuid4()}
+                  >
+                    <Package
+                      icon={goods.icontype}
+                      cartontype={goods.cartontype}
+                      visible={choiceCartontype === goods.cartontype}
+                    />
                     <ul className={style.goods}>
                       {goods.items.map(i => order.goods.find(items => items.sku === i.sku)).map(item => {
                         return (
-                          <li className={style.liGoods} key={uuid4()}>
+                          <li className={
+                            alreadyPacked?.map(items => items.items.map(i => i.sku)).flat(1)[0] === item!.sku ?
+                            `${style.liGoods} ${style.choiceGoods}` :
+                            `${style.liGoods}`} key={uuid4()}>
                             <Goods
                               img={item!.image}
                               title={`${item!.title} ${item!.description}`}
@@ -129,6 +143,7 @@ const OrderPage: FC = () => {
                       data={recomend}
                       index={index}
                       recomendnIndex={recommendationInfo.index}
+                      active={recomend.find(rec => rec.cartontype === choiceCartontype) !== undefined}
                     />
                   </li>
                 )
@@ -172,7 +187,7 @@ const OrderPage: FC = () => {
         onClose={closeModalImei}
       />
       <ModalHonest
-        visible={isModalImei}
+        visible={isModalHonest}
         onClose={closeModalImei}
       />
     </>

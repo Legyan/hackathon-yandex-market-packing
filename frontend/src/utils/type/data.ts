@@ -28,7 +28,7 @@ export interface IOrder {
   orderkey: string;
   goods: Array<IGoods>
   recomend_packing: Array<Array<IRecPacking>>
-  already_packed: Array<Array<IAlreadyPacked>>;
+  already_packed: Array<IAlreadyPacked>;
 }
 
 export interface IBarcode {

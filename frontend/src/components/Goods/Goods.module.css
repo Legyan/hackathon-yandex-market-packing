@@ -71,6 +71,10 @@
   border-radius: 100px;
 }
 
+.choicePercentage {
+  background: #2AAD2E;
+}
+
 .sku {
   font-family: 'Yandex Sans Display';
   font-style: normal;

@@ -10,6 +10,17 @@
   transition: background .2s linear;
 }
 
+.btnWrp{
+  width: 290px;
+  padding: 12px 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background: #F3F0E9;
+  border-radius: 12px;
+}
+
 .hint {
   width: 290px;
   padding: 12px 24px;

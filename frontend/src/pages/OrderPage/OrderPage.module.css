@@ -27,6 +27,10 @@
   border-bottom: 2px solid #E8E8E8;
 }
 
+.disablePack{
+  opacity: .5;
+}
+
 .packingGoods {
   padding: 40px;
   background: var(--Yandex-white-grey-1);
@@ -50,6 +54,10 @@
   border-radius: 12px;
   display: flex;
   flex-direction: column;
+}
+
+.choiceGoods {
+  background: #EAFFEB;
 }
 
 .title {

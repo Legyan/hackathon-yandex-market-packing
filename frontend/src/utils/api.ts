@@ -76,7 +76,7 @@ export async function getUserApi() {
 }
 
 export async function logoutApi() {
-  return await request<IDataValues<IStatus>>(apiUrl + 'package/close', {
+  return await request<IDataValues<IStatus>>(apiUrl + 'user/logout', {
     method: 'GET',
     headers: {
       "Content-Type": "application/json",
@@ -136,5 +136,15 @@ export async function removeItemApi({inputValue}: IBarcode) {
     body: JSON.stringify({
       barcode: [inputValue],
     }),
+  });
+}
+
+export async function closeBoxApi() {
+  return await request<IDataValues<IStatus>>(apiUrl + 'package/close', {
+    method: 'GET',
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + getCookie("token")
+    }
   });
 }

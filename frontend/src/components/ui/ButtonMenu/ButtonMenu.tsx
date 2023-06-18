@@ -13,19 +13,21 @@ const ButtonMenu: FC<IButtonMenu> = ({
   data,
   index,
   recomendnIndex,
+  active,
   ...rest
 }) => {
   const dispatch = useDispatch();
 
   const choiceRecommendation = () => {
     dispatch(selectRecommendation(data, index))
-    console.log(data)
   }
 
   return (
     <button
       className={
-        recomendnIndex === index ? `${style.wrapper} ${style.active}` : `${style.wrapper} ${style.notSelection}`
+        recomendnIndex === index ? `${style.wrapper} ${style.active}` :
+        !active ? `${style.wrapper} ${style.inactive}` :
+        `${style.wrapper} ${style.notSelection}`
       }
       onClick={choiceRecommendation}
     >{data.map(btn => {

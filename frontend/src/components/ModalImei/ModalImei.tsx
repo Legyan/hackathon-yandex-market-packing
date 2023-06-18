@@ -5,9 +5,11 @@ import { IModal } from '../../utils/type/main';
 import { getCookie } from '../../utils/cookie';
 import { postImei } from '../../services/actions/barcodeAction';
 import imei from '../../images/barcode.svg';
+import { useDispatch } from '../../utils/type/store';
 
 const ModalImei: FC<IModal> = ({visible, onClose, onClick}) => {
   const [inputValue, setInputValue] = useState<string>('');
+  const dispatch = useDispatch();
 
   const changeValueIndex = (e: ChangeEvent<HTMLInputElement>): void => {
     setInputValue(e.target.value);
@@ -16,7 +18,7 @@ const ModalImei: FC<IModal> = ({visible, onClose, onClick}) => {
   const onSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     let barcode = getCookie('barcode');
-    postImei({barcode, inputValue});
+    dispatch(postImei({barcode, inputValue}));
     onClose();
     setInputValue('');
   }
@@ -27,11 +29,11 @@ const ModalImei: FC<IModal> = ({visible, onClose, onClick}) => {
       onClose={onClose}
       onClick={onClick}
     >
-      <section className={style.wrapper} onSubmit={onSubmit}>
+      <section className={style.wrapper}>
         <div className={style.imgWrapper}>
           <img className={style.img} src={imei} alt='Логотип Честный знак' />
         </div>
-        <form className={style.form}>
+        <form className={style.form} onSubmit={onSubmit}>
           <label className={style.label}>Отсканируйте IMEI товара или введите вручную</label>
           <input
             className={style.input}

@@ -24,10 +24,10 @@ const MainPage: FC = () => {
     history.replace({ pathname: '/problems/another' });
   }
 
-  const logout = useCallback(() => {
+  const logout = () => {
     setCookie('token', '');
     history.replace({ pathname: '/table' });
-  }, [history])
+  }
 
   const order = () => {
     history.replace({ pathname: '/order' });

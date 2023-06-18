@@ -33,7 +33,13 @@ const Goods: FC<IGoodsProps> = ({
             </div>
           </div>
         </div>
-        <span className={style.percentage}>{percentage}</span>
+        <span className={
+          alreadyPacked?.map(items => items.items.map(i => i.sku)).flat(1)[0] === sku ?
+          `${style.percentage} ${style.choicePercentage}` :
+          `${style.percentage}`}
+        >
+          {percentage}
+        </span>
         <span className={style.sku}>{sku}</span>
       </div>
       {honest_sign || imei ? (

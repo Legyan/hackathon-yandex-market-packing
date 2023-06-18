@@ -1,6 +1,8 @@
 import {
   ButtonHTMLAttributes,
+  Dispatch,
   HTMLProps,
+  SetStateAction,
 } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { IRecPacking } from './data';
@@ -12,6 +14,7 @@ import { IRecPacking } from './data';
 export interface IHint {
   icon: string;
   title: string;
+  visible: boolean;
 }
 
 export interface IButton extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -24,6 +27,7 @@ export interface IButtonMenu extends ButtonHTMLAttributes<HTMLButtonElement> {
   data: Array<IRecPacking>;
   index: number;
   recomendnIndex: number;
+  active?: boolean;
 }
 
 export interface IButtonLink extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -50,7 +54,8 @@ export interface IProgressbar {
 
 export interface IPackage {
   icon: string;
-  title: string;
+  cartontype: string;
+  visible: boolean;
 }
 
 export interface IGoodsProps {

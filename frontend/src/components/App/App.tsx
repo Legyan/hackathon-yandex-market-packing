@@ -12,11 +12,8 @@ import Header from '../Header/Header';
 import { ProtectedRoute } from '../ProtectedRoute/ProtectedRoute';
 import PageScanDeffectiveGoods from '../../pages/PageScanDeffectiveGoods/PageScanDeffectiveGoods';
 import PageWaitConfirmation from '../../pages/PageWaitConfirmation/PageWaitConfirmation';
-import { useDispatch, useSelector } from '../../utils/type/store';
-import { getUser } from '../../services/actions/userActions';
 
 const App: FC = () => {
-
   return (
     <>
       <Header />

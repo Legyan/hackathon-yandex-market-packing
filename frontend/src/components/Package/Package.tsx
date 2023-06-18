@@ -9,10 +9,7 @@ import Hint from '../ui/Hint/Hint';
 import { IPackage } from '../../utils/type/main';
 import { useSelector } from '../../utils/type/store';
 
-const Package: FC<IPackage> = ({ icon, title }) => {
-  const alreadyPacked = useSelector(store => store.orderInfo.data?.already_packed);
-
-  console.log(alreadyPacked);
+const Package: FC<IPackage> = ({ icon, cartontype, visible }) => {
 
   return (
     <article className={style.wrapper}>
@@ -26,11 +23,11 @@ const Package: FC<IPackage> = ({ icon, title }) => {
       }
 
         <div className={style.descriptionPacking}>
-          <h3 className={style.sku}>{title}</h3>
+          <h3 className={style.sku}>{cartontype}</h3>
           <div className={style.hints}>
             <ul className={style.hintWrapper}>
-              <Hint icon={'pen'} title={'Изменить состав коробки'} />
-              <Hint icon={'barcodeRed'} title={'Распечатайте штрихкод'} />
+              <Hint icon={'pen'} title={'Изменить состав коробки'} visible={visible} />
+              <Hint icon={'barcodeRed'} title={'Закрыть коробку'} visible={visible} />
             </ul>
           </div>
         </div>
