@@ -28,6 +28,8 @@ get_async_session_context = contextlib.asynccontextmanager(get_async_session)
 
 
 async def add_products():
+    """Добавление товаров в базу данных для тестирования."""
+
     with open('../data/products.csv') as csvfile:
         reader = csv.reader(csvfile)
         next(reader)
@@ -52,6 +54,8 @@ async def add_products():
 
 
 async def add_barcode_sku():
+    """Добавление штрих-кодов товаров в базу данных для тестирования."""
+
     with open('../data/barcode_sku.csv') as csvfile:
         reader = csv.reader(csvfile)
         next(reader)
@@ -65,6 +69,8 @@ async def add_barcode_sku():
 
 
 async def add_products_cargotypes():
+    """Добавление карготипов товаров в базу данных для тестирования."""
+
     with open('../data/products_cargotypes.csv') as csvfile:
         reader = csv.reader(csvfile)
         next(reader)
@@ -80,6 +86,8 @@ async def add_products_cargotypes():
 
 
 async def add_tables():
+    """Добавление столов в базу данных для тестирования."""
+
     with open('../data/tables.csv') as csvfile:
         reader = csv.reader(csvfile)
         next(reader)
@@ -91,6 +99,8 @@ async def add_tables():
 
 
 async def add_printers():
+    """Добавление принтеров в базу данных для тестирования."""
+
     with open('../data/printers.csv') as csvfile:
         reader = csv.reader(csvfile)
         next(reader)
@@ -102,6 +112,8 @@ async def add_printers():
 
 
 async def add_partitions():
+    """Добавление ячеек в базу данных для тестирования."""
+
     with open('../data/partitions.csv') as csvfile:
         reader = csv.reader(csvfile)
         next(reader)
@@ -113,6 +125,8 @@ async def add_partitions():
 
 
 async def add_users():
+    """Добавление пользователей в базу данных для тестирования."""
+
     with open('../data/users.csv') as csvfile:
         reader = csv.reader(csvfile)
         next(reader)
@@ -124,6 +138,8 @@ async def add_users():
 
 
 async def add_cartontypes():
+    """Добавление типов упаковки в базу данных для тестирования."""
+
     with open('../data/cartontypes.csv') as csvfile:
         reader = csv.reader(csvfile)
         next(reader)
@@ -140,6 +156,8 @@ async def add_cartontypes():
 
 
 async def add_cargotypes():
+    """Добавление карготипов в базу данных для тестирования."""
+
     with open('../data/cargotypes.csv') as csvfile:
         reader = csv.reader(csvfile)
         next(reader)
@@ -151,6 +169,7 @@ async def add_cargotypes():
 
 
 async def fill_db():
+    """Формирование базы данных для тестирования."""
     try:
         await add_products()
         await add_barcode_sku()

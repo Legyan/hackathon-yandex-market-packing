@@ -14,6 +14,7 @@ from app.schemas.base import BaseOutputSchema
 
 class PackageService(BaseService):
     """Сервис для работы с упаковками (коробками и пакетами)."""
+
     async def get_active_package(
         self,
         orderkey: str,

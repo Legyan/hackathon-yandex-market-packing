@@ -21,7 +21,8 @@ async def handle_barcode(
     user_id: str = Depends(get_current_user_id),
     session: AsyncSession = Depends(get_async_session),
 ) -> BarcodeInfoSchema:
-    """Обработка штрих-кода пользоввателем."""
+    """Обработка штрих-кода пользователем."""
+
     return await barcode_service.handle_barcode(
         user_id, barcode.barcode, session
     )
@@ -36,7 +37,8 @@ async def handle_imei(
     user_id: str = Depends(get_current_user_id),
     session: AsyncSession = Depends(get_async_session),
 ) -> BaseSuccessSchema:
-    """Обработка imei товара."""
+    """Обработка IMEI товара."""
+
     return await barcode_service.handle_imei(
         barcode=imei.barcode, imei=imei.imei, session=session
     )
@@ -52,6 +54,7 @@ async def handle_honest_sign(
     session: AsyncSession = Depends(get_async_session),
 ) -> BaseSuccessSchema:
     """Обработка "Честного знака" товара."""
+
     return await barcode_service.handle_honest_sign(
         barcode=honest_sign.barcode,
         honest_sign=honest_sign.honest_sign,

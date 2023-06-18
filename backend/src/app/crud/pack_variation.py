@@ -14,11 +14,15 @@ from app.schemas.pack_variation import PackingVariationsSchema
 
 
 class CRUDPackingVariation(CRUDBase):
+    """CRUD вариантов упаковки."""
+
     async def write_pack_variations_to_db(
         self,
         packing_variations: PackingVariationsSchema,
         session: AsyncSession,
     ) -> None:
+        """Запись варианта упаковки в базу данных."""
+
         if packing_variations.status == 'fallback':
             order_crud.set_order_status(
                 orderkey=packing_variations.orderkey,
@@ -118,6 +122,8 @@ class CRUDPackingVariation(CRUDBase):
             orderkey: str,
             session: AsyncSession
     ) -> None:
+        """Добавление варианта упаковки пользователя (не рекомендации)."""
+
         pack_variation = PackingVariation(
             orderkey=orderkey,
             selected=False,
@@ -132,6 +138,8 @@ class CRUDPackingVariation(CRUDBase):
             orderkey: str,
             session: AsyncSession
     ) -> PackingVariation:
+        """Получение варианта упаковки пользователя."""
+
         return (await session.execute(
             select(PackingVariation)
             .options(joinedload(PackingVariation.packages))

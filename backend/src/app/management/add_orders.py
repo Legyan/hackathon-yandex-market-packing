@@ -11,10 +11,14 @@ SYMBOLS = string.ascii_lowercase + string.digits
 
 
 async def get_random_orderkey(length=15):
+    """Генерация случайного номера заказов."""
+
     return ''.join(random.choice(SYMBOLS) for _ in range(length))
 
 
 async def add_orders():
+    """Добавление тестовых заказов."""
+
     with open('../data/orders.json') as f:
         data = json.load(f)
         client = AsyncClient()
@@ -35,6 +39,7 @@ async def send_add_order(
         client: AsyncClient
 ) -> None:
     """Запрос в бэкенд для добавления заказа."""
+
     response = await client.post(
         url=DS_URL,
         data=data

@@ -3,6 +3,8 @@ from app.models.cargotype import Cargotype
 
 
 class CRUDCargotype(CRUDBase):
+    """CRUD карготипов товара."""
+
     pass
 
 
