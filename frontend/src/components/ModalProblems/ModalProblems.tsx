@@ -6,7 +6,7 @@ const ModalProblems = ({...props}) => {
   const history = useHistory();
 
   const switchPageDeffectiveGoods = () => {
-    history.push('/ScanDeffectiveGoods');
+    history.push('/deffectiveGoods');
   }
 
   const switchPageAnotherProblems = () => {
