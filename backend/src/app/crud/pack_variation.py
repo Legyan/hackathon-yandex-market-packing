@@ -2,7 +2,7 @@ from sqlalchemy import and_, false, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload
 
-from app.core.constants import NONPACK_CARTONTYPES
+# from app.core.constants import NONPACK_CARTONTYPES
 from app.crud.base import CRUDBase
 from app.crud.order import order_crud
 from app.crud.product import product_crud
