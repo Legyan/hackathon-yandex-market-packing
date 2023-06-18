@@ -18,6 +18,12 @@ Swagger документация DS: http://62.84.121.232:8001/docs.
 ![](https://img.shields.io/badge/FastAPI-0.78.0-black?style=flat&logo=fastapi)
 ![](https://img.shields.io/badge/Pydantic-1.9.1-black?style=flat)
 ![](https://img.shields.io/badge/SQLAlchemy-1.4.29-black?style=flat)
+![](https://img.shields.io/badge/Pandas-2.0.2-black?style=flat&logo=pandas)
+![](https://img.shields.io/badge/Numpy-1.24.3-black?style=flat&logo=numpy)
+![](https://img.shields.io/badge/LightGBM-3.3.5-black?style=flat&logo=lightgbm)
+![](https://img.shields.io/badge/Typing-3.7.4.3-black?style=flat&logo=typing)
+![](https://img.shields.io/badge/Uvicorn-0.22.0-black?style=flat&logo=uvicorn)
+![](https://img.shields.io/badge/Docker-black?style=flat&logo=docker)
 
 ## Описание
  
