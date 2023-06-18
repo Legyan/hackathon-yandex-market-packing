@@ -32,3 +32,13 @@ export interface IOrder {
   recomend_packing: Array<Array<IRecPacking>>
   already_packed: Array<Array<IAlreadyPacked>>;
 }
+
+export interface IBarcode {
+  barcode: string;
+  imei?: string;
+  honest_sign?: string;
+}
+
+export interface IStatus {
+  status: string;
+}

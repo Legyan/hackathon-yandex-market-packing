@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import MainPage from '../../pages/MainPage/MainPage';
 import TableSelectionPage from '../../pages/TableSelectionPage/TableSelectionPage';
@@ -11,8 +11,21 @@ import DefectiveGoods from '../../pages/DefectiveGoods/DefectiveGoods';
 import Header from '../Header/Header';
 import { ProtectedRoute } from '../ProtectedRoute/ProtectedRoute';
 import PageScanDeffectiveGoods from '../../pages/PageScanDeffectiveGoods/PageScanDeffectiveGoods';
+import PageWaitConfirmation from '../../pages/PageWaitConfirmation/PageWaitConfirmation';
+import { useDispatch, useSelector } from '../../utils/type/store';
+import { getUser } from '../../services/actions/userActions';
 
 const App: FC = () => {
+  const dispatch = useDispatch();
+  const user = useSelector(stor => stor.userInfo.user);
+
+  console.log(user);
+
+
+  useEffect(() => {
+    dispatch(getUser())
+  }, [])
+
   return (
     <>
       <Header />
@@ -41,8 +54,11 @@ const App: FC = () => {
         <ProtectedRoute path='/defective' exact>
           <DefectiveGoods />
         </ProtectedRoute>
-        <ProtectedRoute path='/ScanDeffectiveGoods' exact>
+        <ProtectedRoute path='/deffectiveGoods' exact>
           <PageScanDeffectiveGoods />
+        </ProtectedRoute>
+        <ProtectedRoute path='/deffectiveGoods/waitConfirmation' exact>
+          <PageWaitConfirmation />
         </ProtectedRoute>
       </Switch>
     </>

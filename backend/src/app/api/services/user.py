@@ -32,6 +32,10 @@ class UserService(BaseService):
         table_id: str,
         session: AsyncSession
     ) -> None:
+
+        table = await table_service.crud.get_table_by_user(user_id, session)
+        if table and table.name != table_id:
+            raise UserAlreadyHaveTableError(table.name)
         table = await table_service.crud.get_by_attribute(
             attr_name='name',
             attr_value=table_id,
@@ -39,9 +43,6 @@ class UserService(BaseService):
         )
         if table and table.user_id and table.user_id != user_id:
             raise TableIsBusyError()
-        table = await table_service.crud.get_table_by_user(user_id, session)
-        if table and table.name != table_id:
-            raise UserAlreadyHaveTableError(table.name)
 
     async def get_user_info(
         self,

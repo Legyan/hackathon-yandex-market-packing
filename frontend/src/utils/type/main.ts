@@ -62,7 +62,7 @@ export interface IModalWindow extends PropsWithChildren {
   onClick?: () => void;
 }
 export interface IUser {
-  user_name: string;
+  username: string;
   user_id: number;
   table_id: string;
   printer_id: string;
@@ -110,4 +110,8 @@ export interface IProtectedRoute {
 
 export interface IMenu {
   recommend: Array<Array<IRecPacking>>;
+}
+
+export interface IFooter {
+  title?: string;
 }
