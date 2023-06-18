@@ -52,13 +52,9 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
       - ../frontend/build:/usr/share/nginx/html/
-      - static_value:/var/html/static/
-      - media_value:/var/html/media/recipes/
     depends_on:
       - frontend-ym-pack
 
 
 volumes:
   postgresql:
-  static_value:
-  media_value:
