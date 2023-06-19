@@ -148,3 +148,13 @@ export async function closeBoxApi() {
     }
   });
 }
+
+export async function finishOrderApi() {
+  return await request<IDataValues<IStatus>>(apiUrl + 'order/finish', {
+    method: 'GET',
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + getCookie("token")
+    }
+  });
+}

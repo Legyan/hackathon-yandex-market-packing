@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import ModalWindow from '../ModalWindow/ModalWindow';
-import ButtonModal from '../ButtonModal/ButtonModal';
+import ButtonModal from '../ui/ButtonModal/ButtonModal';
 import { useHistory } from 'react-router-dom';
 import { IModal } from '../../utils/type/main';
 

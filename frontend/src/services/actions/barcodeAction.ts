@@ -19,8 +19,11 @@ export function postBarcode ({inputValue}: IBarcode) {
     dispatch({
       type: POST_BARCODE_REQUEST
     });
+    console.log(inputValue);
     postBarcodeApi({inputValue})
       .then(res => {
+        console.log(res);
+
         if(res && res.success) {
           dispatch({
             type: POST_BARCODE_SUCCESS,

@@ -1,31 +1,35 @@
-import { FC, PropsWithChildren } from 'react';
+import { FC } from 'react';
 import style from './Toast.module.css';
+import { ToastProps } from '../../utils/type/main';
+import { useLocation } from 'react-router-dom';
 
-interface ToastProps extends PropsWithChildren {
-  text: string;
-  nameBtnCancel: string;
-  nameBtnСontinue: string;
-  img: string;
-  imgAlt: string;
-  isOpen?: boolean;
-  onClose: () => void;
-  onClick: () => void;
-}
-
-const Toast: FC<ToastProps> = ( props: ToastProps) => {
+const Toast: FC<ToastProps> = ({
+  text,
+  nameBtnCancel,
+  nameBtnСontinue,
+  img,
+  imgAlt,
+  isOpen,
+  onClose,
+  onClick,
+}) => {
+  const location = useLocation();
 
   return (
     <>
-    {props.isOpen &&
-    <section className={`${style.modal} ${style.modalOpened}`}>
-      <div className={style.container}>
-        <img src={props.img} alt={props.imgAlt} className={style.imgIcon} />
-        <p className={style.text}>{props.text}</p>
-        <button className={style.btnCancel} onClick={props.onClose}>{props.nameBtnCancel}</button>
-        <button className={style.btnСontinue} onClick={props.onClick}>{props.nameBtnСontinue}</button>
-      </div>
-    </section>
-}
+      {isOpen &&
+        <section className={`${style.modal} ${style.modalOpened}`}>
+          <div className={
+            location.pathname === '/order' ? `${style.container} ${style.wrpPacking}` :
+            `${style.container}`
+          }>
+            <img src={img} alt={imgAlt} className={style.imgIcon} />
+            <p className={style.text}>{text}</p>
+            <button className={`${style.btn} ${style.btnCancel}`} onClick={onClose}>{nameBtnCancel}</button>
+            <button className={`${style.btn} ${style.btnСontinue}`} onClick={onClick}>{nameBtnСontinue}</button>
+          </div>
+        </section>
+      }
     </>
   )
 }

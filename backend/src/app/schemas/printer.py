@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from app.schemas.user import UserAuthPrinterSchema
 
@@ -6,7 +6,7 @@ from app.schemas.user import UserAuthPrinterSchema
 class PrinterSchema(BaseModel):
     """Схема принтера."""
 
-    printer_id: str
+    printer_id: str = Field('001')
 
 
 class PrinterToDBSchema(BaseModel):

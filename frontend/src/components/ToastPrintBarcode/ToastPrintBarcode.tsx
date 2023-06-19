@@ -1,7 +1,13 @@
+import { FC } from 'react';
 import Toast from '../Toast/Toast';
 import iconBarcodeForToast from '../../images/icon_BarcodeForToast.svg'
+import { ToastProps } from '../../utils/type/main';
 
-const ToastPrintBarcode = ({...props}) => {
+const ToastPrintBarcode: FC<ToastProps> = ({
+  isOpen,
+  onClose,
+  onClick,
+}) => {
 
   return (
     <Toast
@@ -10,9 +16,9 @@ const ToastPrintBarcode = ({...props}) => {
     nameBtnСontinue={'Печатать'}
     img={iconBarcodeForToast}
     imgAlt={'иконка коробки'}
-    isOpen={props.isOpen}
-    onClose={props.onClose}
-    onClick={props.onClick}
+    isOpen={isOpen}
+    onClose={onClose}
+    onClick={onClick}
     />
   )
 }

@@ -4,16 +4,13 @@
   left: 0;
   width: 100%;
   height: 100%;
-  flex-direction: column;
-  align-items: center;
-  /* justify-content: center; */
-  /* background-color: rgba(0,0,0,.5); */
   display: flex;
+  flex-direction: column;
+  align-items: flex-end;
   z-index: 2;
   visibility: hidden;
   opacity: 0;
   transition: visibility 1s, opacity 0.5s linear;
-  align-items: flex-end;
 }
 
 .modalOpened {
@@ -25,64 +22,62 @@
 .container {
   width: 798px;
   height: 412px;
+  margin: 40px 40px 0 0;
   background: #B0B0B0;
   box-shadow: 0px 3px 9px rgba(38, 41, 43, 0.08), 1px 1px 3px rgba(38, 41, 43, 0.03);
   border-radius: 42px;
-  margin: 40px 40px 0 0;
   display: grid;
   grid-template-columns: 143px 200px 234px;
   grid-column-gap: 26px;
 }
 
+.wrpPacking {
+  width: 680px;
+  height: 258px;
+}
+
 .imgIcon {
+  margin: 47px 0px 0 52px;
   width: 89px;
   height: 93px;
-  margin: 47px 0px 0 52px;
 }
 
 .text {
+  margin: 51px 0 0;
   font-family: 'Yandex Sans Display';
   font-style: normal;
   font-weight: 700;
   font-size: 32px;
   line-height: 51px;
   grid-column: 2/5;
-  margin: 51px 0 0;
 }
 
-.btnCancel {
-  width: 200px;
+.btn {
   height: 60px;
-  font-family: 'Yandex Sans Display';
-  font-style: normal;
-  font-weight: 700;
-  font-size: 28px;
-  line-height: 26px;
-  background: #FFFFFF;
-  box-shadow: 0px 3px 9px rgba(38, 41, 43, 0.08), 1px 1px 3px rgba(38, 41, 43, 0.03);
-  border-radius: 24px;
-  border: none;
-  grid-column: 2;
-  justify-self: start;
+  margin-bottom: 39px;
   padding: 0;
-  cursor: pointer;
-}
-
-.btnСontinue {
-  width: 234px;
-  height: 60px;
   font-family: 'Yandex Sans Display';
   font-style: normal;
   font-weight: 700;
   font-size: 28px;
   line-height: 26px;
-  background: #FED42B;
   box-shadow: 0px 3px 9px rgba(38, 41, 43, 0.08), 1px 1px 3px rgba(38, 41, 43, 0.03);
   border-radius: 24px;
   grid-column: 3;
   border: none;
-  padding: 0;
   cursor: pointer;
+}
+
+.btnCancel {
+  width: 200px;
+  background: #FFFFFF;
+  grid-column: 2;
+  justify-self: start;
+}
+
+.btnСontinue {
+  width: 234px;
+  background: #FED42B;
 }
 
 .btnCancel:hover {

@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import style from './MainPage.module.css'
 import Progressbar from '../../components/Progressbar/Progressbar';
@@ -6,31 +6,40 @@ import Footer from '../../components/Footer/Footer';
 import ButtonForm from '../../components/ui/ButtonForm/ButtonForm';
 import { setCookie } from '../../utils/cookie';
 import Statistics from '../Statistics/Statistics';
-import { useDispatch, useSelector } from '../../utils/type/store';
+import { useDispatch } from '../../utils/type/store';
 import { getUser } from '../../services/actions/userActions';
+import { logoutApi } from '../../utils/api';
 
 const MainPage: FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const user = useSelector(stor => stor.userInfo.user);
-
-  console.log(user);
 
   useEffect(() => {
     dispatch(getUser())
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const solveProblem = () => {
     history.replace({ pathname: '/problems/another' });
   }
 
-  const logout = () => {
+  const logout = async () => {
+    try {
+      await logoutApi()
+        .then(res => {
+          if (res.status === 'ok') {
+            history.replace({ pathname: '/table' });
+          }
+        })
+    } catch(error) {
+      console.log(error)
+    }
     setCookie('token', '');
-    history.replace({ pathname: '/table' });
+    setCookie('barcode', '');
   }
 
   const order = () => {
-    history.replace({ pathname: '/order' });
+    history.push({ pathname: '/order' });
   }
 
   return (

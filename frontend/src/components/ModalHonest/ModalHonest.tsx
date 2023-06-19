@@ -3,25 +3,34 @@ import style from './ModalHonest.module.css';
 import ModalWindow from '../ModalWindow/ModalWindow';
 import { IModal } from '../../utils/type/main';
 import { getCookie } from '../../utils/cookie';
-import { postHonestSign } from '../../services/actions/barcodeAction';
 import honestSign from '../../images/honest_sign.png';
-import { useDispatch } from '../../utils/type/store';
+import { postHonestSignApi } from '../../utils/api';
 
 const ModalHonest: FC<IModal> = ({visible, onClose, onClick}) => {
   const [inputValue, setInputValue] = useState<string>('');
-  const dispatch = useDispatch();
 
   const changeValueIndex = (e: ChangeEvent<HTMLInputElement>): void => {
     setInputValue(e.target.value);
   }
 
-  const onSubmit = (e: SyntheticEvent) => {
+  const onSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
     let barcode = getCookie('barcode');
-    dispatch(postHonestSign({barcode, inputValue}));
+    try {
+      await postHonestSignApi({barcode, inputValue})
+        .then(res => {
+          if (res && res.success) {
+            console.log(res);
+            onClose();
+          }
+        })
+    } catch (error) {
+      console.log(error)
+    }
     onClose();
     setInputValue('');
   }
+
 
   return (
     <ModalWindow

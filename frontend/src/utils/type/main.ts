@@ -1,7 +1,8 @@
 import {
   ButtonHTMLAttributes,
-  Dispatch,
   HTMLProps,
+  PropsWithChildren,
+  Dispatch,
   SetStateAction,
 } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
@@ -34,6 +35,28 @@ export interface IButtonLink extends ButtonHTMLAttributes<HTMLButtonElement> {
   purpose: string;
   title: string;
   link: string;
+}
+
+export interface ButtonModalProps extends PropsWithChildren {
+  title: string;
+  onClick?: () => void;
+  isOpen?: boolean;
+}
+
+export interface ButtonProblemProps extends PropsWithChildren {
+  link: string;
+  title: string;
+}
+
+export interface ToastProps extends PropsWithChildren {
+  text?: string;
+  nameBtnCancel?: string;
+  nameBtnСontinue?: string;
+  img?: string;
+  imgAlt?: string;
+  isOpen?: boolean;
+  onClose: () => void;
+  onClick: () => void;
 }
 
 /**
@@ -76,6 +99,15 @@ export interface IModal {
   children?: string | JSX.Element | JSX.Element[];
   onClose: () => void;
   onClick?: () => void;
+}
+
+export interface IModalBarcode {
+  visible: boolean;
+  children?: string | JSX.Element | JSX.Element[];
+  onClose: () => void;
+  onClick?: () => void;
+  statusImei: Dispatch<SetStateAction<boolean>>;
+  stausHonest: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface IModalOverlay {

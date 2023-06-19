@@ -1,7 +1,7 @@
 import { FC, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import style from './AnotherProblemsPage.module.css';
-import ButtonModal from '../../components/ButtonModal/ButtonModal';
+import ButtonModal from '../../components/ui/ButtonModal/ButtonModal';
 import ToastSendReq from '../../components/ToastSendReq/ToastSendReq';
 import Footer from '../../components/Footer/Footer';
 

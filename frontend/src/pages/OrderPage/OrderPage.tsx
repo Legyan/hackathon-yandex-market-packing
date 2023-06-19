@@ -6,7 +6,6 @@ import Footer from '../../components/Footer/Footer';
 import Progressbar from '../../components/Progressbar/Progressbar';
 import Package from '../../components/Package/Package';
 import Goods from '../../components/Goods/Goods';
-import ButtonLink from '../../components/ui/ButtonLink/ButtonLink';
 import ModalProblems from '../../components/ModalProblems/ModalProblems'
 import BtnHasProblem from '../../components/ui/BtnHasProblem/BtnHasProblem';
 import { useDispatch, useSelector } from '../../utils/type/store';
@@ -16,9 +15,13 @@ import { firstRecommendation } from '../../services/actions/recommendationAction
 import ModalBarcode from '../../components/ModalBarcode/ModalBarcode';
 import ModalImei from '../../components/ModalImei/ModalImei';
 import ModalHonest from '../../components/ModalHonest/ModalHonest';
+import ButtonForm from '../../components/ui/ButtonForm/ButtonForm';
+import { finishOrderApi } from '../../utils/api';
+import { useHistory } from 'react-router-dom';
 
 const OrderPage: FC = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const [isModalProblems, setModalProblems] = useState<boolean>(false);
   const [isModalBarcode, setModalBarcode] = useState<boolean>(false);
   const [isModalImei, setModalImei] = useState<boolean>(false);
@@ -30,11 +33,9 @@ const OrderPage: FC = () => {
   const alreadyPacked = useSelector(store => store.orderInfo.data?.already_packed);
 
   const firstRecommend = order !== null ? order.recomend_packing[0] : null;
-  const choiceCartontype = alreadyPacked !== undefined ? alreadyPacked.map(pack => pack.cartontype)[0] : null;
-  // const choiceGoods = alreadyPacked !== undefined ? alreadyPacked.map : null;
+  const choiceCartontype = alreadyPacked !== undefined ? alreadyPacked.map(pack => pack.cartontype) : null;
 
-  // console.log(alreadyPacked?.map(items => items.items.));
-
+  console.log(confirmation);
 
   useEffect(() => {
     dispatch(getOrder())
@@ -60,30 +61,36 @@ const OrderPage: FC = () => {
     setModalBarcode(false);
   }
 
-  const openModalImei = () => {
-    setModalImei(true)
-  }
-
   const closeModalImei = () => {
     setModalImei(false)
-  }
-
-  const openModalHonest = () => {
-    setModalHonest(true)
   }
 
   const closeModalHonest = () => {
     setModalHonest(false)
   }
 
-  if (confirmation.statusImei === 'ok') {
-    openModalImei()
-  } else if (confirmation.statusHonest === 'ok') {
-    openModalHonest()
-  } else if (confirmation.success) {
-    closeModalBarcode();
-    closeModalImei();
-    closeModalHonest()
+  // if (confirmation.statusImei === 'ok') {
+  //   openModalImei()
+  // } else if (confirmation.statusHonest === 'ok') {
+  //   openModalHonest()
+  // } else if (confirmation.success) {
+  //   closeModalBarcode();
+  //   closeModalImei();
+  //   closeModalHonest()
+  // }
+
+  const getPacked = async () => {
+    try {
+      await finishOrderApi()
+        .then(res => {
+          if (res && res.success) {
+            console.log(res);
+            history.push('/order/completed');
+          }
+        })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -94,24 +101,23 @@ const OrderPage: FC = () => {
           <article className={style.wrapperGoods}>
             <Progressbar title={`Товары ячейки ${order.partition}`} />
             <div className={style.wrp}>
-              {recommendation.map(goods => {
-                {console.log(choiceCartontype === goods.cartontype)}
+              {recommendation.map((goods, index) => {
                 return (
                   <div className={
-                    choiceCartontype === goods.cartontype ? `${style.wrpGoods}` :
+                    choiceCartontype?.find(i => i ===  goods.cartontype) ? `${style.wrpGoods}` :
                     `${style.wrpGoods} ${style.disablePack}`}
                     key={uuid4()}
                   >
                     <Package
                       icon={goods.icontype}
                       cartontype={goods.cartontype}
-                      visible={choiceCartontype === goods.cartontype}
+                      visible={choiceCartontype!.includes(goods.cartontype)}
                     />
                     <ul className={style.goods}>
-                      {goods.items.map(i => order.goods.find(items => items.sku === i.sku)).map(item => {
+                      {goods.items.map(i => order.goods.find(items => items.sku === i.sku)).map((item, index) => {
                         return (
                           <li className={
-                            alreadyPacked?.map(items => items.items.map(i => i.sku)).flat(1)[0] === item!.sku ?
+                            alreadyPacked?.map(items => items.items.map(i => i.sku)).flat(1).includes(item!.sku) ?
                             `${style.liGoods} ${style.choiceGoods}` :
                             `${style.liGoods}`} key={uuid4()}>
                             <Goods
@@ -144,7 +150,7 @@ const OrderPage: FC = () => {
                       data={recomend}
                       index={index}
                       recomendnIndex={recommendationInfo.index}
-                      active={recomend.find(rec => rec.cartontype === choiceCartontype) !== undefined}
+                      active={recomend.find(rec => choiceCartontype !== null && choiceCartontype[0]?.includes(rec.cartontype)) !== undefined}
                     />
                   </li>
                 )
@@ -155,10 +161,10 @@ const OrderPage: FC = () => {
                 onClick={openModalProblems}
                 title='Есть проблема'
               />
-              <ButtonLink
+              <ButtonForm
                 purpose={'order'}
                 title={'УПАКОВАНО'}
-                link={'/order/completed'}
+                onClick={getPacked}
               />
             </div>
           </article>
@@ -182,6 +188,8 @@ const OrderPage: FC = () => {
       <ModalBarcode
         visible={isModalBarcode}
         onClose={closeModalBarcode}
+        statusImei={setModalImei}
+        stausHonest={setModalHonest}
       />
       <ModalImei
         visible={isModalImei}
