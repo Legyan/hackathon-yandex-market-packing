@@ -1,15 +1,13 @@
-import { FC, PropsWithChildren } from 'react';
-import style from './ButtonProblems.module.css';
+import { FC } from 'react';
 import { Link } from 'react-router-dom';
-
-interface ButtonProblemProps extends PropsWithChildren {
-  link: string;
-  title: string;
-}
+import style from './ButtonProblems.module.css';
+import { ButtonProblemProps } from '../../utils/type/main';
 
 const ButtonProblem: FC<ButtonProblemProps> = ({ link, title }) => {
   return (
-    <Link className={style.btn} to={link}>{title}</Link>
+    <Link className={style.btn} to={link}>
+      {title}
+    </Link>
   )
 }
 

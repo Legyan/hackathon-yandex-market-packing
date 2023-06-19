@@ -18,7 +18,9 @@ const ModalImei: FC<IModal> = ({visible, onClose, onClick}) => {
   const onSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     let barcode = getCookie('barcode');
-    dispatch(postImei({barcode, inputValue}));
+    dispatch(
+      postImei({barcode, inputValue})
+    );
     onClose();
     setInputValue('');
   }
