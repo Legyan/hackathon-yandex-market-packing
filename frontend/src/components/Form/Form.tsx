@@ -1,19 +1,17 @@
-import { ChangeEvent, FC, SyntheticEvent, useState, useCallback } from 'react';
+import { ChangeEvent, FC, SyntheticEvent, useState } from 'react';
 import style from './Form.module.css';
 import { IForm } from '../../utils/type/main';
 import ButtonLink from '../ui/ButtonLink/ButtonLink';
 import ButtonForm from '../ui/ButtonForm/ButtonForm';
 import { useHistory, useLocation } from 'react-router-dom';
 import { userId } from '../../utils/constants';
-import { useDispatch, useSelector } from '../../utils/type/store';
+import { useDispatch } from '../../utils/type/store';
 import { registerPrinter, registerTable } from '../../services/actions/userActions';
 
 const Form: FC<IForm> = ({label, btnBack, btnForward, linkBack, linkForward}) => {
   const history = useHistory();
   const location = useLocation();
   const [inputValue, setInputValue] = useState<string>('');
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [errorMsg, setErrorMsg] = useState<string>('');
   const dispatch = useDispatch();
 
   const changeValueIndex = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -22,7 +20,6 @@ const Form: FC<IForm> = ({label, btnBack, btnForward, linkBack, linkForward}) =>
 
   const onSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-    setIsLoading(true);
 
     if (location.pathname === '/table') {
       dispatch(
@@ -36,11 +33,8 @@ const Form: FC<IForm> = ({label, btnBack, btnForward, linkBack, linkForward}) =>
       history.replace({ pathname: linkForward });
     }
 
-  setIsLoading(false);
-  setErrorMsg('');
   setInputValue('');
   }
-
 
   return (
     <form className={style.form} onSubmit={onSubmit}>

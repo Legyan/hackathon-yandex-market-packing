@@ -13,7 +13,7 @@ const Goods: FC<IGoodsProps> = ({
   imei,
   honest_sign,
   clue,
-  defective_goods
+  defective_goods,
 }) => {
   const alreadyPacked = useSelector(store => store.orderInfo.data?.already_packed);
 
@@ -36,7 +36,7 @@ const Goods: FC<IGoodsProps> = ({
           </div>
         </div>
         <span className={
-          alreadyPacked?.map(items => items.items.map(i => i.sku)).flat(1)[0] === sku ?
+          alreadyPacked?.map(items => items.items.map(i => i.sku)).flat(1).includes(sku) ?
           `${style.percentage} ${style.choicePercentage}` :
           `${style.percentage}`}
         >

@@ -1,29 +1,33 @@
-import { ChangeEvent, FC, SyntheticEvent, useCallback, useState } from 'react';
+import { ChangeEvent, FC, SyntheticEvent, useState } from 'react';
 import style from './ModalBarcode.module.css'
 import ModalWindow from '../ModalWindow/ModalWindow';
 import { IModal } from '../../utils/type/main';
 import ButtonForm from '../ui/ButtonForm/ButtonForm';
-import { useDispatch } from '../../utils/type/store';
 import { setCookie } from '../../utils/cookie';
-import { postBarcode } from '../../services/actions/barcodeAction';
+import { postBarcodeApi } from '../../utils/api';
 
 const ModalBarcode: FC<IModal> = ({visible, onClose, onClick}) => {
   const [inputValue, setInputValue] = useState<string>('');
-  const dispatch = useDispatch();
 
   const changeValueIndex = (e: ChangeEvent<HTMLInputElement>): void => {
     setInputValue(e.target.value);
   }
 
-  const onSubmit = (e: SyntheticEvent) => {
+  const onSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
-      setCookie('barcode', inputValue);
-      dispatch(
-        postBarcode({inputValue})
-      )
-      onClose();
-
-  setInputValue('');
+    setCookie('barcode', inputValue);
+    try {
+      await postBarcodeApi({ inputValue })
+        .then(res => {
+          if (res && res.success) {
+            console.log(res);
+          }
+        })
+    } catch (error) {
+      console.log(error)
+    }
+    onClose();
+    setInputValue('');
   }
 
   return (

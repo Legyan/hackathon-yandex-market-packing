@@ -1,8 +1,9 @@
 import {
   ButtonHTMLAttributes,
-  Dispatch,
   HTMLProps,
-  SetStateAction,
+  PropsWithChildren,
+  Dispatch,
+  SetStateAction
 } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { IRecPacking } from './data';
@@ -34,6 +35,28 @@ export interface IButtonLink extends ButtonHTMLAttributes<HTMLButtonElement> {
   purpose: string;
   title: string;
   link: string;
+}
+
+export interface ButtonModalProps extends PropsWithChildren {
+  title: string;
+  onClick?: () => void;
+  isOpen?: boolean;
+}
+
+export interface ButtonProblemProps extends PropsWithChildren {
+  link: string;
+  title: string;
+}
+
+export interface ToastProps extends PropsWithChildren {
+  text?: string;
+  nameBtnCancel?: string;
+  nameBtnСontinue?: string;
+  img?: string;
+  imgAlt?: string;
+  isOpen?: boolean;
+  onClose: () => void;
+  onClick: () => void;
 }
 
 /**

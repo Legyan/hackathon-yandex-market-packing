@@ -1,7 +1,14 @@
+import { FC } from 'react';
 import Toast from '../Toast/Toast';
 import iconBox from '../../images/icon_iconBox.svg'
 
-const ToastSendReq = ({...props}) => {
+import { ToastProps } from '../../utils/type/main';
+
+const ToastSendReq: FC<ToastProps> = ({
+  isOpen,
+  onClose,
+  onClick,
+}) => {
 
   return (
     <Toast
@@ -10,9 +17,9 @@ const ToastSendReq = ({...props}) => {
     nameBtnСontinue={'Продолжить'}
     img={iconBox}
     imgAlt={'иконка коробки'}
-    isOpen={props.isOpen}
-    onClose={props.onClose}
-    onClick={props.onClick}
+    isOpen={isOpen}
+    onClose={onClose}
+    onClick={onClick}
     />
   )
 }

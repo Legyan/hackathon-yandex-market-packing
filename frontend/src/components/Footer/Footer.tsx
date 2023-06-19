@@ -5,8 +5,6 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { IFooter } from '../../utils/type/main';
 
 const Footer: FC<IFooter> = ({title, onClick}) => {
-
-
   const history = useHistory();
   const location = useLocation()
 
@@ -20,30 +18,30 @@ const Footer: FC<IFooter> = ({title, onClick}) => {
         `${style.footer}` : `${style.footer} ${style.footerBack}`}
     >
       {
-        location.pathname === '/order' || location.pathname === '/deffectiveGoods'  ?
-          <button className={style.btnFooter} onClick={onClick}>
-            <img src={keyboard} alt='Иконка клавиатуры' />
-            <span className={style.description}>Ввести с клавиатуры</span>
-          </button>
-      :
-        location.pathname === '/problems' || location.pathname === '/problems/another' ?
-          <button className={style.btnFooterBack} onClick={goBack}>
-            <span className={style.wrappText}>{title}</span>
-          </button>
-      :
-      location.pathname === '/order' || location.pathname === '/deffectiveGoods/waitConfirmation' ?
+        location.pathname === '/order' || location.pathname === '/deffectiveGoods' ?
           <button className={style.btnFooter} onClick={onClick}>
             <img src={keyboard} alt='Иконка клавиатуры' />
             <span className={style.description}>Ввести с клавиатуры</span>
           </button>
           :
-          location.pathname === '/order' || location.pathname === '/missinGoods' ?
+          location.pathname === '/problems' || location.pathname === '/problems/another' ?
             <button className={style.btnFooterBack} onClick={goBack}>
               <span className={style.wrappText}>{title}</span>
             </button>
-          :
-          ''
-          }
+            :
+            location.pathname === '/order' || location.pathname === '/deffectiveGoods/waitConfirmation' ?
+              <button className={style.btnFooter} onClick={onClick}>
+                <img src={keyboard} alt='Иконка клавиатуры' />
+                <span className={style.description}>Ввести с клавиатуры</span>
+              </button>
+              :
+              location.pathname === '/order' || location.pathname === '/missinGoods' ?
+                <button className={style.btnFooterBack} onClick={goBack}>
+                  <span className={style.wrappText}>{title}</span>
+                </button>
+                :
+                ''
+      }
     </footer>
   )
 }
