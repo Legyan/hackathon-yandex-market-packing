@@ -31,15 +31,11 @@ const OrderPage: FC = () => {
   const recommendation = useSelector(store => store.recommendationInfo.recommendation);
   const confirmation = useSelector(store => store.barcodeInfo)
   const alreadyPacked = useSelector(store => store.orderInfo.data?.already_packed);
-  const user = useSelector(store => store.userInfo.user);
-
-  console.log(user);
 
   const firstRecommend = order !== null ? order.recomend_packing[0] : null;
   const choiceCartontype = alreadyPacked !== undefined ? alreadyPacked.map(pack => pack.cartontype) : null;
 
   console.log(confirmation);
-
 
   useEffect(() => {
     dispatch(getOrder())
@@ -65,31 +61,23 @@ const OrderPage: FC = () => {
     setModalBarcode(false);
   }
 
-  const openModalImei = () => {
-    setModalImei(true)
-  }
-
   const closeModalImei = () => {
     setModalImei(false)
-  }
-
-  const openModalHonest = () => {
-    setModalHonest(true)
   }
 
   const closeModalHonest = () => {
     setModalHonest(false)
   }
 
-  if (confirmation.statusImei === 'ok') {
-    openModalImei()
-  } else if (confirmation.statusHonest === 'ok') {
-    openModalHonest()
-  } else if (confirmation.success) {
-    closeModalBarcode();
-    closeModalImei();
-    closeModalHonest()
-  }
+  // if (confirmation.statusImei === 'ok') {
+  //   openModalImei()
+  // } else if (confirmation.statusHonest === 'ok') {
+  //   openModalHonest()
+  // } else if (confirmation.success) {
+  //   closeModalBarcode();
+  //   closeModalImei();
+  //   closeModalHonest()
+  // }
 
   const getPacked = async () => {
     try {
@@ -177,7 +165,6 @@ const OrderPage: FC = () => {
                 purpose={'order'}
                 title={'УПАКОВАНО'}
                 onClick={getPacked}
-                // link={'/order/completed'}
               />
             </div>
           </article>
@@ -201,6 +188,8 @@ const OrderPage: FC = () => {
       <ModalBarcode
         visible={isModalBarcode}
         onClose={closeModalBarcode}
+        statusImei={setModalImei}
+        stausHonest={setModalHonest}
       />
       <ModalImei
         visible={isModalImei}
