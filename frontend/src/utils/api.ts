@@ -1,7 +1,19 @@
 import { apiUrl } from "./constants";
 import { getCookie } from "./cookie";
-import { IBarcode, IDataValues, IOrder, IRegisterPrinter, IRegisterTable, IResponsePrinter, IResponseTable, IStatus } from "./type/data";
-import { IUser } from "./type/main";
+import {
+  IBarcode,
+  IDataValues,
+  IHonestSign,
+  IImei,
+  IOrder,
+  IRegisterPrinter,
+  IRegisterTable,
+  IResponseBarcode,
+  IResponsePrinter,
+  IResponseTable,
+  IStatus,
+  IUser,
+} from "./type/data";
 
 const checkRes = <T>(res: Response): Promise<T> => {
   if (res.ok) {
@@ -64,7 +76,7 @@ export async function getUserApi() {
 }
 
 export async function logoutApi() {
-  return await request<IDataValues<IStatus>>(apiUrl + 'package/close', {
+  return await request<IDataValues<IStatus>>(apiUrl + 'user/logout', {
     method: 'GET',
     headers: {
       "Content-Type": "application/json",
@@ -73,8 +85,21 @@ export async function logoutApi() {
   });
 }
 
-export async function postBarcodeApi({barcode}: IBarcode) {
-  return await request<IDataValues<IBarcode>>(apiUrl + 'barcode', {
+export async function postBarcodeApi({inputValue}: IBarcode) {
+  return await request<IDataValues<IResponseBarcode>>(apiUrl + 'barcode', {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + getCookie("token")
+    },
+    body: JSON.stringify({
+      barcode: inputValue,
+    }),
+  });
+}
+
+export async function postImeiApi({barcode, inputValue}: IImei ) {
+  return await request<IDataValues<IImei>>(apiUrl + 'barcode/imei', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",
@@ -82,12 +107,13 @@ export async function postBarcodeApi({barcode}: IBarcode) {
     },
     body: JSON.stringify({
       barcode: barcode,
+      imei: inputValue
     }),
   });
 }
 
-export async function postImeiApi({barcode, imei}: IBarcode) {
-  return await request<IDataValues<IBarcode>>(apiUrl + 'barcode/imei', {
+export async function postHonestSignApi({barcode, inputValue}: IHonestSign) {
+  return await request<IDataValues<IHonestSign>>(apiUrl + 'barcode/honest_sign', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",
@@ -95,26 +121,12 @@ export async function postImeiApi({barcode, imei}: IBarcode) {
     },
     body: JSON.stringify({
       barcode: barcode,
-      imei: imei
+      honest_sign: inputValue,
     }),
   });
 }
 
-export async function postHonestSignApi({barcode, honest_sign}: IBarcode) {
-  return await request<IDataValues<IBarcode>>(apiUrl + 'barcode/honest_sign', {
-    method: 'POST',
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + getCookie("token")
-    },
-    body: JSON.stringify({
-      barcode: barcode,
-      honest_sign: honest_sign,
-    }),
-  });
-}
-
-export async function removeItemApi({barcode}: IBarcode) {
+export async function removeItemApi({inputValue}: IBarcode) {
   return await request<IDataValues<IStatus>>(apiUrl + 'package/remove_item', {
     method: 'POST',
     headers: {
@@ -122,7 +134,17 @@ export async function removeItemApi({barcode}: IBarcode) {
       Authorization: "Bearer " + getCookie("token")
     },
     body: JSON.stringify({
-      barcode: [barcode],
+      barcode: [inputValue],
     }),
+  });
+}
+
+export async function closeBoxApi() {
+  return await request<IDataValues<IStatus>>(apiUrl + 'package/close', {
+    method: 'GET',
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + getCookie("token")
+    }
   });
 }

@@ -1,0 +1,62 @@
+.form {
+  margin: 100px auto 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.label {
+  font-family: 'Yandex Sans Display', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 26px;
+}
+
+.input {
+  width: 740px;
+  height: 84px;
+  margin-top: 34px;
+  padding: 10px 31px 10px 24px;
+  background: var(--Yandex-white-grey-1);
+  border: 4px solid var(--Yandex-amber-12);
+  border-radius: 24px;
+  box-sizing: border-box;
+  font-family: 'Yandex Sans Display', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 26px;
+}
+
+.input:focus {
+  outline: none;
+}
+
+.btns {
+  margin-top: 100px;
+  display: flex;
+  gap: 16px;
+}
+
+.load {
+  margin: 12px 0 0 0;
+  font-family: 'Yandex Sans Display';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 50px;
+  text-align: center;
+}
+
+.err {
+  margin: 8px 0;
+  font-family: 'Yandex Sans Display';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 50px;
+  color: #FF0000;
+  text-align: center;
+}

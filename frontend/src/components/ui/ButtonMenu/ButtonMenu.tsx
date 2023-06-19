@@ -13,19 +13,21 @@ const ButtonMenu: FC<IButtonMenu> = ({
   data,
   index,
   recomendnIndex,
+  active,
   ...rest
 }) => {
   const dispatch = useDispatch();
 
   const choiceRecommendation = () => {
     dispatch(selectRecommendation(data, index))
-    console.log(data)
   }
 
   return (
     <button
       className={
-        recomendnIndex === index ? `${style.wrapper} ${style.active}` : `${style.wrapper} ${style.notSelection}`
+        recomendnIndex === index ? `${style.wrapper} ${style.active}` :
+        !active ? `${style.wrapper} ${style.inactive}` :
+        `${style.wrapper} ${style.notSelection}`
       }
       onClick={choiceRecommendation}
     >{data.map(btn => {
@@ -37,10 +39,18 @@ const ButtonMenu: FC<IButtonMenu> = ({
           key={uuid4()}
         >
           {
-            btn.icontype === 'box' ? <img className={style.img} src={iconBox} alt='Иконка коробки' /> :
-            btn.icontype === 'packet' ? <img className={style.img} src={packet} alt='Иконка пакета' /> :
-            btn.icontype === 'STRETCH' ? <img className={style.img} src={stretch} alt='Иконка стретч-плёнки' /> :
-            btn.icontype === 'NONPACK' ? <img className={style.img} src={nonpack} alt='Иконка нон-пака' /> :
+            btn.icontype === 'box' ?
+              <img className={data.length === 3 ? `${style.imgSmall}` : `${style.img}`}
+              src={iconBox} alt='Иконка коробки' /> :
+            btn.icontype === 'packet' ?
+              <img className={data.length === 3 ? `${style.imgSmall}` : `${style.img}`}
+              src={packet} alt='Иконка пакета' /> :
+            btn.icontype === 'STRETCH' ?
+              <img className={data.length === 3 ? `${style.imgSmall}` : `${style.img}`}
+              src={stretch} alt='Иконка стретч-плёнки' /> :
+            btn.icontype === 'NONPACK' ?
+            <img className={data.length === 3 ? `${style.imgSmall}` : `${style.img}`}
+            src={nonpack} alt='Иконка нон-пака' /> :
             ''
           }
           <p className={style.description}>{btn.cartontype}</p>

@@ -1,19 +1,42 @@
 import { FC } from 'react';
 import style from './Hint.module.css';
 import pen from '../../../images/Icon_pen.svg';
-import barcodeRed from '../../../images/icon_barcode-red.svg';
+import lock from '../../../images/icon_lock.svg';
 import { IHint } from '../../../utils/type/main';
+import { closeBoxApi } from '../../../utils/api';
 
-const Hint: FC<IHint> = ({icon, title}) => {
+const Hint: FC<IHint> = ({icon, title, visible}) => {
+
+  const closeBox = async () => {
+    try {
+      await closeBoxApi()
+        .then(res => {
+          if (res.status === 'ok') {
+            // Открывается Тост
+          }
+        })
+    } catch(error) {
+      console.log(error)
+    }
+
+  }
 
   return (
-    <li className={icon === 'pen' ? `${style.hint} ${style.hintShadow}` : `${style.hint} ${style.hintRed}`}>
-      { icon === 'pen' ? (
-        <img className={style.imgHint} src={pen} alt='Иконка ручки' />
+    <li className={
+      visible ? `${style.hintBtn} ${style.hintShadow}` :
+      `${style.btnWrp} ${style.hintShadow}`
+    }>
+      {icon === 'pen' ? (
+        <button className={style.btn}>
+          <img className={`${style.imgHint}`} src={pen} alt='Иконка ручки' />
+          <p className={style.title}>{title}</p>
+        </button>
       ) : (
-        <img className={`${style.imgHint} ${style.imgHint}`} src={barcodeRed} alt='Иконка штрихкод красный' />
+        <button className={style.btn} onClick={closeBox}>
+          <img className={`${style.imgHint}`} src={lock} alt='Иконка замка' />
+          <p className={style.title}>{title}</p>
+        </button>
       )}
-      <p className={style.title}>{title}</p>
     </li>
   )
 }

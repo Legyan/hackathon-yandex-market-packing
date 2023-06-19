@@ -2,6 +2,7 @@ import { FC } from 'react';
 import style from './Goods.module.css';
 import { IGoodsProps } from '../../utils/type/main';
 import barcodeBlack from '../../images/icon_barcode-black.svg';
+import { useSelector } from '../../utils/type/store';
 
 const Goods: FC<IGoodsProps> = ({
   img,
@@ -12,6 +13,10 @@ const Goods: FC<IGoodsProps> = ({
   honest_sign,
   clue
 }) => {
+  const alreadyPacked = useSelector(store => store.orderInfo.data?.already_packed);
+
+  console.log(alreadyPacked);
+
   return (
     <>
       <div className={style.goods}>
@@ -28,7 +33,13 @@ const Goods: FC<IGoodsProps> = ({
             </div>
           </div>
         </div>
-        <span className={style.percentage}>{percentage}</span>
+        <span className={
+          alreadyPacked?.map(items => items.items.map(i => i.sku)).flat(1)[0] === sku ?
+          `${style.percentage} ${style.choicePercentage}` :
+          `${style.percentage}`}
+        >
+          {percentage}
+        </span>
         <span className={style.sku}>{sku}</span>
       </div>
       {honest_sign || imei ? (
