@@ -5,9 +5,7 @@ import TableSelectionPage from '../../pages/TableSelectionPage/TableSelectionPag
 import PrinterSelectionPage from '../../pages/PrinterSelectionPage/PrinterSelectionPage';
 import OrderPage from '../../pages/OrderPage/OrderPage';
 import OrderCompletedPage from '../../pages/OrderCompletedPage/OrderCompletedPage';
-import ProblemsPage from '../../pages/ProblemsPage/ProblemsPage';
 import AnotherProblemsPage from '../../pages/AnotherProblemsPage/AnotherProblemsPage';
-import DefectiveGoods from '../../pages/DefectiveGoods/DefectiveGoods';
 import Header from '../Header/Header';
 import { ProtectedRoute } from '../ProtectedRoute/ProtectedRoute';
 import PageScanDeffectiveGoods from '../../pages/PageScanDeffectiveGoods/PageScanDeffectiveGoods';
@@ -38,14 +36,8 @@ const App: FC = () => {
         <ProtectedRoute path='/order/completed' exact>
           <OrderCompletedPage />
         </ProtectedRoute>
-        <ProtectedRoute path='/problems' exact>
-          <ProblemsPage />
-        </ProtectedRoute>
         <ProtectedRoute path='/problems/another' exact>
           <AnotherProblemsPage />
-        </ProtectedRoute>
-        <ProtectedRoute path='/defective' exact>
-          <DefectiveGoods />
         </ProtectedRoute>
         <ProtectedRoute path='/deffectiveGoods' exact>
           <PageScanDeffectiveGoods />
