@@ -2,6 +2,7 @@ import { FC } from 'react';
 import style from './Goods.module.css';
 import { IGoodsProps } from '../../utils/type/main';
 import barcodeBlack from '../../images/icon_barcode-black.svg';
+import exclamation_mark from '../../images/exclamation_mark.svg'
 import { useSelector } from '../../utils/type/store';
 
 const Goods: FC<IGoodsProps> = ({
@@ -11,7 +12,8 @@ const Goods: FC<IGoodsProps> = ({
   sku,
   imei,
   honest_sign,
-  clue
+  clue,
+  defective_goods
 }) => {
   const alreadyPacked = useSelector(store => store.orderInfo.data?.already_packed);
 
@@ -54,6 +56,12 @@ const Goods: FC<IGoodsProps> = ({
       ) : (
         ''
       )}
+      {defective_goods ? (
+        <div className={style.wrapperDG}>
+          <img src={exclamation_mark} alt="exclamation mark" className={style.iconExclamationMark} />
+        <p className={style.textDG}>Товар бракован</p>
+        </div>
+      ) : ('')}
     </>
   )
 }
