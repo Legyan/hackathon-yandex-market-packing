@@ -153,8 +153,9 @@ class BarcodeService(BaseService):
     ) -> BaseSuccessSchema:
         """Добавление IMEI товара."""
 
-        barcode_sku = await self.crud.get_barcode(
-            barcode=barcode,
+        barcode_sku = await self.crud.get_by_attribute(
+            attr_name='barcode',
+            attr_value=barcode,
             session=session
         )
         if not barcode_sku:
@@ -190,8 +191,9 @@ class BarcodeService(BaseService):
     ) -> BaseSuccessSchema:
         """Обработка "Честного знака" товара."""
 
-        barcode_sku = await self.crud.get_barcode(
-            barcode=barcode,
+        barcode_sku = await self.crud.get_by_attribute(
+            attr_name='barcode',
+            attr_value=barcode,
             session=session
         )
         if not barcode_sku:
