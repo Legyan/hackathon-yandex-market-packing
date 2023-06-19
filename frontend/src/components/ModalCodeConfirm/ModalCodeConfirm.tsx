@@ -1,5 +1,5 @@
+import Form from '../Form/Form';
 import ModalWindow from '../ModalWindow/ModalWindow';
-import AuthorizationForm from '../ui/AuthorizationForm/AuthorizationForm';
 
 const ModalCodeConfirm = ({...props}) => {
 
@@ -9,7 +9,7 @@ const ModalCodeConfirm = ({...props}) => {
     onClose={props.onClose}
     onClick={props.onClick}
     >
-<AuthorizationForm
+<Form
           label={'Введите код для подтверждения операции'}
           btnBack={'Назад'}
           btnForward={'Подтвердить'}
