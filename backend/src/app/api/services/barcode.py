@@ -10,7 +10,7 @@ from app.api.services.package import package_service
 # from app.core.constants import NONPACK_CARGOTYPES
 from app.crud.barcode import barcode_crud
 from app.crud.order import order_crud
-from app.crud.pack_variation import pack_variation_crud
+# from app.crud.pack_variation import pack_variation_crud
 from app.crud.package import package_crud
 from app.models.barcode_sku import BarcodeSKU
 from app.models.cartontype import Cartontype
@@ -83,12 +83,12 @@ class BarcodeService(BaseService):
     ) -> BarcodeInfoSchema:
         """Обработка штрихкода товара."""
 
-        pack_variation = (
-            await pack_variation_crud.get_active_pack_variation(
-                orderkey=order.orderkey,
-                session=session
-            )
-        )
+        # pack_variation = (
+        #     await pack_variation_crud.get_active_pack_variation(
+        #         orderkey=order.orderkey,
+        #         session=session
+        #     )
+        # )
         # pack_variation_id = pack_variation.id
         product = await self.crud.get_product_by_sku(
             barcode.sku,
