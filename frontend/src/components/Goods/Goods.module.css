@@ -106,3 +106,30 @@
   line-height: 24px;
   color: #000000;
 }
+
+.wrapperDG {
+  background: #FFD9DB;
+  border-radius: 12px;
+  width: 193px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 72px;
+}
+
+.iconExclamationMark {
+  width: 32px;
+  height: 32px;
+}
+
+.textDG {
+  font-family: 'Yandex Sans Display';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 20px;
+  line-height: 23px;
+  letter-spacing: -0.01em;
+  color: #FF0000;
+  margin: 0;
+}

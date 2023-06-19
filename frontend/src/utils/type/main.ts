@@ -77,6 +77,8 @@ export interface IGoodsProps {
   imei: boolean;
   honest_sign: boolean;
   sign?: string;
+  defective_goods: boolean;
+  onClick?: () => void;
 }
 
 export interface IModal {
@@ -98,6 +100,18 @@ export interface IProtectedRoute {
   exact?: boolean;
 }
 
+export interface IMenu {
+  recommend: Array<Array<IRecPacking>>;
+}
+
+export interface IPageWaitConfirmation {
+  title?: string;
+}
+
+export interface IFooter {
+  title?: string;
+  onClick?: () => void;
+}
 export interface IFooter {
   title?: string;
   onClick?: () => void;

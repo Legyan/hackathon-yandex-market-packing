@@ -15,13 +15,17 @@ const ModalProblems: FC<IModal> = ({visible, onClose, onClick}) => {
     history.push('/problems/another');
   }
 
+  const switchPageMissinGoods = () => {
+    history.push('/missinGoods');
+  }
+
   return (
     <ModalWindow
       visible={visible}
       onClose={onClose}
       onClick={onClick}
     >
-      <ButtonModal  title='Нет товара' />
+      <ButtonModal  onClick={switchPageMissinGoods} title='Нет товара' />
       <ButtonModal  onClick={switchPageDeffectiveGoods} title='Товар бракованный' />
       <ButtonModal  onClick={switchPageAnotherProblems} title='Другая проблема' />
     </ModalWindow>
