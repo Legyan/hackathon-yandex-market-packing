@@ -3,24 +3,30 @@ import style from './ModalImei.module.css';
 import ModalWindow from '../ModalWindow/ModalWindow';
 import { IModal } from '../../utils/type/main';
 import { getCookie } from '../../utils/cookie';
-import { postImei } from '../../services/actions/barcodeAction';
 import imei from '../../images/barcode.svg';
-import { useDispatch } from '../../utils/type/store';
+import { postImeiApi } from '../../utils/api';
 
 const ModalImei: FC<IModal> = ({visible, onClose, onClick}) => {
   const [inputValue, setInputValue] = useState<string>('');
-  const dispatch = useDispatch();
 
   const changeValueIndex = (e: ChangeEvent<HTMLInputElement>): void => {
     setInputValue(e.target.value);
   }
 
-  const onSubmit = (e: SyntheticEvent) => {
+  const onSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
     let barcode = getCookie('barcode');
-    dispatch(
-      postImei({barcode, inputValue})
-    );
+    try {
+      await postImeiApi({barcode, inputValue})
+        .then(res => {
+          if (res && res.success) {
+            console.log(res);
+            onClose();
+          }
+        })
+    } catch (error) {
+      console.log(error)
+    }
     onClose();
     setInputValue('');
   }

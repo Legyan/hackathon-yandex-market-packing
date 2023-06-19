@@ -9,7 +9,6 @@ const ButtonLink: FC<IButtonLink> = ({ purpose, title, link }) => {
       <Link
         className={
           purpose === 'authBack' ? `${style.btn} ${style.btnProportionsAuth} ${style.btnBack}` :
-          purpose === 'order' ? `${style.btn} ${style.btnProportionsOrder} ${style.btnOrder}` :
           purpose === 'anotherProblem' ? `${style.btn} ${style.btnProportionsOrder} ${style.btnProblem}` :
           ''
         }

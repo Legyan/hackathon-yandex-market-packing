@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import style from './Package.module.css';
 import openBox from '../../images/box_open.png';
 import openPocket from '../../images/pocket_open.png';
@@ -9,7 +9,11 @@ import Hint from '../ui/Hint/Hint';
 import { IPackage } from '../../utils/type/main';
 import { useSelector } from '../../utils/type/store';
 
-const Package: FC<IPackage> = ({ icon, cartontype, visible }) => {
+const Package: FC<IPackage> = ({
+  icon,
+  cartontype,
+  visible,
+}) => {
 
   return (
     <article className={style.wrapper}>

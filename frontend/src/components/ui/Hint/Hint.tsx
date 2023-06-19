@@ -23,6 +23,8 @@ const Hint: FC<IHint> = ({icon, title, visible}) => {
     try {
       await closeBoxApi()
         .then(res => {
+          console.log(res);
+
           if (res.status === 'ok') {
             setToastPrintBarcode(false);
           }

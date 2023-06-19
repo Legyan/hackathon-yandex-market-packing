@@ -13,8 +13,12 @@ import { ProtectedRoute } from '../ProtectedRoute/ProtectedRoute';
 import PageScanDeffectiveGoods from '../../pages/PageScanDeffectiveGoods/PageScanDeffectiveGoods';
 import PageWaitConfirmation from '../../pages/PageWaitConfirmation/PageWaitConfirmation';
 import MissinGoodsPage from '../../pages/MissinGoodsPage/MissinGoodsPage';
+import { useSelector } from '../../utils/type/store';
 
 const App: FC = () => {
+  const user = useSelector(store => store.userInfo.user);
+
+  console.log(user);
   return (
     <>
       <Header />
