@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import style from './Package.module.css';
 import openBox from '../../images/box_open.png';
 import openPocket from '../../images/pocket_open.png';
@@ -7,7 +7,6 @@ import nonpack from '../../images/nonpack.png';
 import chevron from '../../images/icon_chevron.svg';
 import Hint from '../ui/Hint/Hint';
 import { IPackage } from '../../utils/type/main';
-import { useSelector } from '../../utils/type/store';
 
 const Package: FC<IPackage> = ({
   icon,
