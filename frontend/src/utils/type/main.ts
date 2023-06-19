@@ -3,7 +3,7 @@ import {
   HTMLProps,
   PropsWithChildren,
   Dispatch,
-  SetStateAction
+  SetStateAction,
 } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { IRecPacking } from './data';
@@ -99,6 +99,15 @@ export interface IModal {
   children?: string | JSX.Element | JSX.Element[];
   onClose: () => void;
   onClick?: () => void;
+}
+
+export interface IModalBarcode {
+  visible: boolean;
+  children?: string | JSX.Element | JSX.Element[];
+  onClose: () => void;
+  onClick?: () => void;
+  statusImei: Dispatch<SetStateAction<boolean>>;
+  stausHonest: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface IModalOverlay {
