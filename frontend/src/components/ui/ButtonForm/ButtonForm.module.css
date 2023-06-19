@@ -69,3 +69,14 @@
 .btnProblem:hover {
   background: var(--Button-grey);
 }
+
+.btnCancelOrder {
+  height: 662px;
+  background: var(--Yandex-amber-12);
+  grid-column: 2/3;
+  grid-row: 1/4;
+}
+
+.btnCancelOrder:hover {
+  background: var(--Yandex-amber-13);
+}

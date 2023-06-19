@@ -14,6 +14,7 @@ import PageScanDeffectiveGoods from '../../pages/PageScanDeffectiveGoods/PageSca
 import PageWaitConfirmation from '../../pages/PageWaitConfirmation/PageWaitConfirmation';
 import { useDispatch, useSelector } from '../../utils/type/store';
 import { getUser } from '../../services/actions/userActions';
+import MissinGoodsPage from '../../pages/MissinGoodsPage/MissinGoodsPage';
 
 const App: FC = () => {
   const dispatch = useDispatch();
@@ -59,6 +60,9 @@ const App: FC = () => {
         </ProtectedRoute>
         <ProtectedRoute path='/deffectiveGoods/waitConfirmation' exact>
           <PageWaitConfirmation />
+        </ProtectedRoute>
+        <ProtectedRoute path='/missinGoods' exact>
+          <MissinGoodsPage />
         </ProtectedRoute>
       </Switch>
     </>

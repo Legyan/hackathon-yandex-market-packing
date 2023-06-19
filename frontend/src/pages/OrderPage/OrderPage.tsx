@@ -66,6 +66,7 @@ const OrderPage: FC = () => {
                             imei={goods!.imei}
                             honest_sign={goods!.honest_sign}
                             clue={goods!.fragility}
+                            defective_goods={false}
                           />
                         </li>
                       )

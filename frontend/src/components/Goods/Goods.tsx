@@ -2,6 +2,7 @@ import { FC } from 'react';
 import style from './Goods.module.css';
 import { IGoodsProps } from '../../utils/type/main';
 import barcodeBlack from '../../images/icon_barcode-black.svg';
+import exclamation_mark from '../../images/exclamation_mark.svg'
 
 const Goods: FC<IGoodsProps> = ({
   img,
@@ -10,7 +11,8 @@ const Goods: FC<IGoodsProps> = ({
   sku,
   imei,
   honest_sign,
-  clue
+  clue,
+  defective_goods
 }) => {
   return (
     <>
@@ -43,6 +45,12 @@ const Goods: FC<IGoodsProps> = ({
       ) : (
         ''
       )}
+      {defective_goods ? (
+        <div className={style.wrapperDG}>
+          <img src={exclamation_mark} alt="exclamation mark" className={style.iconExclamationMark} />
+        <p className={style.textDG}>Товар бракован</p>
+        </div>
+      ) : ('')}
     </>
   )
 }

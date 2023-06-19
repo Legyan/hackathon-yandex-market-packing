@@ -31,6 +31,8 @@ export interface IGoodsProps {
   imei: boolean;
   honest_sign: boolean;
   sign?: string;
+  defective_goods: boolean;
+  onClick?: () => void;
 }
 
 export interface IButton extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -112,6 +114,11 @@ export interface IMenu {
   recommend: Array<Array<IRecPacking>>;
 }
 
+export interface IPageWaitConfirmation {
+  title?: string;
+}
+
 export interface IFooter {
   title?: string;
+  onClick?: () => void;
 }
