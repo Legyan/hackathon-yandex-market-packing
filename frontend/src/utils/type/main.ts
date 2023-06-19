@@ -1,11 +1,46 @@
 import {
   ButtonHTMLAttributes,
-  PropsWithChildren,
+  Dispatch,
   HTMLProps,
+  SetStateAction,
 } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
+import { IRecPacking } from './data';
 
-export interface IAuthorizationForm {
+/**
+ * UI components types
+*/
+
+export interface IHint {
+  icon: string;
+  title: string;
+  visible: boolean;
+}
+
+export interface IButton extends ButtonHTMLAttributes<HTMLButtonElement> {
+  purpose: string;
+  title: string;
+  onClick?: () => void;
+}
+
+export interface IButtonMenu extends ButtonHTMLAttributes<HTMLButtonElement> {
+  data: Array<IRecPacking>;
+  index: number;
+  recomendnIndex: number;
+  active?: boolean;
+}
+
+export interface IButtonLink extends ButtonHTMLAttributes<HTMLButtonElement> {
+  purpose: string;
+  title: string;
+  link: string;
+}
+
+/**
+ * Components types
+*/
+
+export interface IForm {
   label: string;
   btnBack: string;
   btnForward: string;
@@ -17,9 +52,10 @@ export interface IProgressbar {
   title?: string;
 }
 
-export interface IHint {
+export interface IPackage {
   icon: string;
-  title: string;
+  cartontype: string;
+  visible: boolean;
 }
 
 export interface IGoodsProps {
@@ -35,72 +71,16 @@ export interface IGoodsProps {
   onClick?: () => void;
 }
 
-export interface IButton extends ButtonHTMLAttributes<HTMLButtonElement> {
-  purpose: string;
-  title: string;
+export interface IModal {
+  visible: boolean;
+  children?: string | JSX.Element | JSX.Element[];
+  onClose: () => void;
   onClick?: () => void;
-}
-
-export interface IButtonMenu extends ButtonHTMLAttributes<HTMLButtonElement> {
-  data: Array<IRecPacking>;
-  index: number;
-  recomendnIndex: number;
-  // firstRecommen: Array<IRecPacking>
-}
-
-export interface IButtonLink extends ButtonHTMLAttributes<HTMLButtonElement> {
-  purpose: string;
-  title: string;
-  link: string;
 }
 
 export interface IModalOverlay {
   visible: boolean;
   closeModal: () => void;
-}
-export interface IModalWindow extends PropsWithChildren {
-  visible: boolean;
-  onClose: () => void;
-  onClick?: () => void;
-}
-export interface IUser {
-  username: string;
-  user_id: number;
-  table_id: string;
-  printer_id: string;
-}
-
-export interface IGoods {
-  count?: number;
-  sku: string;
-  title: string;
-  description: string;
-  image: string;
-  imei: boolean;
-  honest_sign: boolean;
-  fragility: boolean;
-}
-
-export interface IItems {
-  sku: string;
-  count: number;
-}
-
-export interface IPackage {
-  icon: string;
-  title: string;
-}
-
-export interface IRecPacking {
-  cartontype: string;
-  icontype: string;
-  items: Array<IItems>;
-}
-
-export interface IAlreadyPacked {
-  cartontype: string;
-  is_packed: boolean;
-  items: Array<IItems>;
 }
 
 export interface IProtectedRoute {
@@ -118,6 +98,10 @@ export interface IPageWaitConfirmation {
   title?: string;
 }
 
+export interface IFooter {
+  title?: string;
+  onClick?: () => void;
+}
 export interface IFooter {
   title?: string;
   onClick?: () => void;

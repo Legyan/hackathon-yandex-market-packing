@@ -18,6 +18,7 @@ async def get_user_info(
     session: AsyncSession = Depends(get_async_session),
 ) -> UserInfoSchema:
     """Получение информации о пользователе по токену."""
+
     return await user_service.get_user_info(
         user_id, session
     )
@@ -31,6 +32,7 @@ async def logout(
     session: AsyncSession = Depends(get_async_session),
 ) -> BaseOutputSchema:
     """Отвязывание стола и принтера от пользователя."""
+
     return await user_service.logout(
         user_id, session
     )

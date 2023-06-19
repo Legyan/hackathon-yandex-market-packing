@@ -5,8 +5,7 @@ from app.api.services.order import order_service
 from app.core.db import get_async_session
 from app.core.users import get_current_user_id
 from app.schemas.base import BaseOutputSchema
-from app.schemas.order import (OrderCreateResponseSchema,
-                               OrderCreateSchema,
+from app.schemas.order import (OrderCreateResponseSchema, OrderCreateSchema,
                                OrderToUserSchema)
 
 router = APIRouter()
@@ -21,6 +20,7 @@ async def add_order(
     session: AsyncSession = Depends(get_async_session),
 ) -> OrderCreateResponseSchema:
     """Добавление нового заказа в базу данных."""
+
     return await order_service.add_order(order, session)
 
 
@@ -33,6 +33,7 @@ async def get_order(
     session: AsyncSession = Depends(get_async_session),
 ) -> OrderToUserSchema:
     """Получение заказа пользователем."""
+
     return await order_service.get_order_to_user(user_id, session)
 
 
@@ -45,4 +46,5 @@ async def finish_order(
     session: AsyncSession = Depends(get_async_session),
 ) -> BaseOutputSchema:
     """Завершение заказа пользователем."""
+
     return await order_service.finish_order(user_id, session)

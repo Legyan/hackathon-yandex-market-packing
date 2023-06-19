@@ -1,8 +1,10 @@
+import { FC } from 'react';
 import ModalWindow from '../ModalWindow/ModalWindow';
 import ButtonModal from '../ButtonModal/ButtonModal';
 import { useHistory } from 'react-router-dom';
+import { IModal } from '../../utils/type/main';
 
-const ModalProblems = ({...props}) => {
+const ModalProblems: FC<IModal> = ({visible, onClose, onClick}) => {
   const history = useHistory();
 
   const switchPageDeffectiveGoods = () => {
@@ -19,9 +21,9 @@ const ModalProblems = ({...props}) => {
 
   return (
     <ModalWindow
-    visible={props.visible}
-    onClose={props.onClose}
-    onClick={props.onClick}
+      visible={visible}
+      onClose={onClose}
+      onClick={onClick}
     >
       <ButtonModal  onClick={switchPageMissinGoods} title='Нет товара' />
       <ButtonModal  onClick={switchPageDeffectiveGoods} title='Товар бракованный' />

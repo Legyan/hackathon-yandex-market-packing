@@ -1,7 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.api.exceptions import (AlreadyHavePrinterError, NotRegiserTableError,
-                                NoPrinterError, PrinterIsBusyError)
+from app.api.exceptions import (AlreadyHavePrinterError, NoPrinterError,
+                                NotRegiserTableError, PrinterIsBusyError)
 from app.api.services.base import BaseService
 from app.crud.printer import printer_crud
 from app.crud.table import table_crud
@@ -18,6 +18,8 @@ class PrinterService(BaseService):
         printer_id: str,
         session: AsyncSession,
     ) -> AuthOutputSchema:
+        """Присвоение пользователю принтера."""
+
         table = await table_crud.get_table_by_user(
             user_id=user_id,
             session=session

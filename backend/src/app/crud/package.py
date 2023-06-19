@@ -9,11 +9,15 @@ from app.models.package import Package, PackageProduct, PackageStatusEnum
 
 
 class CRUDPackage(CRUDBase):
+    """CRUD упаковки."""
+
     async def get_active_package(
             self,
             orderkey: str,
             session: AsyncSession
     ) -> Package:
+        """Получение активной упаковки."""
+
         pack_variation = (
             await pack_variation_crud.get_active_pack_variation(
                 orderkey=orderkey,
@@ -37,6 +41,8 @@ class CRUDPackage(CRUDBase):
         status: PackageStatusEnum,
         session: AsyncSession
     ) -> Package:
+        """Добавление новой упаковки."""
+
         new_package = Package(
             cartontype_tag=cartontype_tag,
             packing_variation_id=pack_variation_id,
@@ -54,6 +60,8 @@ class CRUDPackage(CRUDBase):
             barcode: BarcodeSKU,
             session: AsyncSession
     ) -> PackageProduct:
+        """Добавление товара в упаковку."""
+
         await session.refresh(barcode)
         package_product = PackageProduct(
             package_id=active_package.id,
@@ -72,6 +80,8 @@ class CRUDPackage(CRUDBase):
         new_package_id: int,
         session: AsyncSession
     ) -> None:
+        """Перемещение товара из одной упаковки в другую."""
+
         package_product.package_id = new_package_id
         session.add(package_product)
 
@@ -80,6 +90,8 @@ class CRUDPackage(CRUDBase):
         package: Package,
         session: AsyncSession
     ) -> None:
+        """Закрытие упаковки."""
+
         package.status = PackageStatusEnum.PACKED
         session.add(package)
         await session.commit()
@@ -89,6 +101,8 @@ class CRUDPackage(CRUDBase):
         barcode: str,
         session: AsyncSession
     ) -> None:
+        """Удаление товара из упаковки."""
+
         package_product = (await session.execute(
             select(PackageProduct)
             .where(PackageProduct.barecode_tag == barcode)

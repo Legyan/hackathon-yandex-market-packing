@@ -43,6 +43,15 @@
   background: var(--Yandex-amber-13);
 }
 
+.btnBack {
+  background: var(--Blue-grey-1);
+  color: var(--Yandex-black);
+}
+
+.btnBack:hover {
+  background: var(--Yandex-grey-4);
+}
+
 /* Кнопка Получить заказ на главном экране */
 
 .btnPackage {

@@ -9,7 +9,6 @@ const Footer: FC<IFooter> = ({title, onClick}) => {
 
   const history = useHistory();
   const location = useLocation()
-  console.log(history);
 
   const goBack = () => {
     history.goBack()
@@ -21,8 +20,8 @@ const Footer: FC<IFooter> = ({title, onClick}) => {
         `${style.footer}` : `${style.footer} ${style.footerBack}`}
     >
       {
-        location.pathname === '/order' || location.pathname === '/deffectiveGoods' ?
-          <button className={style.btnFooter}>
+        location.pathname === '/order' || location.pathname === '/deffectiveGoods'  ?
+          <button className={style.btnFooter} onClick={onClick}>
             <img src={keyboard} alt='Иконка клавиатуры' />
             <span className={style.description}>Ввести с клавиатуры</span>
           </button>
@@ -44,7 +43,7 @@ const Footer: FC<IFooter> = ({title, onClick}) => {
             </button>
           :
           ''
-      }
+          }
     </footer>
   )
 }

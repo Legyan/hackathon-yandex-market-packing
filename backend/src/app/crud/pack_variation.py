@@ -2,6 +2,7 @@ from sqlalchemy import and_, false, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload
 
+# from app.core.constants import NONPACK_CARTONTYPES
 from app.crud.base import CRUDBase
 from app.crud.order import order_crud
 from app.crud.product import product_crud
@@ -13,11 +14,15 @@ from app.schemas.pack_variation import PackingVariationsSchema
 
 
 class CRUDPackingVariation(CRUDBase):
+    """CRUD вариантов упаковки."""
+
     async def write_pack_variations_to_db(
         self,
         packing_variations: PackingVariationsSchema,
         session: AsyncSession,
     ) -> None:
+        """Запись варианта упаковки в базу данных."""
+
         if packing_variations.status == 'fallback':
             order_crud.set_order_status(
                 orderkey=packing_variations.orderkey,
@@ -45,6 +50,15 @@ class CRUDPackingVariation(CRUDBase):
                     # )
                     return
                 await session.refresh(new_pack_variation)
+                # if cartontype.tag in NONPACK_CARTONTYPES:
+                #     await self.add_nonpack_package(
+                #         cartontype=cartontype.tag,
+                #         pack_variation_id=new_pack_variation.id,
+                #         goods=package.goods,
+                #         orderkey=packing_variations.orderkey,
+                #         session=session
+                #     )
+                #     continue
                 new_package = Package(
                     cartontype_tag=cartontype.tag,
                     packing_variation_id=new_pack_variation.id,
@@ -73,11 +87,45 @@ class CRUDPackingVariation(CRUDBase):
                 session=session
             )
 
+    async def add_nonpack_package(
+            self,
+            cartontype: str,
+            pack_variation_id: int,
+            goods: list[Package],
+            orderkey: str,
+            session: AsyncSession
+    ) -> None:
+        """Добавление продукта, не требующего упаковки."""
+
+        for nonpack_product in goods:
+            count = await product_crud.get_order_products_count(
+                sku=nonpack_product,
+                orderkey=orderkey,
+                session=session
+            )
+            for _ in range(count):
+                new_package = Package(
+                    cartontype_tag=cartontype,
+                    packing_variation_id=pack_variation_id,
+                    status=PackageStatusEnum.INACTIVE
+                )
+                session.add(new_package)
+                await session.commit()
+                await session.refresh(new_package)
+                new_package_product = PackageProduct(
+                    package_id=new_package.id,
+                    product_sku=nonpack_product
+                )
+                session.add(new_package_product)
+            await session.commit()
+
     async def add_active_pack_variation(
             self,
             orderkey: str,
             session: AsyncSession
     ) -> None:
+        """Добавление варианта упаковки пользователя (не рекомендации)."""
+
         pack_variation = PackingVariation(
             orderkey=orderkey,
             selected=False,
@@ -92,6 +140,8 @@ class CRUDPackingVariation(CRUDBase):
             orderkey: str,
             session: AsyncSession
     ) -> PackingVariation:
+        """Получение варианта упаковки пользователя."""
+
         return (await session.execute(
             select(PackingVariation)
             .options(joinedload(PackingVariation.packages))

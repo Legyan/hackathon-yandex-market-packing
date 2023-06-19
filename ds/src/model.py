@@ -198,7 +198,7 @@ def predict(dictionary):
             if pack == 'NONPACK' and len(nonpack_dict) > 0:
                 tmp_dict = copy.deepcopy(nonpack_dict)
                 tmp_dict['goods'] += [x['sku'] for x in d['items']]
-                recommendations.append(tmp_dict)
+                one_rec.append(tmp_dict)
                 if len(stretch_dict) > 0:
                     one_rec.append(stretch_dict)
             elif pack == 'NONPACK' and len(nonpack_dict) == 0:
@@ -209,7 +209,7 @@ def predict(dictionary):
             if pack == 'STRETCH' and len(stretch_dict) > 0:
                 tmp_dict = copy.deepcopy(stretch_dict)
                 tmp_dict['goods'] += [x['sku'] for x in d['items']]
-                recommendations.append(tmp_dict)
+                one_rec.append(tmp_dict)
                 if len(nonpack_dict) > 0:
                     one_rec.append(nonpack_dict)
             elif pack == 'STRETCH' and len(stretch_dict) == 0:

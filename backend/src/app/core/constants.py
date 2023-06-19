@@ -17,3 +17,4 @@ PACKET_CARTONTYPES = (
 FRAGILITY_CARGOTYPES = (
     310,
 )
+ADD_ORDERS_URL = 'http://localhost:8000/api/v1/order'

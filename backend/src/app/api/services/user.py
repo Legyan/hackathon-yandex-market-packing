@@ -19,6 +19,8 @@ class UserService(BaseService):
         user_id: str,
         session: AsyncSession,
     ) -> User:
+        """Проверка на существование пользователя."""
+
         user = await self.crud.get(
             user_id,
             session=session
@@ -32,6 +34,11 @@ class UserService(BaseService):
         table_id: str,
         session: AsyncSession
     ) -> None:
+        """Проверка на занятие стола пользователем."""
+
+        table = await table_service.crud.get_table_by_user(user_id, session)
+        if table and table.name != table_id:
+            raise UserAlreadyHaveTableError(table.name)
         table = await table_service.crud.get_by_attribute(
             attr_name='name',
             attr_value=table_id,
@@ -39,15 +46,14 @@ class UserService(BaseService):
         )
         if table and table.user_id and table.user_id != user_id:
             raise TableIsBusyError()
-        table = await table_service.crud.get_table_by_user(user_id, session)
-        if table and table.name != table_id:
-            raise UserAlreadyHaveTableError(table.name)
 
     async def get_user_info(
         self,
         user_id: int,
         session: AsyncSession
     ) -> UserInfoSchema:
+        """Получение информации о пользователе."""
+
         user = await user_crud.get(
             obj_id=user_id,
             session=session
@@ -80,6 +86,8 @@ class UserService(BaseService):
         user_id: int,
         session: AsyncSession
     ) -> BaseOutputSchema:
+        """Окончание работы пользователем."""
+
         await user_crud.unlink_table(
             user_id,
             session

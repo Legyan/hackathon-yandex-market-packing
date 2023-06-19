@@ -3,6 +3,8 @@ from app.crud.cartontype import cartontype_crud
 
 
 class CartontypeServices(BaseService):
+    """Сервис для типами коробок."""
+
     pass
 
 

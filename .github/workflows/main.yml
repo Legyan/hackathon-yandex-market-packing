@@ -116,10 +116,12 @@ jobs:
             echo DB_HOST=${{ secrets.DB_HOST }} >> .env
             echo DB_PORT=${{ secrets.DB_PORT }} >> .env
             echo HOST=${{ secrets.HOST }} >> .env
-            echo DS_HOST=${{ secrets.DS_HOST }} >> .env
+            echo DS_PACK_URL=${{ secrets.DS_PACK_URL }} >> .env
             sudo docker-compose up -d
-            sudo docker exec infra_backend-ym-pack_1 alembic upgrade head
-            sudo docker exec infra_backend-ym-pack_1 python3 -m app.management.fill_db
+            sudo docker-compose exec backend-ym-pack alembic upgrade head
+            sudo docker-compose exec backend-ym-pack python3 -m app.management.fill_db
+            sudo docker-compose exec backend-ym-pack python3 -m app.management.add_orders
+            sudo docker-compose exec backend-ym-pack python3 -m app.management.add_random_barcodes
 
   send_message:
     runs-on: ubuntu-latest
