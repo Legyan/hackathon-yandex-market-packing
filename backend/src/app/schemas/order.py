@@ -1,13 +1,13 @@
 from typing import Optional
 
-from pydantic import BaseModel, Extra
+from pydantic import BaseModel, Extra, Field
 
 
 class ItemBase(BaseModel):
     """Базовая схема товара."""
 
     sku: str
-    count: int
+    count: int = Field(1, gt=0)
 
     class Config:
         extra = Extra.forbid

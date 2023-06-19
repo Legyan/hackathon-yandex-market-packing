@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import AuthorizationForm from '../../components/ui/AuthorizationForm/AuthorizationForm';
+import Form from '../../components/Form/Form';
 import Footer from '../../components/Footer/Footer';
 import style from './PageScanDeffectiveGoods.module.css'
 
@@ -7,7 +7,7 @@ const PageScanDeffectiveGoods: FC = () => {
   return(
     <>
       <section className={style.wrapper}>
-        <AuthorizationForm
+        <Form
           label={'Отсканируйте бракованный товар или введите вручную'}
           btnBack={'Назад'}
           btnForward={'Далее'}

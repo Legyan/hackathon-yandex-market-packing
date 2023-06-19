@@ -2,8 +2,10 @@ import { FC } from 'react';
 import style from './Progressbar.module.css'
 import { steps } from '../../utils/constants';
 import { IProgressbar } from '../../utils/type/main';
+import { useSelector } from '../../utils/type/store';
 
 const Progressbar: FC<IProgressbar> = ({ title }) => {
+
   return (
     <article className={title ? `${style.wrapper} ${style.mw}` : `${style.wrapper}`}>
       {title ?

@@ -2,14 +2,14 @@ import { FC } from 'react';
 import style from './PrinterSelectionPage.module.css'
 import Footer from '../../components/Footer/Footer';
 import Progressbar from '../../components/Progressbar/Progressbar';
-import AuthorizationForm from '../../components/ui/AuthorizationForm/AuthorizationForm';
+import Form from '../../components/Form/Form';
 
 const PrinterSelectionPage: FC = () => {
   return (
     <>
       <section className={style.wrapper}>
         <Progressbar />
-        <AuthorizationForm
+        <Form
           label={'Отсканируйте штрихкод принтера или введите вручную'}
           btnBack={'Назад'}
           btnForward={'Далее'}
