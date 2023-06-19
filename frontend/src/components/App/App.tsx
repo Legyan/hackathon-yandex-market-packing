@@ -12,6 +12,7 @@ import Header from '../Header/Header';
 import { ProtectedRoute } from '../ProtectedRoute/ProtectedRoute';
 import PageScanDeffectiveGoods from '../../pages/PageScanDeffectiveGoods/PageScanDeffectiveGoods';
 import PageWaitConfirmation from '../../pages/PageWaitConfirmation/PageWaitConfirmation';
+import MissinGoodsPage from '../../pages/MissinGoodsPage/MissinGoodsPage';
 
 const App: FC = () => {
   return (
@@ -47,6 +48,9 @@ const App: FC = () => {
         </ProtectedRoute>
         <ProtectedRoute path='/deffectiveGoods/waitConfirmation' exact>
           <PageWaitConfirmation />
+        </ProtectedRoute>
+        <ProtectedRoute path='/missinGoods' exact>
+          <MissinGoodsPage />
         </ProtectedRoute>
       </Switch>
     </>

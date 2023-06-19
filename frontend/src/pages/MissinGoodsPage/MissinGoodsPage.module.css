@@ -1,6 +1,6 @@
 .wrapper {
   display: grid;
-  justify-content: end;
+  justify-content: center;
   padding-top: 125px;
   gap: 32px;
   padding: 125px 12px 0 0;

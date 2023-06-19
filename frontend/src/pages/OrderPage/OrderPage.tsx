@@ -122,6 +122,7 @@ const OrderPage: FC = () => {
                               imei={item!.imei}
                               honest_sign={item!.honest_sign}
                               clue={item!.fragility}
+                              defective_goods={false}
                             />
                           </li>
                         )
