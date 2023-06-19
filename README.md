@@ -6,6 +6,10 @@
 Swagger документация backend: http://62.84.121.232:8000/docs.
 
 Swagger документация DS: http://62.84.121.232:8001/docs.
+
+[Github Pages](https://legyan.github.io/hackathon-yandex-market-packing/)
+
+
 ### Стек технологий 
 
 ![](https://img.shields.io/badge/Python-3.10-black?style=flat&logo=python) 
