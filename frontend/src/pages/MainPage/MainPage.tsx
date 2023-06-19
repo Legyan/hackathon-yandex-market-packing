@@ -8,6 +8,7 @@ import { setCookie } from '../../utils/cookie';
 import Statistics from '../Statistics/Statistics';
 import { useDispatch, useSelector } from '../../utils/type/store';
 import { getUser } from '../../services/actions/userActions';
+import { logoutApi } from '../../utils/api';
 
 const MainPage: FC = () => {
   const history = useHistory();
@@ -24,13 +25,22 @@ const MainPage: FC = () => {
     history.replace({ pathname: '/problems/another' });
   }
 
-  const logout = () => {
+  const logout = async () => {
+    try {
+      await logoutApi()
+        .then(res => {
+          if (res.status === 'ok') {
+            history.replace({ pathname: '/table' });
+          }
+        })
+    } catch(error) {
+      console.log(error)
+    }
     setCookie('token', '');
-    history.replace({ pathname: '/table' });
   }
 
   const order = () => {
-    history.replace({ pathname: '/order' });
+    history.push({ pathname: '/order' });
   }
 
   return (
