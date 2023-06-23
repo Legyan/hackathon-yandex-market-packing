@@ -7,7 +7,7 @@ from app.crud.order import order_crud
 from app.crud.pack_variation import pack_variation_crud
 from app.crud.partition import partition_crud
 from app.models.order import OrderStatusEnum
-from app.schemas.base import BaseOutputSchema
+from app.schemas.base import BaseOutputSchema, BaseSuccessSchema
 from app.schemas.order import (OrderCreateResponseSchema, OrderCreateSchema,
                                OrderDataToUser, OrderToUserSchema)
 
@@ -120,7 +120,7 @@ class OrderService(BaseService):
             session
         )
         await self.crud.finish_order(order, session)
-        return BaseOutputSchema()
+        return BaseSuccessSchema()
 
 
 order_service = OrderService(order_crud)
