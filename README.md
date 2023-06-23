@@ -111,7 +111,7 @@ Swagger документация DS: http://62.84.121.232:8001/docs.
 <details open>
 <summary><h2>Описание работы проекта</h2></summary>
 
-Сценарии работы и интерфейс пользователя приведены по [ссылке](https://www.figma.com/file/s6KACisVHbtIxQuGz2uyrj/IDEA-3-June-2023-Hackathon?type=design&node-id=0-1&t=YsuUFWT93T5hKbSs-0).
+Сценарии работы и интерфейс пользователя приведены по [ссылке](https://www.figma.com/file/s6KACisVHbtIxQuGz2uyrj/%D0%9A%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D0%B0-%E2%84%9610%2C-%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82-%D0%A3%D0%BF%D0%B0%D0%BA%D0%BE%D0%B2%D1%89%D0%B8%D0%BA%E2%80%9D?type=design&node-id=1%3A1731&t=sBqzZCOtLSV82984-1).
 
 При первом переходе на сайт сервиса, пользователь попадает на страницу регистрации стола. Список доступных для ввода столов приведён в [tables.csv](./backend/data/tables.csv) в столбце name. Введите любой, например `PACK-1`, и нажмите Enter. Пользователь будет авторизован в системе, ему вернётся JWT токен и присвоится выбранный стол.
 
