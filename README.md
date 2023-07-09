@@ -6,7 +6,11 @@
 Swagger документация backend: http://62.84.121.232:8000/docs.
 
 Swagger документация DS: http://62.84.121.232:8001/docs.
-### Стек технологий 
+
+[Github Pages](https://legyan.github.io/hackathon-yandex-market-packing/)
+
+
+### Стек технологий
 
 ![](https://img.shields.io/badge/Python-3.10-black?style=flat&logo=python) 
 ![](https://img.shields.io/badge/FastAPI-0.96.0-black?style=flat&logo=fastapi)
@@ -106,6 +110,8 @@ Swagger документация DS: http://62.84.121.232:8001/docs.
 
 <details open>
 <summary><h2>Описание работы проекта</h2></summary>
+
+Сценарии работы и интерфейс пользователя приведены по [ссылке](https://www.figma.com/file/s6KACisVHbtIxQuGz2uyrj/IDEA-3-June-2023-Hackathon?type=design&node-id=0-1&t=YsuUFWT93T5hKbSs-0).
 
 При первом переходе на сайт сервиса, пользователь попадает на страницу регистрации стола. Список доступных для ввода столов приведён в [tables.csv](./backend/data/tables.csv) в столбце name. Введите любой, например `PACK-1`, и нажмите Enter. Пользователь будет авторизован в системе, ему вернётся JWT токен и присвоится выбранный стол.
 
