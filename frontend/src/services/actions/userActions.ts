@@ -18,12 +18,12 @@ export const REGISTRATION_PRINTER_ERROR: 'REGISTRATION_PRINTER_ERROR' = 'REGISTR
 export const EXIT_SUCCESS: 'EXIT_SUCCESS' = 'EXIT_SUCCESS';
 export const EXIT_ERROR: 'EXIT_ERROR' = 'EXIT_ERROR';
 
-export function registerTable({userId, inputValue}: IRegisterTable) {
+export function registerTable({userId, valueTable}: IRegisterTable) {
   return function(dispatch: AppDispatch) {
     dispatch({
       type: REGISTRATION_TABLE_REQUEST
     });
-    registerTableApi({userId, inputValue})
+    registerTableApi({userId, valueTable})
       .then(res => {
         if (res && res.success) {
           setCookie('token', res.token.split('Bearer ')[1]);
@@ -46,12 +46,12 @@ export function registerTable({userId, inputValue}: IRegisterTable) {
   }
 }
 
-export function registerPrinter({inputValue}: IRegisterPrinter) {
+export function registerPrinter({valuePrinter}: IRegisterPrinter) {
   return function(dispatch: AppDispatch) {
     dispatch({
       type: REGISTRATION_PRINTER_REQUEST
     });
-    registerPrinterApi({inputValue})
+    registerPrinterApi({valuePrinter})
       .then(res => {
         if (res && res.success) {
           dispatch({

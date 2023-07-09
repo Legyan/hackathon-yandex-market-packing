@@ -1,9 +1,10 @@
 import {
   ButtonHTMLAttributes,
+  ChangeEvent,
   HTMLProps,
   PropsWithChildren,
   Dispatch,
-  SetStateAction
+  SetStateAction,
 } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { IRecPacking } from './data';
@@ -21,6 +22,7 @@ export interface IHint {
 export interface IButton extends ButtonHTMLAttributes<HTMLButtonElement> {
   purpose: string;
   title: string;
+  inputValid?: boolean;
   onClick?: () => void;
 }
 
@@ -101,6 +103,15 @@ export interface IModal {
   onClick?: () => void;
 }
 
+export interface IModalBarcode {
+  visible: boolean;
+  children?: string | JSX.Element | JSX.Element[];
+  onClose: () => void;
+  onClick?: () => void;
+  statusImei: Dispatch<SetStateAction<boolean>>;
+  stausHonest: Dispatch<SetStateAction<boolean>>;
+}
+
 export interface IModalOverlay {
   visible: boolean;
   closeModal: () => void;
@@ -125,7 +136,22 @@ export interface IFooter {
   title?: string;
   onClick?: () => void;
 }
-export interface IFooter {
-  title?: string;
-  onClick?: () => void;
+
+export interface IValidationForm {
+  isEmpty: boolean;
+  table?: string;
+  printer?: string;
+}
+
+export interface IErrorFormAuth {
+  location: {
+    isEmpty: boolean;
+    isError: boolean;
+    inputValid: boolean;
+    value: string;
+    isDirty: boolean;
+    setValue: Dispatch<SetStateAction<string>>;
+    onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+    onBlur: (e: ChangeEvent<HTMLInputElement>) => void;
+  }
 }

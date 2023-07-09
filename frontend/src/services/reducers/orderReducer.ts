@@ -35,15 +35,16 @@ const initialState = {
   //     }
   //   ],
   //   already_packed: [
-  //     [{
+    //   {
   //       cartontype: '',
   //       is_packed: false,
   //       items: [{
   //         sku: '',
   //         count: 0
   //       }]
-  //     }]
-  //   ]
+  //     }
+//    ]
+  //
   // }
 }
 

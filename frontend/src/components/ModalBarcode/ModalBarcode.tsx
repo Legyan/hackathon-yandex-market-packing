@@ -1,12 +1,18 @@
 import { ChangeEvent, FC, SyntheticEvent, useState } from 'react';
 import style from './ModalBarcode.module.css'
 import ModalWindow from '../ModalWindow/ModalWindow';
-import { IModal } from '../../utils/type/main';
+import { IModalBarcode } from '../../utils/type/main';
 import ButtonForm from '../ui/ButtonForm/ButtonForm';
 import { setCookie } from '../../utils/cookie';
 import { postBarcodeApi } from '../../utils/api';
 
-const ModalBarcode: FC<IModal> = ({visible, onClose, onClick}) => {
+const ModalBarcode: FC<IModalBarcode> = ({
+  visible,
+  onClose,
+  onClick,
+  statusImei,
+  stausHonest,
+}) => {
   const [inputValue, setInputValue] = useState<string>('');
 
   const changeValueIndex = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -19,8 +25,10 @@ const ModalBarcode: FC<IModal> = ({visible, onClose, onClick}) => {
     try {
       await postBarcodeApi({ inputValue })
         .then(res => {
-          if (res && res.success) {
-            console.log(res);
+          if (res && res.data.imei) {
+            statusImei(true);
+          } else if (res && res.data.honest_sign) {
+            stausHonest(true);
           }
         })
     } catch (error) {

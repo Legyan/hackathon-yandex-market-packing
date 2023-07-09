@@ -31,18 +31,18 @@ const request: TRequest = async <T>(url: string, options?: RequestInit) => {
   return result;
 }
 
-export async function registerTableApi({userId, inputValue}: IRegisterTable) {
+export async function registerTableApi({userId, valueTable}: IRegisterTable) {
   return await request<IResponseTable>(apiUrl + 'register/table', {
     method: 'POST',
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       user_id: userId,
-      table_id: inputValue,
+      table_id: valueTable,
     }),
   });
 }
 
-export async function registerPrinterApi({inputValue}: IRegisterPrinter) {
+export async function registerPrinterApi({valuePrinter}: IRegisterPrinter) {
   return await request<IResponsePrinter>(apiUrl + 'register/printer', {
     method: 'POST',
     headers: {
@@ -50,7 +50,7 @@ export async function registerPrinterApi({inputValue}: IRegisterPrinter) {
       Authorization: "Bearer " + getCookie("token")
     },
     body: JSON.stringify({
-      printer_id: inputValue,
+      printer_id: valuePrinter,
     }),
   });
 }

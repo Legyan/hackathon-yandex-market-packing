@@ -1,6 +1,6 @@
 export interface IRegisterTable {
   userId: number;
-  inputValue: string;
+  valueTable: string;
 }
 
 export interface IResponseTable {
@@ -9,7 +9,7 @@ export interface IResponseTable {
 }
 
 export interface IRegisterPrinter {
-  inputValue: string;
+  valuePrinter: string;
 }
 
 export interface IResponsePrinter {

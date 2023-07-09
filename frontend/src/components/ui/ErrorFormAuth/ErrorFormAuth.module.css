@@ -1,0 +1,15 @@
+.errWrapper {
+  display: flex;
+  gap: 10px;
+}
+
+.err {
+  margin: 8px 0;
+  font-family: 'Yandex Sans Display';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 50px;
+  color: #FF0000;
+  text-align: center;
+}

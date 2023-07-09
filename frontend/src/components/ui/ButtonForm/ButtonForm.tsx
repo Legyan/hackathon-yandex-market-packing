@@ -6,8 +6,11 @@ const ButtonForm: FC<IButton> = ({
   purpose,
   title,
   onClick,
+  inputValid,
   ...rest
 }) => {
+  console.log(inputValid);
+
   return (
     <>
       <button className={
@@ -20,7 +23,9 @@ const ButtonForm: FC<IButton> = ({
         purpose === 'order' ? `${style.btn} ${style.btnProportionsOrder} ${style.btnOrder}` :
         ''
         }
+        type='submit'
         onClick={onClick}
+        disabled={inputValid}
       >
         {title}
       </button>

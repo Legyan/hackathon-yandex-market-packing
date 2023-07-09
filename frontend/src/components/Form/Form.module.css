@@ -50,6 +50,11 @@
   text-align: center;
 }
 
+.errWrapper {
+  display: flex;
+  gap: 10px;
+}
+
 .err {
   margin: 8px 0;
   font-family: 'Yandex Sans Display';
