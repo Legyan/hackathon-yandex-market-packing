@@ -7,7 +7,7 @@ import {
   SetStateAction,
 } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { IRecPacking } from './data';
+import { IAlreadyPacked, IGoods, IRecPacking } from './data';
 
 /**
  * UI components types
@@ -153,5 +153,26 @@ export interface IErrorFormAuth {
     setValue: Dispatch<SetStateAction<string>>;
     onChange: (e: ChangeEvent<HTMLInputElement>) => void;
     onBlur: (e: ChangeEvent<HTMLInputElement>) => void;
+  }
+}
+
+export interface IOrder {
+  goods: IRecPacking;
+  order: {
+    orderkey: string;
+    partition: string;
+    goods: IGoods[];
+    recomend_packing: IRecPacking[][];
+    already_packed: IAlreadyPacked[];
+  }
+}
+
+export interface IPackagingOptions {
+  order: {
+    orderkey: string;
+    partition: string;
+    goods: IGoods[];
+    recomend_packing: IRecPacking[][];
+    already_packed: IAlreadyPacked[];
   }
 }

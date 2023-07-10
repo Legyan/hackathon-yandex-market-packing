@@ -18,7 +18,7 @@ const Form: FC<IForm> = ({label, btnBack, btnForward, linkBack, linkForward}) =>
   const dispatch = useDispatch();
 
   const valueTable = inputTable.value;
-  const valuePrinter = inputPrinter.value
+  const valuePrinter = inputPrinter.value;
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     location.pathname === '/table' ? inputTable.onChange(e) : inputPrinter.onChange(e)

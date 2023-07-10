@@ -1,0 +1,30 @@
+.wrpGoods {
+  max-width: 1090px;
+  width: 100%;
+  box-sizing: border-box;
+  padding-bottom: 32px;
+  border-bottom: 2px solid #E8E8E8;
+}
+
+.disablePack{
+  opacity: .5;
+}
+
+.goods {
+  padding-left: 154px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.liGoods {
+  list-style-type: none;
+  background: #F8F8F8;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.choiceGoods {
+  background: #EAFFEB;
+}
