@@ -1,5 +1,6 @@
 .wrapper {
   height: 824px;
+  margin-top: 36px;
   display: flex;
   justify-content: space-between;
   gap: 12px;
@@ -7,8 +8,8 @@
 }
 
 .wrapperGoods {
-  padding: 40px 32px 0;
-  background: var(--Yandex-white-grey-1);
+  padding: 40px 32px;
+  background: var(--Blue-grey-1);
   border-radius: 12px;
 }
 
@@ -37,7 +38,7 @@
 
 .packingGoods {
   padding: 40px;
-  background: var(--Yandex-white-grey-1);
+  background: var(--Blue-grey-1);
   border-radius: 12px;
   display: flex;
   flex-direction: column;

@@ -22,6 +22,9 @@ const ButtonMenu: FC<IButtonMenu> = ({
     dispatch(selectRecommendation(data, index))
   }
 
+  // console.log(data);
+
+
   return (
     <button
       className={

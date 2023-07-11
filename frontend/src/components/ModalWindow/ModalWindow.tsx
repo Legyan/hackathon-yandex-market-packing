@@ -6,16 +6,20 @@ import { modalContainer, body } from '../../utils/constants';
 import { IModal } from '../../utils/type/main';
 
 
-const ModalWindow: FC<IModal> = ({visible, onClose, children}) => {
+const ModalWindow: FC<IModal> = ({visible, onClose, children, setValue}) => {
 
   useEffect(() => {
     const handleEscClose = (e: {key: string}) => {
-      if (e.key === 'Escape') {onClose()}
+      if (e.key === 'Escape') {
+        onClose();
+        setValue && setValue('')
+      }
     }
 
     if (visible) {
       document.addEventListener('keydown', handleEscClose);
       body.style.overflow = 'hidden';
+      setValue && setValue('');
     }
 
     return () => {

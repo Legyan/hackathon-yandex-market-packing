@@ -8,17 +8,17 @@ import ButtonLink from '../ui/ButtonLink/ButtonLink';
 import ButtonForm from '../ui/ButtonForm/ButtonForm';
 import { userId } from '../../utils/constants';
 import { registerPrinter, registerTable } from '../../services/actions/userActions';
-import ErrorFormAuth from '../ui/ErrorFormAuth/ErrorFormAuth';
+import ErrorForm from '../ui/ErrorForm/ErrorForm';
 
 const Form: FC<IForm> = ({label, btnBack, btnForward, linkBack, linkForward}) => {
   const history = useHistory();
   const location = useLocation();
-  const inputTable = useInput('', {isEmpty: true, table: 'PACK-1'});
-  const inputPrinter = useInput('', {isEmpty: true, printer: '001'});
+  const inputTable = useInput('', {isEmpty: true, table: 'PACK-1', minLength: 3});
+  const inputPrinter = useInput('', {isEmpty: true, printer: '001', minLength: 3});
   const dispatch = useDispatch();
 
-  const valueTable = inputTable.value;
-  const valuePrinter = inputPrinter.value;
+  let valueTable = inputTable.value;
+  let valuePrinter = inputPrinter.value;
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     location.pathname === '/table' ? inputTable.onChange(e) : inputPrinter.onChange(e)
@@ -59,9 +59,9 @@ const Form: FC<IForm> = ({label, btnBack, btnForward, linkBack, linkForward}) =>
       />
       {location.pathname === '/table'
       ?
-        <ErrorFormAuth location={inputTable} />
+        <ErrorForm location={inputTable} />
       :
-        <ErrorFormAuth location={inputPrinter} />
+        <ErrorForm location={inputPrinter} />
       }
       <div className={style.btns}>
         {

@@ -17,7 +17,7 @@ const Goods: FC<IGoodsProps> = ({
 }) => {
   const alreadyPacked = useSelector(store => store.orderInfo.data?.already_packed);
 
-  console.log(alreadyPacked);
+  // console.log(alreadyPacked);
 
   return (
     <>

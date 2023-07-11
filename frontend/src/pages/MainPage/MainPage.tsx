@@ -5,7 +5,7 @@ import Progressbar from '../../components/Progressbar/Progressbar';
 import Footer from '../../components/Footer/Footer';
 import ButtonForm from '../../components/ui/ButtonForm/ButtonForm';
 import { setCookie } from '../../utils/cookie';
-import Statistics from '../Statistics/Statistics';
+import Statistics from '../../components/Statistics/Statistics';
 import { useDispatch } from '../../utils/type/store';
 import { getUser } from '../../services/actions/userActions';
 import { logoutApi } from '../../utils/api';

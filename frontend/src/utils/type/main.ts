@@ -101,6 +101,7 @@ export interface IModal {
   children?: string | JSX.Element | JSX.Element[];
   onClose: () => void;
   onClick?: () => void;
+  setValue?: Dispatch<SetStateAction<string>>;
 }
 
 export interface IModalBarcode {
@@ -141,19 +142,23 @@ export interface IValidationForm {
   isEmpty: boolean;
   table?: string;
   printer?: string;
+  minLength: number;
 }
 
-export interface IErrorFormAuth {
+export interface IErrorForm {
   location: {
     isEmpty: boolean;
     isError: boolean;
     inputValid: boolean;
     value: string;
     isDirty: boolean;
+    minLength: number;
+    minLengthError?: boolean;
     setValue: Dispatch<SetStateAction<string>>;
     onChange: (e: ChangeEvent<HTMLInputElement>) => void;
     onBlur: (e: ChangeEvent<HTMLInputElement>) => void;
   }
+  dataError?: string;
 }
 
 export interface IOrder {

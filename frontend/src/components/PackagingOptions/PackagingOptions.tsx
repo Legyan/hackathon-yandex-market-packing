@@ -10,9 +10,17 @@ const PackagingOptions: FC<IPackagingOptions> = ({order}) => {
   const alreadyPacked = useSelector(store => store.orderInfo.data?.already_packed);
   const choiceCartontype = alreadyPacked !== undefined ? alreadyPacked.map(pack => pack.cartontype) : null;
 
+  // console.log(recomend.find(rec => choiceCartontype !== null && choiceCartontype[0]?.includes(rec.cartontype)) !== undefined)
+  console.log(choiceCartontype !== null && choiceCartontype[0]);
+  console.log(alreadyPacked);
+
+
+
   return (
     <ul className={style.btns}>
       {order.recomend_packing.map((recomend, index) => {
+        console.log(recomend.find(rec => choiceCartontype !== null && choiceCartontype[0]?.includes(rec.cartontype)) !== undefined)
+        console.log(recomend)
         return (
           <li className={style.li} key={uuid4()}>
             <ButtonMenu

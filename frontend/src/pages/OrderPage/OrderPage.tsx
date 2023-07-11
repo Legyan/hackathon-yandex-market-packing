@@ -1,11 +1,13 @@
 import { FC, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from '../../utils/type/store';
+import { v4 as uuid4 } from 'uuid';
 import { ThreeCircles } from  'react-loader-spinner';
 import style from './OrderPage.module.css';
 import Footer from '../../components/Footer/Footer';
 import Progressbar from '../../components/Progressbar/Progressbar';
 import ModalProblems from '../../components/ModalProblems/ModalProblems'
 import BtnHasProblem from '../../components/ui/BtnHasProblem/BtnHasProblem';
-import { useDispatch, useSelector } from '../../utils/type/store';
 import { getOrder } from '../../services/actions/orderActions';
 import { firstRecommendation } from '../../services/actions/recommendationAction';
 import ModalBarcode from '../../components/ModalBarcode/ModalBarcode';
@@ -13,7 +15,6 @@ import ModalImei from '../../components/ModalImei/ModalImei';
 import ModalHonest from '../../components/ModalHonest/ModalHonest';
 import ButtonForm from '../../components/ui/ButtonForm/ButtonForm';
 import { finishOrderApi } from '../../utils/api';
-import { useHistory } from 'react-router-dom';
 import Order from '../../components/Order/Order';
 import PackagingOptions from '../../components/PackagingOptions/PackagingOptions';
 
@@ -26,10 +27,10 @@ const OrderPage: FC = () => {
   const [isModalHonest, setModalHonest] = useState<boolean>(false);
   const order = useSelector(store => store.orderInfo.data);
   const recommendation = useSelector(store => store.recommendationInfo.recommendation);
-  const confirmation = useSelector(store => store.barcodeInfo)
+  // const confirmation = useSelector(store => store.barcodeInfo)
   const firstRecommend = order !== null ? order.recomend_packing[0] : null;;
 
-  console.log(confirmation);
+  // console.log(recommendation);
 
   useEffect(() => {
     dispatch(getOrder())
@@ -86,7 +87,7 @@ const OrderPage: FC = () => {
             <div className={style.wrp}>
               {recommendation.map((goods, index) => {
                 return (
-                  <Order goods={goods} order={order} />
+                  <Order goods={goods} order={order} key={uuid4()} />
                 )
               })}
             </div>

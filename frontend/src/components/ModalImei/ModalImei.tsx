@@ -1,34 +1,32 @@
-import { ChangeEvent, FC, SyntheticEvent, useState } from 'react';
+import { FC, SyntheticEvent, useState } from 'react';
 import style from './ModalImei.module.css';
 import ModalWindow from '../ModalWindow/ModalWindow';
 import { IModal } from '../../utils/type/main';
 import { getCookie } from '../../utils/cookie';
 import imei from '../../images/barcode.svg';
 import { postImeiApi } from '../../utils/api';
+import ErrorForm from '../ui/ErrorForm/ErrorForm';
+import useInput from '../../utils/hooks/useInput';
 
 const ModalImei: FC<IModal> = ({visible, onClose, onClick}) => {
-  const [inputValue, setInputValue] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string>('')
+  const inputImei = useInput('', {isEmpty: true, minLength: 15});
 
-  const changeValueIndex = (e: ChangeEvent<HTMLInputElement>): void => {
-    setInputValue(e.target.value);
-  }
+  let inputValue = inputImei.value;
 
   const onSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
     let barcode = getCookie('barcode');
     try {
-      await postImeiApi({barcode, inputValue})
-        .then(res => {
-          if (res && res.success) {
-            console.log(res);
-            onClose();
-          }
-        })
+      const res = await postImeiApi({ barcode, inputValue })
+      if (res && res.success) {
+        onClose();
+        inputImei.setValue('');
+      }
     } catch (error) {
+      setErrorMessage('Введён неверный MEI товара, отсканирйуте другой')
       console.log(error)
     }
-    onClose();
-    setInputValue('');
   }
 
   return (
@@ -36,6 +34,7 @@ const ModalImei: FC<IModal> = ({visible, onClose, onClick}) => {
       visible={visible}
       onClose={onClose}
       onClick={onClick}
+      setValue={inputImei.setValue}
     >
       <section className={style.wrapper}>
         <div className={style.imgWrapper}>
@@ -47,10 +46,12 @@ const ModalImei: FC<IModal> = ({visible, onClose, onClick}) => {
             className={style.input}
             type="text"
             placeholder=''
-            value={inputValue}
-            onChange={changeValueIndex}
+            value={inputImei.value}
+            onChange={inputImei.onChange}
+            onBlur={inputImei.onBlur}
             required
           />
+          <ErrorForm location={inputImei} dataError={errorMessage} />
         </form>
       </section>
     </ModalWindow>

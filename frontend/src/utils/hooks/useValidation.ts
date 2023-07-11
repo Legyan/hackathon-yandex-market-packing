@@ -5,6 +5,9 @@ const useValidation = (value: string, validations: IValidationForm) => {
   const [isEmpty, setEmpty] = useState<boolean>(true);
   const [isError, setError] = useState<boolean>(false);
   const [inputValid, setInputValid] = useState<boolean>(false);
+  const [minLengthError, setMinLengthError] = useState<boolean>(false);
+
+  let minLength = validations.minLength;
 
   useEffect(() => {
     for (const validation in validations) {
@@ -18,23 +21,28 @@ const useValidation = (value: string, validations: IValidationForm) => {
         case 'printer':
           validations.printer !== value ? setError(true) : setError(false)
           break
+        case 'minLength':
+          value.length < validations[validation] ? setMinLengthError(true) : setMinLengthError(false)
+          break
       }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value])
 
   useEffect(() => {
-    if (isEmpty || isError) {
+    if (isEmpty || isError || minLengthError) {
       setInputValid(false);
     } else {
       setInputValid(true);
     }
-  }, [isEmpty, isError])
+  }, [isEmpty, isError, minLengthError])
 
   return {
     isEmpty,
     isError,
-    inputValid
+    inputValid,
+    minLength,
+    minLengthError
   }
 }
 

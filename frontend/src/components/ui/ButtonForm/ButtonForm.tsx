@@ -9,7 +9,6 @@ const ButtonForm: FC<IButton> = ({
   inputValid,
   ...rest
 }) => {
-  console.log(inputValid);
 
   return (
     <>
