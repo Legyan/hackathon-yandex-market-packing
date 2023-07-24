@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from '../../utils/type/store';
 import { v4 as uuid4 } from 'uuid';
@@ -17,6 +17,7 @@ import ButtonForm from '../../components/ui/ButtonForm/ButtonForm';
 import { finishOrderApi } from '../../utils/api';
 import Order from '../../components/Order/Order';
 import PackagingOptions from '../../components/PackagingOptions/PackagingOptions';
+import { setCookie } from '../../utils/cookie';
 
 const OrderPage: FC = () => {
   const dispatch = useDispatch();
@@ -25,20 +26,60 @@ const OrderPage: FC = () => {
   const [isModalBarcode, setModalBarcode] = useState<boolean>(false);
   const [isModalImei, setModalImei] = useState<boolean>(false);
   const [isModalHonest, setModalHonest] = useState<boolean>(false);
+  const [isModalNoOrders, setModalNoOrders] = useState<boolean>(false);
   const order = useSelector(store => store.orderInfo.data);
+  const orderInfo = useSelector(store => store.orderInfo);
   const recommendation = useSelector(store => store.recommendationInfo.recommendation);
-  // const confirmation = useSelector(store => store.barcodeInfo)
-  const firstRecommend = order !== null ? order.recomend_packing[0] : null;;
+  const alreadyPacked = useSelector(store => store.orderInfo.data?.already_packed);
 
-  // console.log(recommendation);
+  useEffect(() => {
+    orderInfo.error && setCookie('token', '');
+  }, [orderInfo.error]);
+
+  if(orderInfo.status === 'No orders to pack') {
+    setModalNoOrders(true);
+  }
 
   useEffect(() => {
     dispatch(getOrder())
-  }, [])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const choicePacked = useMemo(() => {
+    if (alreadyPacked !== undefined && order !== null) {
+      const packed = alreadyPacked.map(readyPack =>
+        (order.recomend_packing.map(recomendPack => recomendPack.filter(pack => pack.cartontype === readyPack.cartontype)))?.flat(1)).flat(1);
+      return packed
+    }
+  }, [alreadyPacked, order]);
+
+  const firstRecommend = useMemo(() => {
+    if(order !== null && order.already_packed === null) {
+      const recommendation = order.recomend_packing[0];
+      return recommendation;
+    } else if(choicePacked !== undefined) {
+      const recommendation = choicePacked
+      return recommendation
+    }
+  }, [choicePacked, order]);
 
   useEffect(() => {
-    dispatch(firstRecommendation(firstRecommend))
-  }, [firstRecommend])
+    firstRecommend !== undefined && dispatch(firstRecommendation(firstRecommend))
+  }, [dispatch, firstRecommend])
+
+  const isPackaged = useMemo(() => {
+    if(alreadyPacked !== undefined) {
+      let packaged = alreadyPacked.map((pack => pack.is_packaged))
+      return packaged[0]
+    }
+  }, [alreadyPacked])
+
+  // console.log(isPackaged);
+  // console.log(alreadyPacked !== undefined && alreadyPacked.flat(1));
+  // console.log(recommendation);
+  console.log(orderInfo);
+  // console.log(choicePacked);
+  // console.log(firstRecommend);S
 
   const openModalProblems = () => {
     setModalProblems(true)
@@ -66,13 +107,11 @@ const OrderPage: FC = () => {
 
   const getPacked = async () => {
     try {
-      await finishOrderApi()
-        .then(res => {
-          if (res && res.success) {
-            console.log(res);
-            history.push('/order/completed');
-          }
-        })
+      const res = await finishOrderApi()
+      if (res.status === 'ok') {
+        console.log(res);
+        history.push('/order/completed');
+      }
     } catch (error) {
       console.log(error)
     }
@@ -80,7 +119,7 @@ const OrderPage: FC = () => {
 
   return (
     <>
-      {order !== null && firstRecommend !== null && recommendation !== null ?
+      {order !== null && recommendation !== null ?
         <section className={style.wrapper}>
           <article className={style.wrapperGoods}>
             <Progressbar title={`Товары ячейки ${order.partition}`} />
@@ -104,6 +143,7 @@ const OrderPage: FC = () => {
                 purpose={'order'}
                 title={'УПАКОВАНО'}
                 onClick={getPacked}
+                disable={!isPackaged}
               />
             </div>
           </article>
@@ -132,6 +172,10 @@ const OrderPage: FC = () => {
       />
       <ModalImei
         visible={isModalImei}
+        onClose={closeModalImei}
+      />
+      <ModalHonest
+        visible={isModalHonest}
         onClose={closeModalImei}
       />
       <ModalHonest

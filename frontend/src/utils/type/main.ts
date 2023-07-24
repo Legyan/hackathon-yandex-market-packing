@@ -22,7 +22,7 @@ export interface IHint {
 export interface IButton extends ButtonHTMLAttributes<HTMLButtonElement> {
   purpose: string;
   title: string;
-  inputValid?: boolean;
+  disable?: boolean;
   onClick?: () => void;
 }
 
@@ -31,6 +31,7 @@ export interface IButtonMenu extends ButtonHTMLAttributes<HTMLButtonElement> {
   index: number;
   recomendnIndex: number;
   active?: boolean;
+  choice: boolean;
 }
 
 export interface IButtonLink extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -57,6 +58,8 @@ export interface ToastProps extends PropsWithChildren {
   img?: string;
   imgAlt?: string;
   isOpen?: boolean;
+  loading?: boolean;
+  err?: string;
   onClose: () => void;
   onClick: () => void;
 }
@@ -102,6 +105,7 @@ export interface IModal {
   onClose: () => void;
   onClick?: () => void;
   setValue?: Dispatch<SetStateAction<string>>;
+  setError?: Dispatch<SetStateAction<string>>;
 }
 
 export interface IModalBarcode {
@@ -146,7 +150,7 @@ export interface IValidationForm {
 }
 
 export interface IErrorForm {
-  location: {
+  location?: {
     isEmpty: boolean;
     isError: boolean;
     inputValid: boolean;
@@ -159,6 +163,7 @@ export interface IErrorForm {
     onBlur: (e: ChangeEvent<HTMLInputElement>) => void;
   }
   dataError?: string;
+  loading?: boolean;
 }
 
 export interface IOrder {

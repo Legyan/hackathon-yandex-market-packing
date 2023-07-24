@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 import { v4 as uuid4 } from 'uuid';
 import style from './Order.module.css';
 import Package from '../Package/Package';
@@ -8,12 +8,34 @@ import { useSelector } from '../../utils/type/store';
 
 const Order: FC<IOrder> = ({goods, order}) => {
   const alreadyPacked = useSelector(store => store.orderInfo.data?.already_packed);
-  const choiceCartontype = alreadyPacked !== undefined ? alreadyPacked.map(pack => pack.cartontype) : null;
+
+  const choiceCartontype = useMemo(() => {
+    if(alreadyPacked !== undefined) {
+      const cartontype = alreadyPacked.map(pack => pack.cartontype);
+      return cartontype
+    } else {
+      return null
+    }
+  }, [alreadyPacked]);
+
+  const checkCartontype = useMemo(() => {
+    const check = choiceCartontype?.find(i => i === goods.cartontype)
+    return check
+  }, [choiceCartontype, goods.cartontype]);
+
+  const checkPackeged = useMemo(() => {
+    if(alreadyPacked !== undefined) {
+      const check = alreadyPacked?.map(packed => packed.is_packaged);
+      return check[0]
+    }
+  }, [alreadyPacked]);
+
 
   return (
     <article className={
-      choiceCartontype?.find(i => i === goods.cartontype) ? `${style.wrpGoods}` :
-        `${style.wrpGoods} ${style.disablePack}`}
+      checkPackeged ? `${style.wrpGoods} ${style.choicePercentage}` :
+      checkCartontype ? `${style.wrpGoods}` :
+      `${style.wrpGoods} ${style.disablePack}`}
       key={uuid4()}
     >
       <Package

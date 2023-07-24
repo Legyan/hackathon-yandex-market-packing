@@ -9,19 +9,22 @@ import ErrorForm from '../ui/ErrorForm/ErrorForm';
 import useInput from '../../utils/hooks/useInput';
 
 const ModalImei: FC<IModal> = ({visible, onClose, onClick}) => {
-  const [errorMessage, setErrorMessage] = useState<string>('')
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [isLoading, setLoading] = useState<boolean>(false);
   const inputImei = useInput('', {isEmpty: true, minLength: 15});
 
   let inputValue = inputImei.value;
 
   const onSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
+    setLoading(true);
     let barcode = getCookie('barcode');
     try {
       const res = await postImeiApi({ barcode, inputValue })
       if (res && res.success) {
         onClose();
         inputImei.setValue('');
+        setLoading(false);
       }
     } catch (error) {
       setErrorMessage('Введён неверный MEI товара, отсканирйуте другой')
@@ -51,7 +54,7 @@ const ModalImei: FC<IModal> = ({visible, onClose, onClick}) => {
             onBlur={inputImei.onBlur}
             required
           />
-          <ErrorForm location={inputImei} dataError={errorMessage} />
+          <ErrorForm location={inputImei} dataError={errorMessage} loading={isLoading} />
         </form>
       </section>
     </ModalWindow>

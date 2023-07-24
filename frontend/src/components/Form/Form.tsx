@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, SyntheticEvent } from 'react';
+import { ChangeEvent, FC, SyntheticEvent, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch } from '../../utils/type/store';
 import useInput from '../../utils/hooks/useInput';
@@ -13,6 +13,7 @@ import ErrorForm from '../ui/ErrorForm/ErrorForm';
 const Form: FC<IForm> = ({label, btnBack, btnForward, linkBack, linkForward}) => {
   const history = useHistory();
   const location = useLocation();
+  const [isLoading, setLoading] = useState<boolean>(false);
   const inputTable = useInput('', {isEmpty: true, table: 'PACK-1', minLength: 3});
   const inputPrinter = useInput('', {isEmpty: true, printer: '001', minLength: 3});
   const dispatch = useDispatch();
@@ -30,18 +31,21 @@ const Form: FC<IForm> = ({label, btnBack, btnForward, linkBack, linkForward}) =>
 
   const onSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
+    setLoading(true);
     if (location.pathname === '/table') {
       dispatch(
         registerTable({userId, valueTable})
       );
       history.replace({ pathname: linkForward });
       inputTable.setValue('');
+      setLoading(false);
     } else if (location.pathname === '/printer') {
       dispatch(
         registerPrinter({valuePrinter})
       );
       history.replace({ pathname: linkForward });
       inputPrinter.setValue('');
+      setLoading(false);
     }
   }
 
@@ -59,9 +63,9 @@ const Form: FC<IForm> = ({label, btnBack, btnForward, linkBack, linkForward}) =>
       />
       {location.pathname === '/table'
       ?
-        <ErrorForm location={inputTable} />
+        <ErrorForm location={inputTable} loading={isLoading} />
       :
-        <ErrorForm location={inputPrinter} />
+        <ErrorForm location={inputPrinter} loading={isLoading} />
       }
       <div className={style.btns}>
         {
@@ -75,13 +79,13 @@ const Form: FC<IForm> = ({label, btnBack, btnForward, linkBack, linkForward}) =>
                 <ButtonForm
                   purpose={'authForward'}
                   title={btnForward}
-                  inputValid={!inputTable.inputValid}
+                  disable={!inputTable.inputValid}
                 />
               :
                 <ButtonForm
                   purpose={'authForward'}
                   title={btnForward}
-                  inputValid={!inputPrinter.inputValid}
+                  disable={!inputPrinter.inputValid}
                 />
               }
             </>

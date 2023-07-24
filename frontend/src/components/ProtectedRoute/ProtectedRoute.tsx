@@ -8,6 +8,8 @@ export const ProtectedRoute: FC<IProtectedRoute> = ({
   path,
   exact,
 }) => {
+  console.log(getCookie('token'));
+
   return (
     <Route
       path={`${path}`}

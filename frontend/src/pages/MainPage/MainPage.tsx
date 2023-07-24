@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import { useHistory } from 'react-router-dom';
 import style from './MainPage.module.css'
 import Progressbar from '../../components/Progressbar/Progressbar';
@@ -6,18 +6,10 @@ import Footer from '../../components/Footer/Footer';
 import ButtonForm from '../../components/ui/ButtonForm/ButtonForm';
 import { setCookie } from '../../utils/cookie';
 import Statistics from '../../components/Statistics/Statistics';
-import { useDispatch } from '../../utils/type/store';
-import { getUser } from '../../services/actions/userActions';
 import { logoutApi } from '../../utils/api';
 
 const MainPage: FC = () => {
   const history = useHistory();
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getUser())
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   const solveProblem = () => {
     history.replace({ pathname: '/problems/another' });
@@ -25,12 +17,10 @@ const MainPage: FC = () => {
 
   const logout = async () => {
     try {
-      await logoutApi()
-        .then(res => {
-          if (res.status === 'ok') {
-            history.replace({ pathname: '/table' });
-          }
-        })
+      const res = await logoutApi()
+      if (res.status === 'ok') {
+        history.replace({ pathname: '/table' });
+      }
     } catch(error) {
       console.log(error)
     }

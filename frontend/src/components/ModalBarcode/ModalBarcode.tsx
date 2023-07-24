@@ -15,12 +15,15 @@ const ModalBarcode: FC<IModalBarcode> = ({
   statusImei,
   stausHonest,
 }) => {
-  const [errorMessage, setErrorMessage] = useState<string>('')
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [isLoading, setLoading] = useState<boolean>(false);
   const inputBarcode = useInput('', {isEmpty: true, minLength: 3});
   let inputValue = inputBarcode.value;
 
+
   const onSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
+    setLoading(true);
     setCookie('barcode', inputBarcode.value);
     try {
       const res = await postBarcodeApi({ inputValue });
@@ -31,9 +34,11 @@ const ModalBarcode: FC<IModalBarcode> = ({
       }
       onClose();
       inputBarcode.setValue('');
+      setLoading(false);
     } catch(error) {
       setErrorMessage('Введён не корректный штрих-код');
       console.log(error);
+      setLoading(false)
     }
   }
 
@@ -43,6 +48,7 @@ const ModalBarcode: FC<IModalBarcode> = ({
       onClose={onClose}
       onClick={onClick}
       setValue={inputBarcode.setValue}
+      setError={setErrorMessage}
     >
       <form className={style.form} onSubmit={onSubmit}>
         <label className={style.label}>Введите штрих код вручную</label>
@@ -55,13 +61,13 @@ const ModalBarcode: FC<IModalBarcode> = ({
           onBlur={inputBarcode.onBlur}
           required
         />
-        <ErrorForm location={inputBarcode} dataError={errorMessage} />
+        <ErrorForm location={inputBarcode} dataError={errorMessage} loading={isLoading} />
         <div className={style.btns}>
           <ButtonForm
             type='submit'
             purpose={'authForward'}
             title={'Подтвердить'}
-            inputValid={!inputBarcode.inputValid}
+            disable={!inputBarcode.inputValid}
           />
         </div>
       </form>

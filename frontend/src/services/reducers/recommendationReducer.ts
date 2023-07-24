@@ -17,13 +17,13 @@ const initialState = {
 }
 
 interface IState {
-  recommendation: Array<IRecPacking> | null;
+  recommendation: Array<IRecPacking> | null  ;
   index: number;
 }
 
 export interface IFirstRecommendation {
   readonly type: typeof FIRST_RECOMMENDATION;
-  data: Array<IRecPacking> | null;
+  data: Array<IRecPacking>;
 }
 
 export interface IRecommendationReducer {

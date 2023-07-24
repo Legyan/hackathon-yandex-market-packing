@@ -9,18 +9,21 @@ import useInput from '../../utils/hooks/useInput';
 import ErrorForm from '../ui/ErrorForm/ErrorForm';
 
 const ModalHonest: FC<IModal> = ({visible, onClose, onClick}) => {
-  const [errorMessage, setErrorMessage] = useState<string>('')
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [isLoading, setLoading] = useState<boolean>(false);
   const inputHonest = useInput('', {isEmpty: true, minLength: 13});
   let inputValue = inputHonest.value;
 
   const onSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
+    setLoading(true);
     let barcode = getCookie('barcode');
     try {
       const res = await postHonestSignApi({ barcode, inputValue })
       if (res && res.success) {
         onClose();
         inputHonest.setValue('');
+        setLoading(false);
       }
     } catch (error) {
       setErrorMessage('Введён неверный штрихкод упаковки, отсканирйуте другой');
@@ -50,7 +53,7 @@ const ModalHonest: FC<IModal> = ({visible, onClose, onClick}) => {
             onBlur={inputHonest.onBlur}
             required
           />
-          <ErrorForm location={inputHonest} dataError={errorMessage} />
+          <ErrorForm location={inputHonest} dataError={errorMessage} loading={isLoading} />
         </form>
       </section>
     </ModalWindow>

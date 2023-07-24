@@ -6,6 +6,10 @@
   border-bottom: 2px solid #E8E8E8;
 }
 
+.choicePercentage {
+  background: #EAFFEB;
+}
+
 .disablePack{
   opacity: .5;
 }

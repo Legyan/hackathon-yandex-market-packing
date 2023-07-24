@@ -1,14 +1,25 @@
-import { FC } from 'react';
-import { useSelector } from '../../utils/type/store';
+import { FC, useEffect } from 'react';
+import { useDispatch, useSelector } from '../../utils/type/store';
 import style from './Header.module.css';
 import burger from '../../images/burger_menu.svg';
 import logoYandex from '../../images/logo_yandex.svg';
 import logoYandexMarket from '../../images/logo_yandex-market.svg';
 import rocket from '../../images/icon_rocket.svg';
 import actionMenu from '../../images/icon_action-menu.svg';
+import { getUser } from '../../services/actions/userActions';
+import { setCookie } from '../../utils/cookie';
 
 const Header: FC = () => {
   const user = useSelector(store => store.userInfo.user);
+  const userInfo = useSelector(store => store.userInfo);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getUser())
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  // userInfo.error && setCookie('token', '');
 
   return (
     <header className={style.header}>

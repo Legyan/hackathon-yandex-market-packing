@@ -88,7 +88,8 @@ export interface IRecPacking {
 
 export interface IAlreadyPacked {
   cartontype: string;
-  is_packed: boolean;
+  icontype: string;
+  is_packaged: boolean;
   items: Array<IItems>;
 }
 

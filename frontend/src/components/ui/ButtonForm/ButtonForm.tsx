@@ -6,7 +6,7 @@ const ButtonForm: FC<IButton> = ({
   purpose,
   title,
   onClick,
-  inputValid,
+  disable,
   ...rest
 }) => {
 
@@ -24,7 +24,7 @@ const ButtonForm: FC<IButton> = ({
         }
         type='submit'
         onClick={onClick}
-        disabled={inputValid}
+        disabled={disable}
       >
         {title}
       </button>

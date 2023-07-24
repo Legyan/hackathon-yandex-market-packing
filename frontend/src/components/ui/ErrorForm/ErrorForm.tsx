@@ -2,8 +2,8 @@ import { FC } from "react";
 import style from './ErrorForm.module.css';
 import { IErrorForm } from "../../../utils/type/main";
 
-const ErrorForm: FC<IErrorForm> = ({location, dataError}) => {
-  const {isDirty, isEmpty, isError, minLength, minLengthError} = location;
+const ErrorForm: FC<IErrorForm> = ({location, dataError, loading}) => {
+  const {isDirty, isEmpty, isError, minLength, minLengthError} = location!;
 
   return(
     <div className={style.errWrapper}>
@@ -26,6 +26,11 @@ const ErrorForm: FC<IErrorForm> = ({location, dataError}) => {
       {dataError
       ?
         <span className={style.err}>{dataError}</span>
+      : ''
+      }
+      {loading && !dataError
+      ?
+        <span className={style.loading}>Пожалуйста, подождите. Проверяем</span>
       : ''
       }
     </div>

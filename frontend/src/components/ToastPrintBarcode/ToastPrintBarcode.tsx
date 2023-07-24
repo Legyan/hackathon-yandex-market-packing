@@ -7,6 +7,8 @@ const ToastPrintBarcode: FC<ToastProps> = ({
   isOpen,
   onClose,
   onClick,
+  loading,
+  err,
 }) => {
 
   return (
@@ -19,6 +21,8 @@ const ToastPrintBarcode: FC<ToastProps> = ({
     isOpen={isOpen}
     onClose={onClose}
     onClick={onClick}
+    loading={loading}
+    err={err}
     />
   )
 }
