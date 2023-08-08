@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "./static/css/main.55c45ef6.css",
-    "main.js": "./static/js/main.76c0a71e.js",
+    "main.css": "./static/css/main.8d0a8b09.css",
+    "main.js": "./static/js/main.a361aef1.js",
     "static/js/787.8aeef27d.chunk.js": "./static/js/787.8aeef27d.chunk.js",
     "static/media/smartSpeaker.svg": "./static/media/smartSpeaker.ba97760526967030b7d91177ddd90cb9.svg",
     "static/media/good-job.jpg": "./static/media/good-job.483e73802aed7c774d3c.jpg",
@@ -158,12 +158,12 @@
     "static/media/BtnClose.svg": "./static/media/BtnClose.b695ca6d81e33742daf0.svg",
     "static/media/burger_menu.svg": "./static/media/burger_menu.732ad54e5a961701ee50789804569ca5.svg",
     "static/media/icon_chevron.svg": "./static/media/icon_chevron.b544ffb545b0c8b19122a70685dda5ca.svg",
-    "main.55c45ef6.css.map": "./static/css/main.55c45ef6.css.map",
-    "main.76c0a71e.js.map": "./static/js/main.76c0a71e.js.map",
+    "main.8d0a8b09.css.map": "./static/css/main.8d0a8b09.css.map",
+    "main.a361aef1.js.map": "./static/js/main.a361aef1.js.map",
     "787.8aeef27d.chunk.js.map": "./static/js/787.8aeef27d.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.55c45ef6.css",
-    "static/js/main.76c0a71e.js"
+    "static/css/main.8d0a8b09.css",
+    "static/js/main.a361aef1.js"
   ]
 }
