@@ -31,7 +31,7 @@ export interface IButtonMenu extends ButtonHTMLAttributes<HTMLButtonElement> {
   index: number;
   recomendnIndex: number;
   active?: boolean;
-  choice: boolean;
+  choice?: boolean;
 }
 
 export interface IButtonLink extends ButtonHTMLAttributes<HTMLButtonElement> {

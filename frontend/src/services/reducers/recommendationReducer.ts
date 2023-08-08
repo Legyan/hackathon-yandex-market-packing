@@ -1,28 +1,22 @@
-import { IRecPacking } from "../../utils/type/data"
-import { FIRST_RECOMMENDATION, SELECT_RECOMMENDATION } from "../actions/recommendationAction";
+import { IRecPacking } from "../../utils/type/data";
+import {
+  RECOMMENDATION,
+  SELECT_COUNTER,
+  SELECT_RECOMMENDATION,
+} from "../actions/recommendationAction";
 
 const initialState = {
   recommendation: null,
   index: 0,
-  // [
-  //   {
-  //     cartontype: '',
-  //     icontype: '',
-  //     items: [{
-  //       sku: '',
-  //       count: 0
-  //     }]
-  //   }
-  // ]
-}
+};
 
 interface IState {
-  recommendation: Array<IRecPacking> | null  ;
+  recommendation: Array<IRecPacking> | null;
   index: number;
 }
 
-export interface IFirstRecommendation {
-  readonly type: typeof FIRST_RECOMMENDATION;
+export interface IRecommendation {
+  readonly type: typeof RECOMMENDATION;
   data: Array<IRecPacking>;
 }
 
@@ -32,24 +26,38 @@ export interface IRecommendationReducer {
   index: number;
 }
 
-export type TActionsRecommendation =
-  IFirstRecommendation
-  |IRecommendationReducer
+export interface ISelectCounter {
+  readonly type: typeof SELECT_COUNTER;
+  index: number;
+}
 
-export const recommendationReducer = (state: IState = initialState, action: TActionsRecommendation): IState => {
-  switch(action.type) {
-    case FIRST_RECOMMENDATION:
+export type TActionsRecommendation =
+  | IRecommendation
+  | IRecommendationReducer
+  | ISelectCounter;
+
+export const recommendationReducer = (
+  state: IState = initialState,
+  action: TActionsRecommendation
+): IState => {
+  switch (action.type) {
+    case RECOMMENDATION:
       return {
         ...state,
         recommendation: action.data,
-      }
+      };
     case SELECT_RECOMMENDATION:
-    return {
-      ...state,
-      recommendation: action.data,
-      index: action.index,
-    }
+      return {
+        ...state,
+        recommendation: action.data,
+        index: action.index,
+      };
+    case SELECT_COUNTER:
+      return {
+        ...state,
+        index: action.index,
+      };
     default:
       return state;
   }
-}
+};

@@ -1,11 +1,13 @@
 import { apiUrl } from "./constants";
 import { getCookie } from "./cookie";
+import { v4 as uuid4 } from 'uuid';
 import {
   IBarcode,
   IDataValues,
   IHonestSign,
   IImei,
   IOrder,
+  IPostOrder,
   IRegisterPrinter,
   IRegisterTable,
   IResponseBarcode,
@@ -62,6 +64,29 @@ export async function getOrderApi() {
       "Content-Type": "application/json",
       Authorization: "Bearer " + getCookie("token")
     }
+  });
+}
+
+export async function postOrderApi() {
+  return await request<IPostOrder>(apiUrl + 'order', {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + getCookie("token")
+    },
+    body: JSON.stringify({
+      orderkey: uuid4(),
+      items: [
+        {
+          sku: 'sdj6ce6f9e30ffsf541a8c47cfgfdef4',
+          count: 1
+        },
+        {
+          sku: 'fkdlphegedbt3n3n9dn3n193mbfbjjdb',
+          count: 1
+        }
+      ]
+    }),
   });
 }
 

@@ -1,13 +1,23 @@
-import React, { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { getCookie } from '../../utils/cookie';
+import { getCookie, setCookie } from '../../utils/cookie';
 import { IProtectedRoute } from '../../utils/type/main';
+import { useSelector } from '../../utils/type/store';
 
 export const ProtectedRoute: FC<IProtectedRoute> = ({
   children,
   path,
   exact,
 }) => {
+  const orderInfo = useSelector(store => store.orderInfo);
+
+  console.log(orderInfo);
+
+
+  // useEffect(() => {
+  //   orderInfo.error && setCookie('token', '');
+  // }, []);
+
   console.log(getCookie('token'));
 
   return (

@@ -30,7 +30,6 @@ const Order: FC<IOrder> = ({goods, order}) => {
     }
   }, [alreadyPacked]);
 
-
   return (
     <article className={
       checkPackeged ? `${style.wrpGoods} ${style.choicePercentage}` :

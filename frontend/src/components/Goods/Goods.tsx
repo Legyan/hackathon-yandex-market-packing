@@ -22,10 +22,6 @@ const Goods: FC<IGoodsProps> = ({
     return check;
   }, [alreadyPacked, sku])
 
-  // console.log(alreadyPacked);
-  console.log(checkSku);
-
-
   return (
     <>
       <div className={style.goods}>

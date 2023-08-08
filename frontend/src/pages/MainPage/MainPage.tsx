@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import style from './MainPage.module.css'
 import Progressbar from '../../components/Progressbar/Progressbar';
@@ -7,9 +7,17 @@ import ButtonForm from '../../components/ui/ButtonForm/ButtonForm';
 import { setCookie } from '../../utils/cookie';
 import Statistics from '../../components/Statistics/Statistics';
 import { logoutApi } from '../../utils/api';
+import { useDispatch } from '../../utils/type/store';
+import { getUser } from '../../services/actions/userActions';
 
 const MainPage: FC = () => {
+  const dispatch = useDispatch();
   const history = useHistory();
+
+  useEffect(() => {
+    dispatch(getUser())
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const solveProblem = () => {
     history.replace({ pathname: '/problems/another' });

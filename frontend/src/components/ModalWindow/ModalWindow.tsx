@@ -5,7 +5,6 @@ import style from './ModalWindow.module.css';
 import { modalContainer, body } from '../../utils/constants';
 import { IModal } from '../../utils/type/main';
 
-
 const ModalWindow: FC<IModal> = ({
   visible,
   onClose,
@@ -45,7 +44,6 @@ const ModalWindow: FC<IModal> = ({
       }
     >
       <ModalOverlay closeModal={onClose} visible={visible} />
-
         <div className={style.container}>
           <button className={style.btnClose} onClick={onClose} />
           {children}

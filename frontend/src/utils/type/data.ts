@@ -31,6 +31,11 @@ export interface IOrder {
   already_packed: Array<IAlreadyPacked>;
 }
 
+export interface IPostOrder {
+  orderkey: string;
+  status: string;
+}
+
 export interface IBarcode {
   inputValue: string;
 }

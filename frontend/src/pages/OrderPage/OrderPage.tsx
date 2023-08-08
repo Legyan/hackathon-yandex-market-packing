@@ -9,7 +9,7 @@ import Progressbar from '../../components/Progressbar/Progressbar';
 import ModalProblems from '../../components/ModalProblems/ModalProblems'
 import BtnHasProblem from '../../components/ui/BtnHasProblem/BtnHasProblem';
 import { getOrder } from '../../services/actions/orderActions';
-import { firstRecommendation } from '../../services/actions/recommendationAction';
+import { selectRecommendation } from '../../services/actions/recommendationAction';
 import ModalBarcode from '../../components/ModalBarcode/ModalBarcode';
 import ModalImei from '../../components/ModalImei/ModalImei';
 import ModalHonest from '../../components/ModalHonest/ModalHonest';
@@ -17,7 +17,8 @@ import ButtonForm from '../../components/ui/ButtonForm/ButtonForm';
 import { finishOrderApi } from '../../utils/api';
 import Order from '../../components/Order/Order';
 import PackagingOptions from '../../components/PackagingOptions/PackagingOptions';
-import { setCookie } from '../../utils/cookie';
+import ModalNoOrders from '../../components/ModalNoOrders/ModalNoOrders';
+import { IRecPacking } from '../../utils/type/data';
 
 const OrderPage: FC = () => {
   const dispatch = useDispatch();
@@ -27,45 +28,53 @@ const OrderPage: FC = () => {
   const [isModalImei, setModalImei] = useState<boolean>(false);
   const [isModalHonest, setModalHonest] = useState<boolean>(false);
   const [isModalNoOrders, setModalNoOrders] = useState<boolean>(false);
+  const [choicePacked, setChoicePacked] = useState<Array<IRecPacking> | null>(null)
+  const [counter, setCounter] = useState<number>(0);
   const order = useSelector(store => store.orderInfo.data);
   const orderInfo = useSelector(store => store.orderInfo);
   const recommendation = useSelector(store => store.recommendationInfo.recommendation);
   const alreadyPacked = useSelector(store => store.orderInfo.data?.already_packed);
 
   useEffect(() => {
-    orderInfo.error && setCookie('token', '');
-  }, [orderInfo.error]);
-
-  if(orderInfo.status === 'No orders to pack') {
-    setModalNoOrders(true);
-  }
+    if(orderInfo.status === 'No orders to pack') {
+      setModalNoOrders(true);
+    }
+  }, [orderInfo.status])
 
   useEffect(() => {
     dispatch(getOrder())
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const choicePacked = useMemo(() => {
+  useMemo(() => {
+    let length = order?.recomend_packing.length
     if (alreadyPacked !== undefined && order !== null) {
-      const packed = alreadyPacked.map(readyPack =>
-        (order.recomend_packing.map(recomendPack => recomendPack.filter(pack => pack.cartontype === readyPack.cartontype)))?.flat(1)).flat(1);
-      return packed
+      alreadyPacked.forEach(readyPack => {
+        setCounter(prev => prev + 1);
+        (order.recomend_packing.forEach(recomendPack => recomendPack.forEach(pack => {
+          if (pack.cartontype === readyPack.cartontype) {
+            setChoicePacked([pack]);
+          } else if (counter === length!) {
+            setCounter(0)
+          }
+        })))
+      });
     }
-  }, [alreadyPacked, order]);
+  }, [alreadyPacked])
 
   const firstRecommend = useMemo(() => {
-    if(order !== null && order.already_packed === null) {
-      const recommendation = order.recomend_packing[0];
-      return recommendation;
-    } else if(choicePacked !== undefined) {
-      const recommendation = choicePacked
-      return recommendation
+    if(order !== null && order.already_packed.length === 0) {
+      const recommendationOrder = order.recomend_packing[0];
+      return recommendationOrder;
+    } else if(choicePacked !== null) {
+      const recommendationOrder = choicePacked
+      return recommendationOrder
     }
   }, [choicePacked, order]);
 
   useEffect(() => {
-    firstRecommend !== undefined && dispatch(firstRecommendation(firstRecommend))
-  }, [dispatch, firstRecommend])
+    firstRecommend !== undefined && choicePacked !== null && dispatch(selectRecommendation(firstRecommend, counter))
+  }, [choicePacked, firstRecommend])
 
   const isPackaged = useMemo(() => {
     if(alreadyPacked !== undefined) {
@@ -73,13 +82,6 @@ const OrderPage: FC = () => {
       return packaged[0]
     }
   }, [alreadyPacked])
-
-  // console.log(isPackaged);
-  // console.log(alreadyPacked !== undefined && alreadyPacked.flat(1));
-  // console.log(recommendation);
-  console.log(orderInfo);
-  // console.log(choicePacked);
-  // console.log(firstRecommend);S
 
   const openModalProblems = () => {
     setModalProblems(true)
@@ -103,6 +105,10 @@ const OrderPage: FC = () => {
 
   const closeModalHonest = () => {
     setModalHonest(false)
+  }
+
+  const closeModalNoOrders = () => {
+    setModalNoOrders(false)
   }
 
   const getPacked = async () => {
@@ -178,9 +184,9 @@ const OrderPage: FC = () => {
         visible={isModalHonest}
         onClose={closeModalImei}
       />
-      <ModalHonest
-        visible={isModalHonest}
-        onClose={closeModalImei}
+      <ModalNoOrders
+        visible={isModalNoOrders}
+        onClose={closeModalNoOrders}
       />
     </>
   )

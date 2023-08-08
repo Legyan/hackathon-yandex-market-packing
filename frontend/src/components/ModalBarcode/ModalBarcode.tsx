@@ -20,7 +20,6 @@ const ModalBarcode: FC<IModalBarcode> = ({
   const inputBarcode = useInput('', {isEmpty: true, minLength: 3});
   let inputValue = inputBarcode.value;
 
-
   const onSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
     setLoading(true);

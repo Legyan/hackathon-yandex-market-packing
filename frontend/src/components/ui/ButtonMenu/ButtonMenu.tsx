@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect } from 'react';
+import { FC, useMemo } from 'react';
 import { v4 as uuid4 } from 'uuid';
 import style from './ButtonMenu.module.css';
 import { IButtonMenu } from '../../../utils/type/main';
@@ -14,7 +14,6 @@ const ButtonMenu: FC<IButtonMenu> = ({
   index,
   recomendnIndex,
   active,
-  choice,
   ...rest
 }) => {
   const dispatch = useDispatch();
@@ -24,46 +23,25 @@ const ButtonMenu: FC<IButtonMenu> = ({
     dispatch(selectRecommendation(data, index))
   }
 
-  // const choicePackRecomendation = () => {
-  //   if (alreadyPacked !== null && alreadyPacked !== undefined) {
-
-  //   }
-  // }
-
-  // console.log(data);
-  // console.log(active);
-  // console.log(alreadyPacked && alreadyPacked[0].cartontype);
-  // console.log(choice);
-  // console.log(choice && recomendnIndex === index);
-  // console.log(alreadyPacked);
-
-  // if (alreadyPacked !== null && alreadyPacked !== undefined) {
-
-  //   dispatch(selectRecommendation(alreadyPacked, index))
-  // }
-
-
-  // useEffect(() => {
-  //   choiceRecommendation()
-  // }, [active])
-
-
-  // useEffect(() => {
-  //   if (alreadyPacked && alreadyPacked[0].cartontype === data[0].cartontype) {
-  //     dispatch(selectRecommendation(data, index))
-  //   }
-  // }, [alreadyPacked, data, dispatch, index])
+  const choice = useMemo(() => {
+    if (alreadyPacked?.length === 0) {
+      return false
+    } else if(alreadyPacked !== undefined && alreadyPacked.length !== 0) {
+      const choiceCartontype = alreadyPacked[0].cartontype === data[0].cartontype
+      return choiceCartontype;
+    }
+  }, [alreadyPacked, data])
 
   return (
     <button
       className={
-        choice && recomendnIndex === index ? `${style.wrapper} ${style.active}` :
         choice ? `${style.wrapper} ${style.active}` :
-        !active ? `${style.wrapper} ${style.inactive}` :
+        recomendnIndex === index ? `${style.wrapper} ${style.active}` :
+        active ? `${style.wrapper} ${style.inactive}` :
         `${style.wrapper} ${style.notSelection}`
       }
       onClick={choiceRecommendation}
-      disabled={!active}
+      disabled={active}
     >{data.map(btn => {
       return(
         <div

@@ -1,11 +1,17 @@
 import { IRecPacking } from "../../utils/type/data"
 
-export const FIRST_RECOMMENDATION: 'FIRST_RECOMMENDATION' = 'FIRST_RECOMMENDATION';
+export const RECOMMENDATION: 'FIRST_RECOMMENDATION' = 'FIRST_RECOMMENDATION';
 export const SELECT_RECOMMENDATION: 'SELECT_RECOMMENDATION' = 'SELECT_RECOMMENDATION';
+export const SELECT_COUNTER: 'SELECT_COUNTER' = 'SELECT_COUNTER';
 
-export const firstRecommendation = (data: Array<IRecPacking>) => ({
-  type: FIRST_RECOMMENDATION,
+export const Recommendation = (data: Array<IRecPacking>) => ({
+  type: RECOMMENDATION,
   data: data,
+})
+
+export const SelectCounter = (counter: number) => ({
+  type: SELECT_COUNTER,
+  index: counter
 })
 
 export const selectRecommendation = (data: Array<IRecPacking>, index: number) => ({
