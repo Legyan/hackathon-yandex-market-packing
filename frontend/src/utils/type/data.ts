@@ -1,6 +1,6 @@
 export interface IRegisterTable {
   userId: number;
-  inputValue: string;
+  valueTable: string;
 }
 
 export interface IResponseTable {
@@ -9,7 +9,7 @@ export interface IResponseTable {
 }
 
 export interface IRegisterPrinter {
-  inputValue: string;
+  valuePrinter: string;
 }
 
 export interface IResponsePrinter {
@@ -29,6 +29,11 @@ export interface IOrder {
   goods: Array<IGoods>
   recomend_packing: Array<Array<IRecPacking>>
   already_packed: Array<IAlreadyPacked>;
+}
+
+export interface IPostOrder {
+  orderkey: string;
+  status: string;
 }
 
 export interface IBarcode {
@@ -88,7 +93,8 @@ export interface IRecPacking {
 
 export interface IAlreadyPacked {
   cartontype: string;
-  is_packed: boolean;
+  icontype: string;
+  is_packaged: boolean;
   items: Array<IItems>;
 }
 

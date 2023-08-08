@@ -6,8 +6,10 @@ const ButtonForm: FC<IButton> = ({
   purpose,
   title,
   onClick,
+  disable,
   ...rest
 }) => {
+
   return (
     <>
       <button className={
@@ -20,7 +22,9 @@ const ButtonForm: FC<IButton> = ({
         purpose === 'order' ? `${style.btn} ${style.btnProportionsOrder} ${style.btnOrder}` :
         ''
         }
+        type='submit'
         onClick={onClick}
+        disabled={disable}
       >
         {title}
       </button>

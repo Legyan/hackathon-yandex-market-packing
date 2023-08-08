@@ -8,8 +8,6 @@ import { v4 as uuid4 } from 'uuid';
 import ModalCodeConfirm from '../../components/ModalCodeConfirm/ModalCodeConfirm';
 import ButtonForm from '../../components/ui/ButtonForm/ButtonForm';
 
-
-
 const MissinGoodsPage: FC = () => {
   const [isModalCodeConfirm, setModalCodeConfirm] = useState<boolean>(false);
   const history = useHistory();
@@ -25,8 +23,6 @@ const MissinGoodsPage: FC = () => {
   const closeModalCodeConfirm = () => {
     setModalCodeConfirm(false);
   }
-
-
 
   return (
     <>

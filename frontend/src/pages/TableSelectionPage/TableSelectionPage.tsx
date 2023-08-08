@@ -3,11 +3,8 @@ import style from './TableSelectionPage.module.css';
 import Progressbar from '../../components/Progressbar/Progressbar';
 import Form from '../../components/Form/Form';
 import Footer from '../../components/Footer/Footer';
-import { getCookie } from '../../utils/cookie';
 
 const TableSelectionPage: FC = () => {
-  console.log(getCookie("token"));
-
   return (
     <>
       <section className={style.wrapper}>

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 import style from './Goods.module.css';
 import { IGoodsProps } from '../../utils/type/main';
 import barcodeBlack from '../../images/icon_barcode-black.svg';
@@ -17,7 +17,10 @@ const Goods: FC<IGoodsProps> = ({
 }) => {
   const alreadyPacked = useSelector(store => store.orderInfo.data?.already_packed);
 
-  console.log(alreadyPacked);
+  const checkSku = useMemo(() => {
+    const check = alreadyPacked?.map(items => items.items.map(i => i.sku)).flat(1).includes(sku);
+    return check;
+  }, [alreadyPacked, sku])
 
   return (
     <>
@@ -36,7 +39,7 @@ const Goods: FC<IGoodsProps> = ({
           </div>
         </div>
         <span className={
-          alreadyPacked?.map(items => items.items.map(i => i.sku)).flat(1).includes(sku) ?
+          checkSku ?
           `${style.percentage} ${style.choicePercentage}` :
           `${style.percentage}`}
         >
@@ -45,12 +48,20 @@ const Goods: FC<IGoodsProps> = ({
         <span className={style.sku}>{sku}</span>
       </div>
       {honest_sign || imei ? (
-        <div className={style.footerGoods}>
+        <div className={
+          checkSku ?
+          `${style.footerGoods} ${style.choicePercentage}` :
+          `${style.footerGoods}`}
+        >
           <img className={style.imgHint} src={barcodeBlack} alt='Иконка штрихкод черный' />
           {honest_sign ? (
-            <p className={style.text}>Отсканируйте Честный знак</p>
+            <p className={style.text}>
+              {checkSku ? `Честный знак отсканирован` : `Отсканируйте Честный знак`}
+            </p>
           ) : (
-            <p className={style.text}>Отсканируйте IMEI</p>
+            <p className={style.text}>
+              {checkSku ? `IMEI отсканирован` : `Отсканируйте IMEI`}
+            </p>
           )}
         </div>
       ) : (

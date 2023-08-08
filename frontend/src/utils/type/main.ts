@@ -1,12 +1,13 @@
 import {
   ButtonHTMLAttributes,
+  ChangeEvent,
   HTMLProps,
   PropsWithChildren,
   Dispatch,
   SetStateAction,
 } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { IRecPacking } from './data';
+import { IAlreadyPacked, IGoods, IRecPacking } from './data';
 
 /**
  * UI components types
@@ -21,6 +22,7 @@ export interface IHint {
 export interface IButton extends ButtonHTMLAttributes<HTMLButtonElement> {
   purpose: string;
   title: string;
+  disable?: boolean;
   onClick?: () => void;
 }
 
@@ -29,6 +31,7 @@ export interface IButtonMenu extends ButtonHTMLAttributes<HTMLButtonElement> {
   index: number;
   recomendnIndex: number;
   active?: boolean;
+  choice?: boolean;
 }
 
 export interface IButtonLink extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -55,6 +58,8 @@ export interface ToastProps extends PropsWithChildren {
   img?: string;
   imgAlt?: string;
   isOpen?: boolean;
+  loading?: boolean;
+  err?: string;
   onClose: () => void;
   onClick: () => void;
 }
@@ -99,6 +104,8 @@ export interface IModal {
   children?: string | JSX.Element | JSX.Element[];
   onClose: () => void;
   onClick?: () => void;
+  setValue?: Dispatch<SetStateAction<string>>;
+  setError?: Dispatch<SetStateAction<string>>;
 }
 
 export interface IModalBarcode {
@@ -134,7 +141,48 @@ export interface IFooter {
   title?: string;
   onClick?: () => void;
 }
-export interface IFooter {
-  title?: string;
-  onClick?: () => void;
+
+export interface IValidationForm {
+  isEmpty: boolean;
+  table?: string;
+  printer?: string;
+  minLength: number;
+}
+
+export interface IErrorForm {
+  location?: {
+    isEmpty: boolean;
+    isError: boolean;
+    inputValid: boolean;
+    value: string;
+    isDirty: boolean;
+    minLength: number;
+    minLengthError?: boolean;
+    setValue: Dispatch<SetStateAction<string>>;
+    onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+    onBlur: (e: ChangeEvent<HTMLInputElement>) => void;
+  }
+  dataError?: string;
+  loading?: boolean;
+}
+
+export interface IOrder {
+  goods: IRecPacking;
+  order: {
+    orderkey: string;
+    partition: string;
+    goods: IGoods[];
+    recomend_packing: IRecPacking[][];
+    already_packed: IAlreadyPacked[];
+  }
+}
+
+export interface IPackagingOptions {
+  order: {
+    orderkey: string;
+    partition: string;
+    goods: IGoods[];
+    recomend_packing: IRecPacking[][];
+    already_packed: IAlreadyPacked[];
+  }
 }

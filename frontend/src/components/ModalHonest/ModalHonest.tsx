@@ -1,42 +1,42 @@
-import { ChangeEvent, FC, SyntheticEvent, useState } from 'react';
+import { FC, SyntheticEvent, useState } from 'react';
 import style from './ModalHonest.module.css';
 import ModalWindow from '../ModalWindow/ModalWindow';
 import { IModal } from '../../utils/type/main';
 import { getCookie } from '../../utils/cookie';
 import honestSign from '../../images/honest_sign.png';
 import { postHonestSignApi } from '../../utils/api';
+import useInput from '../../utils/hooks/useInput';
+import ErrorForm from '../ui/ErrorForm/ErrorForm';
 
 const ModalHonest: FC<IModal> = ({visible, onClose, onClick}) => {
-  const [inputValue, setInputValue] = useState<string>('');
-
-  const changeValueIndex = (e: ChangeEvent<HTMLInputElement>): void => {
-    setInputValue(e.target.value);
-  }
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [isLoading, setLoading] = useState<boolean>(false);
+  const inputHonest = useInput('', {isEmpty: true, minLength: 13});
+  let inputValue = inputHonest.value;
 
   const onSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
+    setLoading(true);
     let barcode = getCookie('barcode');
     try {
-      await postHonestSignApi({barcode, inputValue})
-        .then(res => {
-          if (res && res.success) {
-            console.log(res);
-            onClose();
-          }
-        })
+      const res = await postHonestSignApi({ barcode, inputValue })
+      if (res && res.success) {
+        onClose();
+        inputHonest.setValue('');
+        setLoading(false);
+      }
     } catch (error) {
+      setErrorMessage('Введён неверный штрихкод упаковки, отсканирйуте другой');
       console.log(error)
     }
-    onClose();
-    setInputValue('');
   }
-
 
   return (
     <ModalWindow
       visible={visible}
       onClose={onClose}
       onClick={onClick}
+      setValue={inputHonest.setValue}
     >
       <section className={style.wrapper}>
         <div className={style.imgWrapper}>
@@ -48,10 +48,12 @@ const ModalHonest: FC<IModal> = ({visible, onClose, onClick}) => {
             className={style.input}
             type="text"
             placeholder=''
-            value={inputValue}
-            onChange={changeValueIndex}
+            value={inputHonest.value}
+            onChange={inputHonest.onChange}
+            onBlur={inputHonest.onBlur}
             required
           />
+          <ErrorForm location={inputHonest} dataError={errorMessage} loading={isLoading} />
         </form>
       </section>
     </ModalWindow>

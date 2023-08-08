@@ -1,23 +1,24 @@
-import { FC, useEffect, useState } from 'react';
-import { ThreeCircles } from  'react-loader-spinner';
+import { FC, useEffect, useState, useMemo } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from '../../utils/type/store';
 import { v4 as uuid4 } from 'uuid';
+import { ThreeCircles } from  'react-loader-spinner';
 import style from './OrderPage.module.css';
 import Footer from '../../components/Footer/Footer';
 import Progressbar from '../../components/Progressbar/Progressbar';
-import Package from '../../components/Package/Package';
-import Goods from '../../components/Goods/Goods';
 import ModalProblems from '../../components/ModalProblems/ModalProblems'
 import BtnHasProblem from '../../components/ui/BtnHasProblem/BtnHasProblem';
-import { useDispatch, useSelector } from '../../utils/type/store';
 import { getOrder } from '../../services/actions/orderActions';
-import ButtonMenu from '../../components/ui/ButtonMenu/ButtonMenu';
-import { firstRecommendation } from '../../services/actions/recommendationAction';
+import { selectRecommendation } from '../../services/actions/recommendationAction';
 import ModalBarcode from '../../components/ModalBarcode/ModalBarcode';
 import ModalImei from '../../components/ModalImei/ModalImei';
 import ModalHonest from '../../components/ModalHonest/ModalHonest';
 import ButtonForm from '../../components/ui/ButtonForm/ButtonForm';
 import { finishOrderApi } from '../../utils/api';
-import { useHistory } from 'react-router-dom';
+import Order from '../../components/Order/Order';
+import PackagingOptions from '../../components/PackagingOptions/PackagingOptions';
+import ModalNoOrders from '../../components/ModalNoOrders/ModalNoOrders';
+import { IRecPacking } from '../../utils/type/data';
 
 const OrderPage: FC = () => {
   const dispatch = useDispatch();
@@ -26,24 +27,61 @@ const OrderPage: FC = () => {
   const [isModalBarcode, setModalBarcode] = useState<boolean>(false);
   const [isModalImei, setModalImei] = useState<boolean>(false);
   const [isModalHonest, setModalHonest] = useState<boolean>(false);
+  const [isModalNoOrders, setModalNoOrders] = useState<boolean>(false);
+  const [choicePacked, setChoicePacked] = useState<Array<IRecPacking> | null>(null)
+  const [counter, setCounter] = useState<number>(0);
   const order = useSelector(store => store.orderInfo.data);
-  const recommendationInfo = useSelector(store => store.recommendationInfo);
+  const orderInfo = useSelector(store => store.orderInfo);
   const recommendation = useSelector(store => store.recommendationInfo.recommendation);
-  const confirmation = useSelector(store => store.barcodeInfo)
   const alreadyPacked = useSelector(store => store.orderInfo.data?.already_packed);
 
-  const firstRecommend = order !== null ? order.recomend_packing[0] : null;
-  const choiceCartontype = alreadyPacked !== undefined ? alreadyPacked.map(pack => pack.cartontype) : null;
-
-  console.log(confirmation);
+  useEffect(() => {
+    if(orderInfo.status === 'No orders to pack') {
+      setModalNoOrders(true);
+    }
+  }, [orderInfo.status])
 
   useEffect(() => {
     dispatch(getOrder())
-  }, [])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useMemo(() => {
+    let length = order?.recomend_packing.length
+    if (alreadyPacked !== undefined && order !== null) {
+      alreadyPacked.forEach(readyPack => {
+        setCounter(prev => prev + 1);
+        (order.recomend_packing.forEach(recomendPack => recomendPack.forEach(pack => {
+          if (pack.cartontype === readyPack.cartontype) {
+            setChoicePacked([pack]);
+          } else if (counter === length!) {
+            setCounter(0)
+          }
+        })))
+      });
+    }
+  }, [alreadyPacked])
+
+  const firstRecommend = useMemo(() => {
+    if(order !== null && order.already_packed.length === 0) {
+      const recommendationOrder = order.recomend_packing[0];
+      return recommendationOrder;
+    } else if(choicePacked !== null) {
+      const recommendationOrder = choicePacked
+      return recommendationOrder
+    }
+  }, [choicePacked, order]);
 
   useEffect(() => {
-    dispatch(firstRecommendation(firstRecommend))
-  }, [firstRecommend])
+    firstRecommend !== undefined && choicePacked !== null && dispatch(selectRecommendation(firstRecommend, counter))
+  }, [choicePacked, firstRecommend])
+
+  const isPackaged = useMemo(() => {
+    if(alreadyPacked !== undefined) {
+      let packaged = alreadyPacked.map((pack => pack.is_packaged))
+      return packaged[0]
+    }
+  }, [alreadyPacked])
 
   const openModalProblems = () => {
     setModalProblems(true)
@@ -69,25 +107,17 @@ const OrderPage: FC = () => {
     setModalHonest(false)
   }
 
-  // if (confirmation.statusImei === 'ok') {
-  //   openModalImei()
-  // } else if (confirmation.statusHonest === 'ok') {
-  //   openModalHonest()
-  // } else if (confirmation.success) {
-  //   closeModalBarcode();
-  //   closeModalImei();
-  //   closeModalHonest()
-  // }
+  const closeModalNoOrders = () => {
+    setModalNoOrders(false)
+  }
 
   const getPacked = async () => {
     try {
-      await finishOrderApi()
-        .then(res => {
-          if (res && res.success) {
-            console.log(res);
-            history.push('/order/completed');
-          }
-        })
+      const res = await finishOrderApi()
+      if (res.status === 'ok') {
+        console.log(res);
+        history.push('/order/completed');
+      }
     } catch (error) {
       console.log(error)
     }
@@ -95,67 +125,21 @@ const OrderPage: FC = () => {
 
   return (
     <>
-      {order !== null && firstRecommend !== null && recommendation !== null ?
+      {order !== null && recommendation !== null ?
         <section className={style.wrapper}>
-          {/* Вывести в отдельный компонент */}
           <article className={style.wrapperGoods}>
             <Progressbar title={`Товары ячейки ${order.partition}`} />
             <div className={style.wrp}>
               {recommendation.map((goods, index) => {
                 return (
-                  <div className={
-                    choiceCartontype?.find(i => i ===  goods.cartontype) ? `${style.wrpGoods}` :
-                    `${style.wrpGoods} ${style.disablePack}`}
-                    key={uuid4()}
-                  >
-                    <Package
-                      icon={goods.icontype}
-                      cartontype={goods.cartontype}
-                      visible={choiceCartontype!.includes(goods.cartontype)}
-                    />
-                    <ul className={style.goods}>
-                      {goods.items.map(i => order.goods.find(items => items.sku === i.sku)).map((item, index) => {
-                        return (
-                          <li className={
-                            alreadyPacked?.map(items => items.items.map(i => i.sku)).flat(1).includes(item!.sku) ?
-                            `${style.liGoods} ${style.choiceGoods}` :
-                            `${style.liGoods}`} key={uuid4()}>
-                            <Goods
-                              img={item!.image}
-                              title={`${item!.title} ${item!.description}`}
-                              percentage={`${item!.count} шт.`}
-                              sku={item!.sku}
-                              imei={item!.imei}
-                              honest_sign={item!.honest_sign}
-                              clue={item!.fragility}
-                              defective_goods={false}
-                            />
-                          </li>
-                        )
-                      })}
-                    </ul>
-                  </div>
+                  <Order goods={goods} order={order} key={uuid4()} />
                 )
               })}
             </div>
           </article>
-          {/* Вывести в отдельный компонент */}
           <article className={style.packingGoods}>
             <h2 className={style.title}>Варианты упаковки</h2>
-            <ul className={style.btns}>
-              {order.recomend_packing.map((recomend, index) => {
-                return (
-                  <li className={style.li} key={uuid4()}>
-                    <ButtonMenu
-                      data={recomend}
-                      index={index}
-                      recomendnIndex={recommendationInfo.index}
-                      active={recomend.find(rec => choiceCartontype !== null && choiceCartontype[0]?.includes(rec.cartontype)) !== undefined}
-                    />
-                  </li>
-                )
-              })}
-            </ul>
+            <PackagingOptions order={order} />
             <div className={style.links}>
               <BtnHasProblem
                 onClick={openModalProblems}
@@ -165,6 +149,7 @@ const OrderPage: FC = () => {
                 purpose={'order'}
                 title={'УПАКОВАНО'}
                 onClick={getPacked}
+                disable={!isPackaged}
               />
             </div>
           </article>
@@ -198,6 +183,10 @@ const OrderPage: FC = () => {
       <ModalHonest
         visible={isModalHonest}
         onClose={closeModalImei}
+      />
+      <ModalNoOrders
+        visible={isModalNoOrders}
+        onClose={closeModalNoOrders}
       />
     </>
   )

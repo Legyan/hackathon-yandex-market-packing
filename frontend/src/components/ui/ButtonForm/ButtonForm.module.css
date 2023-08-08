@@ -108,3 +108,9 @@
 .btnOrder:hover {
   background: var(--Yandex-amber-13);
 }
+
+.btn:disabled {
+  background: var(--Yandex-amber-12);
+  cursor: default;
+  opacity: .4;
+}
